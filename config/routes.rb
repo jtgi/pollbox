@@ -1,8 +1,7 @@
 Roomfeed::Application.routes.draw do
   devise_for :users
   root :to => "home#index"
-
-  resources :dashboard
+  match '/dashboard', to: 'dashboard#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
