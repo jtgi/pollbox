@@ -8,10 +8,4 @@ module ApplicationHelper
 		end
 	end
 
-	def userIsRegistered(user, roomId)
-		room = Room.find(roomId)
-		userRooms = user.room
-		userRooms.include? room
-	end
-
 end
