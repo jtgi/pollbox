@@ -4,15 +4,12 @@ class RoomsController < ApplicationController
 	before_filter :authenticate_user!
 
 	def index
-		@param1 = params[:user_id]
-		@param2 = params[:room_id]
-
 		@rooms = current_user.room
 	end
 
 	def update
 		#check to see if already registered
-		
+
 
 		@registration = Registration.new
 		@registration.user_id = current_user.id
