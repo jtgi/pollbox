@@ -11,13 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130330014846) do
+ActiveRecord::Schema.define(:version => 20130331081523) do
 
   create_table "registrations", :force => true do |t|
     t.integer  "room_id"
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_level"
   end
 
   create_table "rooms", :force => true do |t|
@@ -25,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20130330014846) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.integer  "maximum_registrants"
+    t.integer  "owner_id"
   end
 
   create_table "users", :force => true do |t|

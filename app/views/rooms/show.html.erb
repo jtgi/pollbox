@@ -32,8 +32,9 @@ $(function() {
     <p class="alert"> Welcome to the chat room <%= current_user.first_name %>! </p>
   </div>
  
-  <form id="new_message_form">
-    <input type="text" id="message" name="message">
-    <input type="submit" value="Send">
+  <form id="new_message_form" class="form-search">
+    <legend>Ask a Question</legend>
+    <input type="text" id="message" name="message" class="input-medium search-query" placeholder="Question...">
+    <input type="submit" value="Ask!" class="btn">
   </form>
 </div>
