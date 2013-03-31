@@ -5,6 +5,4 @@ module RoomsHelper
 		userRooms.include? room
 	end
 
-	def hello
-	end
 end

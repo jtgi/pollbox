@@ -1,0 +1,5 @@
+<% @rooms.each do |room| %>
+<ul>
+	<li><%= link_to room.name, {:controller=>"rooms", :action=>"update", :id=>room.id}, :method=>:put %></li>
+</ul>
+<% end %>
