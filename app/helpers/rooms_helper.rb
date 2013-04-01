@@ -1,13 +1,13 @@
 module RoomsHelper
 	def userIsRegistered(user, room_id)
 		room = Room.find(room_id)
-		userRooms = user.room
+		userRooms = user.rooms
 		userRooms.include? room
 	end
 
 	def rooms_level_by_id(user, level)
 		room_ids = []
-		registrations = user.registration.where("user_level = ?", level)
+		registrations = user.registrations.where("user_level = ?", level)
 		if registrations.nil?
 			return nil
 		else
