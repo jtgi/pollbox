@@ -1,6 +1,6 @@
 module RoomsHelper
-	def userIsRegistered(user, roomId)
-		room = Room.find(roomId)
+	def userIsRegistered(user, room_id)
+		room = Room.find(room_id)
 		userRooms = user.room
 		userRooms.include? room
 	end
@@ -24,5 +24,10 @@ module RoomsHelper
 			rooms.push(Room.find(id))
 		end
 		return rooms
+	end
+
+	def find_room_owner_id(room_id)
+		room = Rooms.find(room_id)
+		return room.id
 	end
 end

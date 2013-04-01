@@ -9,7 +9,12 @@ class User < ActiveRecord::Base
   
 
   #has many relationship
-  has_many :registration
-  has_many :room, :through => :registration
+  has_many :registrations
+  has_many :rooms, :through => :registrations
   # attr_accessible :title, :body
+
+  has_many :questions
+
+  has_many :answers
+
 end

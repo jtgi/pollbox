@@ -4,6 +4,7 @@ Roomfeed::Application.routes.draw do
   match '/dashboard', to: 'dashboard#index'
   resources :rooms
   match '/roomlist', to: 'rooms#roomlist'
+  resource :questions
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

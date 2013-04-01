@@ -22,7 +22,7 @@
 		<ul>
 			<% unless @not_owned_rooms.nil? %>
 				<% @not_owned_rooms.each do |room| %>
-					<li><%= link_to room.name, :controller =>"rooms", :action=>"show", :id=>room.id	 %></li>
+					<li><%= link_to room.name, :controller =>"rooms", :action=>"show", :id=>room.id %></li>
 				<% end %>
 			<% end %>
 		</ul>
