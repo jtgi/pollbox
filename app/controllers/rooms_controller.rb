@@ -3,22 +3,16 @@ class RoomsController < ApplicationController
 
 	before_filter :authenticate_user!
 
+
 	def index
-		owned_ids = rooms_level_by_id(current_user, 1)
-		unless owned_ids.nil?
-			@owned_rooms = get_rooms_by_id(owned_ids)
-		end
-		not_owned_ids = rooms_level_by_id(current_user, 0)
-		unless not_owned_ids.nil?
-			@not_owned_rooms = get_rooms_by_id(not_owned_ids)
-		end
-
-
+		@owned_rooms = current_user.rooms_created
+		@not_owned_rooms = current_user.rooms_registered
 	end
 
 	def update
 		#check to see if already registered
 		@check = Registration.where("user_id = ? AND room_id = ?", current_user.id, params[:id])
+		
 		if @check.nil?
 			@registration = Registration.new
 			@registration.user_id = current_user.id
@@ -37,8 +31,6 @@ class RoomsController < ApplicationController
 			flash[:notice] = "Already Registered"
 			redirect_to rooms_path
 		end
-
-
 	end
 
 	def new 
@@ -48,7 +40,6 @@ class RoomsController < ApplicationController
 	def show
 		if userIsRegistered(current_user, params[:id])
 			@room = Room.find(params[:id])
-
 		else 
 			flash[:error] = "You must be registered for this room to view it"
 			redirect_to rooms_path
@@ -68,17 +59,11 @@ class RoomsController < ApplicationController
 
 			if @registration.save
 				flash[:success] = "Room Successfully Created"
-				redirect_to rooms_path
+				redirect_to :controller=>"rooms", :action=>"show", :id=>@room.id
 			end
 		else
 			flash[:error] = "Registration Failed"
 			redirect_to "room/new"
 		end
 	end
-
-	def roomlist
-		@rooms = Room.all
-	end
-
-
 end

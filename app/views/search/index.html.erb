@@ -1,0 +1,9 @@
+<ul>
+<% @results.each do |result| %>
+	<% if result.respond_to?("title") %>
+	<li>Question: <%= result.title %></li>
+	<% else %>
+		<li>Room: <%= link_to result.name, room_path(result)  %></li>
+	<% end %>
+<% end %>
+</ul>

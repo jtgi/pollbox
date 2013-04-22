@@ -1,7 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
+  name: BIOL201
+  maximum_registrants: 400
+  owner_id: 1
+  description: Metabolism and stuff
 
 two:
-  name: MyString
+  name: CHEM205
+  maximum_registrations: 250
+  owner_id: 2
+  description: Physical Chemistry
+
+three:
+  name: CPSC213
+  maximum_registrations: 200
+  owner_id: 3
+  description: Systems Programming

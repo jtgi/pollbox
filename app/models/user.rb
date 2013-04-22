@@ -17,4 +17,26 @@ class User < ActiveRecord::Base
 
   has_many :answers
 
+  def owns_room?(room_id)
+    !self.registrations.find_by_id(room_id).nil?
+  end
+  def rooms_created
+    self.registrations.where("user_level = ?", 1)
+  end
+
+  def rooms_registered
+    self.registrations.where("user_level = ?", 0)
+  end
+
+  def send_on_create_confirmation_instructions
+    devise::mailer.delay.confirmation_instructions(self)
+  end
+  def send_reset_password_instructions
+    desive::mailer.delay.reset_password_instructions(self)
+  end
+
+  def send_unlock_instructions
+    devise::mailer.delay.unlock_instructions(self)
+  end
+
 end

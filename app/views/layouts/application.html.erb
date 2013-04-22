@@ -8,6 +8,7 @@
   <%= javascript_include_tag "http://localhost:9000/faye.js" %>
 </head>
 <body>
+	<%= render "layouts/header" %>
 	<%= render "layouts/login_statusbar" %>
 	<% flash.each do |name, msg| %>
 	<%= content_tag :div, msg, :id => "flash_#{name}" %>
