@@ -16,10 +16,12 @@ gem 'faye'
 
 group :test, :development do
   gem 'rspec-rails', '~>2.5'
+  gem 'factory_girl_rails'
 end
 
 group :test do
-  gem 'cucumber-rails', '1.0.0'
+  gem 'faker'
+  gem 'guard-rspec'
   gem 'capybara'
   gem 'database_cleaner'
 end
