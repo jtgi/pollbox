@@ -3,7 +3,6 @@ class Room < ActiveRecord::Base
 
   validates :name, :presence=>true, :uniqueness=>true
   validates :owner_id, :presence=>true
-  validates :description, :presence=>true
   #users association
   has_many :registrations
   has_many :users, :through=>:registrations
