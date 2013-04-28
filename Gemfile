@@ -15,7 +15,7 @@ gem 'thin'
 gem 'faye'
 
 group :test, :development do
-  gem 'rspec-rails', '~>2.5'
+  gem 'rspec-rails'
   gem 'factory_girl_rails'
 end
 
