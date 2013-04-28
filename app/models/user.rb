@@ -17,14 +17,14 @@ class User < ActiveRecord::Base
   has_many :answers
 
   def owns_room?(room_id)
-    !self.registrations.find_by_id(room_id).nil?
+    !self.rooms.find_by_id(room_id).nil?
   end
   def rooms_created
-    self.registrations.where("user_level = ?", 1)
+    self.rooms.where("user_level = ?", 1)
   end
 
   def rooms_registered
-    self.registrations.where("user_level = ?", 0)
+    self.rooms.where("user_level = ?", 0)
   end
 
   def send_on_create_confirmation_instructions

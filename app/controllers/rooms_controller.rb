@@ -14,12 +14,24 @@ class RoomsController < ApplicationController
 	end
 
 	def show
-		if userIsRegistered(current_user, params[:id])
-			@room = Room.find(params[:id])
-		else 
-			flash[:error] = "You must be registered for this room to view it"
-			redirect_to rooms_path
+		#add admin feature
+		@room = current_user.rooms.find(params[:id])
+		if current_user.owns_room?(params[:id])	
+			render :action=>'show_admin'
+
+		else
+			render :action=>'show_subscriber'
 		end
+
+
+
+
+		#if userIsRegistered(current_user, params[:id])
+		#	@room = Room.find(params[:id])
+		#else 
+		#	flash[:error] = "You must be registered for this room to view it"
+		#	redirect_to rooms_path
+		#end
 	end
 
 	def create
@@ -57,7 +69,14 @@ class RoomsController < ApplicationController
 	def edit
 		@room = Room.find(params[:id])
 	end
+	
+	def show_admin
+		@room = current_user.rooms.find_by_id(params[:id])	
+	end
 
+	def show_subscriber
+		@room = current_user.rooms.find_by_id(params[:id])	
+	end
 end
 #    	def update
 #		#check to see if already registered

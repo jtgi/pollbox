@@ -7,7 +7,7 @@
 	<div class="span3">
 		Owned Rooms:
 		<ul>
-			<% unless @owned_rooms.nil? %>
+			<% unless @owned_rooms.empty? %>
 				<% @owned_rooms.each do |room| %>
 					<li><%= link_to room.name, :controller =>"rooms", :action=>"show", :id=>room.id	 %></li>
 				<% end %>
@@ -17,7 +17,7 @@
 	<div class="span3">
 		Registered Rooms:
 		<ul>
-			<% unless @not_owned_rooms.nil? %>
+			<% unless @not_owned_rooms.empty? %>
 				<% @not_owned_rooms.each do |room| %>
 					<li><%= link_to room.name, :controller =>"rooms", :action=>"show", :id=>room.id %></li>
 				<% end %>
