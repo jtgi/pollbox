@@ -22,13 +22,15 @@ class QuestionsController < ApplicationController
 	end
 
 	def index
+		@room = params[:room_id]
+		@user = params[:user_id]
 		@questions = @parent.questions
 	end
 	
 	private 
 	def get_parent
-		@parent = Room.find(params[:room_id]) || User.find(params[:user_id])
+		@room = Room.find_by_id(params[:room_id])
+		@user = User.find_by_id(params[:user_id])
+		@parent = @room || @user	
 	end
-
-
 end

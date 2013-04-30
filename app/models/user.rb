@@ -19,6 +19,15 @@ class User < ActiveRecord::Base
   def owns_room?(room_id)
     !self.rooms.find_by_id(room_id).nil?
   end
+	
+	def owns_question?(question_id)
+		!self.questions.find_by_id(question_id).nil?
+	end
+
+	def owns_answer?(answer_id)
+		!self.answers.find_by_id(answer_id).nil?
+	end
+
   def rooms_created
     self.rooms.where("user_level = ?", 1)
   end
