@@ -10,7 +10,8 @@ Roomfeed::Application.routes.draw do
     
   end
 
-  
+	resources :registrations, :only => [:create, :destroy]
+
   resources :rooms, :shallow=>true do
     resources :questions, :only=>[:index, :new]
   end

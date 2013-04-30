@@ -13,6 +13,7 @@ gem 'devise'
 gem 'bootstrap-sass'
 gem 'thin'
 gem 'faye'
+gem 'rabl'
 
 group :test, :development do
   gem 'rspec-rails'

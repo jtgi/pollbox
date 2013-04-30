@@ -2,9 +2,11 @@ class RoomsController < ApplicationController
 	include RoomsHelper
 
 	before_filter :authenticate_user!
+	respond_to :html, :json
 
 
 	def index
+
 		@owned_rooms = current_user.rooms_created
 		@not_owned_rooms = current_user.rooms_registered
 	end
@@ -15,16 +17,19 @@ class RoomsController < ApplicationController
 
 	def show
 		#add admin feature
+		
 		@room = current_user.rooms.find(params[:id])
-		if current_user.owns_room?(params[:id])	
-			render :action=>'show_admin'
+		if @room.nil?
+			if current_user.owns_room?(params[:id])	
+				render :action=>'show_admin'
 
-		else
-			render :action=>'show_subscriber'
-		end
-
-
-
+			else
+				render :action=>'show_subscriber'
+			end
+		else 
+			flash[:error] = "You are not registered for this room"
+			redirect_to rooms_path
+			
 
 		#if userIsRegistered(current_user, params[:id])
 		#	@room = Room.find(params[:id])
@@ -56,14 +61,19 @@ class RoomsController < ApplicationController
 	end
 	
 	def update
-		@room = Room.new(params[:id])
-        if @room.update_attributes(params[:room])
-			flash[:success] = "Room Successfully Updated"
-			redirect_to show_room_path(@room)
+		if User.owns_room?(params[:id])
+			@room = Room.new(params[:id])
+			if @room.update_attributes(params[:room])
+				flash[:success] = "Room Successfully Updated"
+				redirect_to show_room_path(@room)
+			else
+				flash[:error].now = "Registration Failed"
+				render :action=>"edit"
+  	  end
 		else
-			flash[:error].now = "Registration Failed"
-            render :action=>"edit"
-        end
+			flash[:error] = "User not authorized to update room"
+			redirect_to room_path
+		end
 	end
 
 	def edit
