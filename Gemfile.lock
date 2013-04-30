@@ -119,6 +119,7 @@ GEM
     mime-types (1.21)
     multi_json (1.7.2)
     nokogiri (1.5.9)
+    oj (2.0.12)
     orm_adapter (0.0.7)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
@@ -239,6 +240,7 @@ DEPENDENCIES
   faye
   guard-rspec
   jquery-rails
+  oj
   rabl
   rails (= 3.2.12)
   rspec-rails

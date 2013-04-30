@@ -14,6 +14,7 @@ gem 'bootstrap-sass'
 gem 'thin'
 gem 'faye'
 gem 'rabl'
+gem 'oj'
 
 group :test, :development do
   gem 'rspec-rails'
