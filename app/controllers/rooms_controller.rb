@@ -19,16 +19,17 @@ class RoomsController < ApplicationController
 		#add admin feature
 		
 		@room = current_user.rooms.find(params[:id])
-		if @room.nil?
-			if current_user.owns_room?(params[:id])	
-				render :action=>'show_admin'
 
-			else
-				render :action=>'show_subscriber'
-			end
-		else 
-			flash[:error] = "You are not registered for this room"
-			redirect_to rooms_path
+		#if !@room.nil?
+		#	if current_user.owns_room?(params[:id])	
+		#		render :action=>'show_admin'
+
+		#	else
+		#		render :action=>'show_subscriber'
+		#	end
+		#else 
+		#	flash[:error] = "You are not registered for this room"
+		#	redirect_to rooms_path
 			
 
 		#if userIsRegistered(current_user, params[:id])
