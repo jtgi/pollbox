@@ -10,9 +10,9 @@ class Question < ActiveRecord::Base
   belongs_to :user
   has_many :answers
 
-  searchable do 
-  	text :title, :default_boost => 2
-  	text :body
-  end
+  #searchable do 
+  #	text :title, :default_boost => 2
+  #	text :body
+  #end
 
 end
