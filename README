@@ -1,0 +1,12 @@
+Token Auth overrides the default devise create method in the registration controller to allow for token authentication.
+
+Order it is intened to work
+Client: HTTP GET rooms.json || HTTP GET rooms.json?auth_token=<<expired authentication token>>
+Server: status=401, body={}
+Client: display sign in screen to user
+User: enter username (email address) and password
+Client:  HTTPS POST /tokens, body: email=user@emailservice.com&password=userpassword
+Server: status =200, {“token”:”ASDERfsfgewrvsa@#$%5″}
+Client: Stores authentication token in client cookie
+Client: HTTP GET rooms.json?auth_token=ASDERfsfgewrvsa@#$%5
+Server: status=200, list of user’s rooms in JSON format
