@@ -22,8 +22,6 @@ class QuestionsController < ApplicationController
 	end
 
 	def index
-		@room = params[:room_id]
-		@user = params[:user_id]
 		@questions = @parent.questions
 	end
 	

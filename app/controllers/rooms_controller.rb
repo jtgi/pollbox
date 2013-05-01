@@ -6,9 +6,7 @@ class RoomsController < ApplicationController
 
 
 	def index
-
-		@owned_rooms = current_user.rooms_created
-		@not_owned_rooms = current_user.rooms_registered
+		@rooms = current_user.rooms
 	end
 
 	def new 
@@ -52,12 +50,14 @@ class RoomsController < ApplicationController
 			@registration.user_level = 1;
 
 			if @registration.save
-				flash[:success] = "Room Successfully Created"
-                redirect_to room_path(@room)
+				respond_to do |format|
+					format.json { render :json=>@user }
+				end
+				#flash[:success] = "Room Successfully Created"
+				#redirect_to room_path(@room)
 			end
-		else
-			flash[:error].now = "Room was not able to be created"
-            render :action=>"new"
+			#flash[:error].now = "Room was not able to be created"
+			#render :action=>"new"
 		end
 	end
 	
