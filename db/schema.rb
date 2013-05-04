@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130501040933) do
+ActiveRecord::Schema.define(:version => 20130503223453) do
 
   create_table "answers", :force => true do |t|
     t.string   "title"
@@ -20,6 +20,19 @@ ActiveRecord::Schema.define(:version => 20130501040933) do
     t.integer  "user_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "poll_options", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "poll_id"
+  end
+
+  create_table "polls", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+    t.integer  "room_id"
   end
 
   create_table "questions", :force => true do |t|
@@ -72,5 +85,13 @@ ActiveRecord::Schema.define(:version => 20130501040933) do
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "votes", :force => true do |t|
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "user_id"
+    t.integer  "poll_option_id"
+    t.string   "vote"
+  end
 
 end

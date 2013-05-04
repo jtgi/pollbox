@@ -16,6 +16,9 @@ class User < ActiveRecord::Base
 
   has_many :answers
 
+	has_many :votes
+
+	has_many :polls
   def owns_room?(room_id)
     !self.rooms.find_by_id(room_id).nil?
   end
@@ -46,5 +49,8 @@ class User < ActiveRecord::Base
   def send_unlock_instructions
     devise::mailer.delay.unlock_instructions(self)
   end
+	def is_registered_for(room_id)
+		self.registrations.where("room_id = ?", room_id)	
+	end
 
 end

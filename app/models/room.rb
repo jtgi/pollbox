@@ -1,5 +1,5 @@
 class Room < ActiveRecord::Base
-  attr_accessible :name, :maximum_registrants, :owner_id, :description
+  attr_accessible :name, :maximum_registrants, :description
 
   validates :name, :presence=>true, :uniqueness=>true
   validates :owner_id, :presence=>true
@@ -10,6 +10,7 @@ class Room < ActiveRecord::Base
   #questions association
   has_many :questions
 
+	has_many :polls
 
   #sunspot searching
   searchable do 
