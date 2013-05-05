@@ -22,6 +22,26 @@ User.create(:first_name=>"Test", :last_name=>"Test", :email=>"test@example.com",
 @room2.owner_id = 2
 @room2.save
 
+#create registrations
+@registration1 = Registration.new
+@registration1.room_id = 1
+@registration1.user_id = 1
+@registration1.user_level = 1
+@registration1.save
+
+@registration2 = Registration.new
+@registration2.room_id = 1
+@registration2.user_id = 2
+@registration2.user_level = 0
+@registration2.save
+
+@registration3 = Registration.new
+@registration3.room_id = 1
+@registration3.user_id = 3
+@registration3.user_level = 0
+@registration3.save
+
+
 #create first poll in Chris' Room
 @poll = Poll.new(:title=>"What is a lock?", :body=>"Body for lock question")
 @poll.room_id = 1
