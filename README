@@ -19,6 +19,4 @@ Request for all questions in a room
 
 Request for a single question
 /questions/1.json
-http://localhost:3000/questions/1.json
-
-
+{"question":{"id":1,"title":"My First question","body":"What is a biology?","user_id":2,"answers":[{"answer":{"user_id":1,"title":"Answer to your first question","body":"Thats not a word","view_answer":"/answers/1"}}]}}
