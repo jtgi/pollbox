@@ -1,5 +1,5 @@
 class PollOption < ActiveRecord::Base
-  # attr_accessible :title, :body
+  attr_accessible :option
 	belongs_to :poll
 	has_many :votes
 end

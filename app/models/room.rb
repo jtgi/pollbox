@@ -13,10 +13,10 @@ class Room < ActiveRecord::Base
 	has_many :polls
 
   #sunspot searching
-  searchable do 
-  	text :name, :default_boost => 2
-    text :description
-  end
+#  searchable do 
+#  	text :name, :default_boost => 2
+#    text :description
+#  end
 
 end
 
