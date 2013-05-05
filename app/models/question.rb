@@ -1,5 +1,5 @@
 class Question < ActiveRecord::Base
-  attr_accessible :body, :title, :user_id, :room_id
+  attr_accessible :body, :title
 
   validates :body, :presence=>true
   validates :title, :presence=>true

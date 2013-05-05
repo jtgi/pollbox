@@ -2,10 +2,6 @@ class QuestionsController < ApplicationController
 	before_filter :get_parent, :only=>[ :index, :new ]
 	before_filter :authenticate_user!
 
-	def new
-		@question = Question.new
-	end
-
 	def create
 	end
 
@@ -27,8 +23,8 @@ class QuestionsController < ApplicationController
 	
 	private 
 	def get_parent
-		@room = Room.find_by_id(params[:room_id])
-		@user = User.find_by_id(params[:user_id])
-		@parent = @room || @user	
+		room = Room.find_by_id(params[:room_id])
+		user = User.find_by_id(params[:user_id])
+		@parent = room || user	
 	end
 end

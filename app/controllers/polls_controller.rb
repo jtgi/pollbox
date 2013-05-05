@@ -15,6 +15,7 @@ class PollsController < ApplicationController
 		else
 			#return error message {"error": "Must have an associated room"}
 	end
+	end
 
 	def update
 		if current_user.owns_poll?(params[:id])
@@ -51,3 +52,4 @@ class PollsController < ApplicationController
 	end
 
 end
+

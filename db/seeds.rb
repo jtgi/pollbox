@@ -72,9 +72,14 @@ User.create(:first_name=>"Test", :last_name=>"Test", :email=>"test@example.com",
 @vote3.user_id = 3
 @vote3.poll_option_id = 1
 
+#create questions
+@question1 = Question.new(:title=>"My First question", :body=>"What is a biology?")
+@question1.user_id = 2
+@question1.room_id = 1
+@question1.save
 
-
-
-
-
+@answer1 = Answer.new(:title=>"Answer to your first question", :body=>"Thats not a word")
+@answer1.user_id = 1
+@answer1.question_id = 1
+@answer1.save
 

@@ -10,6 +10,8 @@ Roomfeed::Application.routes.draw do
 		resources :polls, :only=>[:index]
   end
 	
+	resources :poll_option, :only=>[:create, :destroy]
+
 	resources :polls, :except=>[:index]
 
 	resources :registrations, :only => [:create, :destroy]

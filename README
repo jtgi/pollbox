@@ -55,3 +55,33 @@ cancel_user_registration GET    /users/cancel(.:format)                   devise
                          DELETE /answers/:id(.:format)                    answers#destroy
                     root        /                                         home#index
                dashboard        /dashboard(.:format)                      dashboard#index
+
+
+
+
+
+
+
+<hr/>
+
+Request for all polls in a room => Array of Polls
+/rooms/1/polls.json
+[{"poll":{"id":1,"title":"What is a lock?","body":"Body for lock question"}}]
+
+Request for a single poll 
+/polls/1.json
+{"poll":{"id":1,"title":"What is a lock?","body":"Body for lock question","poll_options":[{"poll_option":{"option":"Lock option 1","votes":0}},{"poll_option":{"option":"Lock option 2","votes":0}},{"poll_option":{"option":"Lock option 3","votes":0}}]}}
+
+Request for all rooms user is subscribed to and created => Identified by boolean flag "owned"
+/rooms.json
+[{"room":{"id":1,"name":"Chris' Room","description":"Description of my room","show_path":"/rooms/1","owned":true}}]
+
+Request for all questions in a room
+/rooms/1/questions.json
+[{"question":{"id":1,"title":"My First question","body":"What is a biology?","user_id":2}}]
+
+Request for a single question
+/questions/1.json
+http://localhost:3000/questions/1.json
+
+
