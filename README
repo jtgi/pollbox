@@ -10,7 +10,7 @@ For #update, #show, and #destroy the route should not be nested:
 
 Request for all polls in a room => Array of Polls
 /rooms/1/polls.json
-[{"poll":{"id":1,"title":"What is a lock?","body":"Body for lock question"}}]
+[{"room":{"id":1,"name":"Chris' Room","description":"Description of my room","show_path":"/rooms/1","owned":true}}]
 
 Request for a single poll 
 /polls/1.json
