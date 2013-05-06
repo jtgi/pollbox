@@ -1,5 +1,12 @@
 
-<hr/>
+Shallow resting is used so for #index and #create, the route must be nested
+	GET /users/1/rooms.json
+	POST /rooms/1/questions.json
+
+For #update, #show, and #destroy the route should not be nested:
+	PUT /rooms/1.json 
+	GET /rooms/1.json
+	DELETE /rooms/1.json
 
 Request for all polls in a room => Array of Polls
 /rooms/1/polls.json
