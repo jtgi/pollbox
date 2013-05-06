@@ -41,7 +41,7 @@ class RoomsController < ApplicationController
 	def create
 		@room = Room.new(params[:room])
 		@room.owner_id = current_user.id
-
+		
 		if @room.save
 			@registration = Registration.new
 			@registration.user_id = current_user.id

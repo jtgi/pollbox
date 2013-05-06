@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130503235442) do
+ActiveRecord::Schema.define(:version => 20130506060147) do
 
   create_table "answers", :force => true do |t|
     t.string   "title"
@@ -57,11 +57,12 @@ ActiveRecord::Schema.define(:version => 20130503235442) do
 
   create_table "rooms", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.integer  "maximum_registrants"
     t.integer  "owner_id"
     t.string   "description"
+    t.string   "password_encrypted",  :limit => 128
   end
 
   create_table "users", :force => true do |t|

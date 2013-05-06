@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
     devise::mailer.delay.unlock_instructions(self)
   end
 	def is_registered_for(room_id)
-		self.registrations.where("room_id = ?", room_id)	
+		!self.registrations.where("room_id = ?", room_id).empty?
 	end
 
 end

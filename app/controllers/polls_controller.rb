@@ -4,13 +4,17 @@ class PollsController < ApplicationController
 
 	def create
 		if !params[:room_id].nil?
-			@poll = Poll.new(params[:poll])
-			@poll.user_id = current_user.id
-			@poll.room_id = params[:room_id]
-			if @poll.save
-				#return poll
+			if current_user.owns_room?(params[:room_id])
+				@poll = Poll.new(params[:poll])
+				@poll.user_id = current_user.id
+				@poll.room_id = params[:room_id]
+				if @poll.save
+					#return poll
+				else
+					#return @poll.errors	
+				end
 			else
-				#return @poll.errors	
+				#return error message {"error": "You do not have permission to create a poll in this room"}
 			end
 		else
 			#return error message {"error": "Must have an associated room"}
@@ -21,6 +25,8 @@ class PollsController < ApplicationController
 		if current_user.owns_poll?(params[:id])
 			@poll = Poll.find(params[:id])
 			@poll.update_attributes(params[:poll])
+		else
+			#return error message {"error" : "You do not have permission to update this poll"}
 		end
 	end
 	

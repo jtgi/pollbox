@@ -17,11 +17,11 @@ Roomfeed::Application.routes.draw do
 	resources :registrations, :only => [:create, :destroy]
 
   resources :rooms, :shallow=>true do
-    resources :questions, :only=>[:index]
-		resources :polls, :only=>[:index]
+    resources :questions, :only=>[:index, :create]
+		resources :polls, :only=>[:index, :create]
   end
   resources :questions, :except=>[:index], :shallow=>true do
-    resources :answers, :only=>[:index]
+    resources :answers, :only=>[:index, :create]
   end
 
   resources :answers, :except=>[:index]

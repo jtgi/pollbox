@@ -1,5 +1,20 @@
 class Room < ActiveRecord::Base
-  attr_accessible :name, :maximum_registrants, :description
+  attr_accessible :name, :maximum_registrants, :description, :password #, :password_confirmation
+	
+	#password protection
+	validates :password, :confirmation=>true
+
+	before_save :encrypt_password
+	#validates_confirmation_of :password
+
+	def self.authenticate(name, password)
+		room = find_by_name(name)
+	end
+
+
+
+
+	before_save :encrypt_password
 
   validates :name, :presence=>true, :uniqueness=>true
   validates :owner_id, :presence=>true
@@ -17,6 +32,7 @@ class Room < ActiveRecord::Base
 #  	text :name, :default_boost => 2
 #    text :description
 #  end
+	
 
 end
 
