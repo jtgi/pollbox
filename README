@@ -10,7 +10,7 @@ Request for a single poll
 {"poll":{"id":1,"title":"What is a lock?","body":"Body for lock question","poll_options":[{"poll_option":{"option":"Lock option 1","votes":0}},{"poll_option":{"option":"Lock option 2","votes":0}},{"poll_option":{"option":"Lock option 3","votes":0}}]}}
 
 Request for all rooms user is subscribed to and created => Identified by boolean flag "owned"
-/rooms.json
+/users/:user_id/rooms.json
 [{"room":{"id":1,"name":"Chris' Room","description":"Description of my room","show_path":"/rooms/1","owned":true}}]
 
 Request for all questions in a room
