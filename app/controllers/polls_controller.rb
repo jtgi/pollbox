@@ -35,12 +35,7 @@ class PollsController < ApplicationController
 	end
 	
 	def show
-		@poll = Poll.find_by_id(params[:id])
-		if current_user.is_registered_for(@poll.room_id)
-			#return @poll in json
-		else
-			#show error message {error: "you do not have permission to view this poll"}
-		end
+		@poll = Poll.where(:id=>params[:id]).includes(:poll_options)
 	end
 
 	def destroy

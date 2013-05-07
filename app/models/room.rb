@@ -1,20 +1,16 @@
 class Room < ActiveRecord::Base
-  attr_accessible :name, :maximum_registrants, :description, :password #, :password_confirmation
+  attr_accessible :name, :maximum_registrants, :description#, :password , :password_confirmation
 	
-	#password protection
-	validates :password, :confirmation=>true
+	#validates :password, :confirmation=>true
 
-	before_save :encrypt_password
+	#before_save :encrypt_password
 	#validates_confirmation_of :password
 
-	def self.authenticate(name, password)
-		room = find_by_name(name)
-	end
+	#def self.authenticate(name, password)
+	#	room = find_by_name(name)
+	#end
 
-
-
-
-	before_save :encrypt_password
+	#before_save :encrypt_password
 
   validates :name, :presence=>true, :uniqueness=>true
   validates :owner_id, :presence=>true

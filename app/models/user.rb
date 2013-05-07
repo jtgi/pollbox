@@ -19,6 +19,12 @@ class User < ActiveRecord::Base
 	has_many :votes
 
 	has_many :polls
+	
+
+	def admin?
+		false
+	end
+
   def owns_room?(room_id)
     !self.rooms.find_by_id(room_id).nil?
   end
@@ -30,7 +36,7 @@ class User < ActiveRecord::Base
 	def owns_answer?(answer_id)
 		!self.answers.find_by_id(answer_id).nil?
 	end
-
+	
   def rooms_created
     self.rooms.where("user_level = ?", 1)
   end
