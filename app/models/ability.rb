@@ -2,46 +2,49 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-		#if user.signed_in?
-		#	if user.admin?
-		#		#admin permissions
-		#	else
-		#		can :read, Room
-		#		#normal_permissions
-		#	end
+	
+	#Room permissions
+	can [:destroy, :update], Room, :user_id=>user.id
+	can :show, Room do |room|
+		user.is_registered_for(room.id)
+	end
+	#Poll permissions
+	can :read, Poll do |poll|
+		user.is_registered_for(poll.room_id) || user.owns_poll?(poll.id)
+	end
 
-		#else
+	can :create, Poll do |poll|
+		user.owns_room?(poll.room_id)
+	end
 
-		#end
+	can [:update, :destroy], Poll, :user_id=>user.id
+	
+	can :show, Poll do |poll|
+		user.is_registered_for(poll.room_id)
+	end
 
+	#Poll Option Permissions
+	can [:read, :create], PollOption do |pollOption|
+		user.is_registered_for(pollOption.poll.room_id)
+	end
 
+	can [:update, :destroy], PollOption do |pollOption|
+		pollOption.poll.user_id == user.id
+	end
+	
+	#Question Permissions
+	can [:read, :create], Question do |question|
+		user.is_registered_for(question.room_id)
+	end
+	can [:update, :destroy], Question, :user_id=>user.id
 
+	#Answer Permissions
+	can [:read, :create], Answer do |answer|
+		user.is_registered_for(answer.question.room_id)
+	end
 
-   # # Define abilities for the passed in user here. For example:
-   # #
-   # #   user ||= User.new # guest user (not logged in)
-   # #   if user.admin?
-   # #     can :manage, :all
-   # #   else
-   # #     can :read, :all
-   # #   end
-   # #
-   # # The first argument to `can` is the action you are giving the user 
-   # # permission to do.
-   # # If you pass :manage it will apply to every action. Other common actions
-   # # here are :read, :create, :update and :destroy.
-   # #
-   # # The second argument is the resource the user can perform the action on. 
-   # # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-   # # class of the resource.
-   # #
-   # # The third argument is an optional hash of conditions to further filter the
-   # # objects.
-   # # For example, here the user can only update published articles.
-   # #
-   # #   can :update, Article, :published => true
-   # #
-   # # See the wiki for details:
-   # # https://github.com/ryanb/cancan/wiki/Defining-Abilities
+	can [:update, :destroy], Question, :user_id=>user.id
+
+	
   end
 end

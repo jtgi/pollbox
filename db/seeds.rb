@@ -22,6 +22,10 @@ User.create(:first_name=>"Test", :last_name=>"Test", :email=>"test@example.com",
 @room2.owner_id = 2
 @room2.save
 
+@room3 = Room.new(:name=>"Test Room", :description=>"Description of Test's room", :maximum_registrants=>100)
+@room3.owner_id = 3
+@room3.save
+
 #create registrations
 @registration1 = Registration.new
 @registration1.room_id = 1

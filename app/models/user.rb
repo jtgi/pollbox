@@ -36,6 +36,10 @@ class User < ActiveRecord::Base
 	def owns_answer?(answer_id)
 		!self.answers.find_by_id(answer_id).nil?
 	end
+
+	def owns_poll?(poll_id)
+		!self.answers.find_by_id(poll_id).nil?
+	end
 	
   def rooms_created
     self.rooms.where("user_level = ?", 1)

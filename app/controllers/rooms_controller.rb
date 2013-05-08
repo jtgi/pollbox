@@ -14,34 +14,15 @@ class RoomsController < ApplicationController
 	end
 
 	def show
-		#add admin feature
-		
-		@room = current_user.rooms.find(params[:id])
-
-		#if !@room.nil?
-		#	if current_user.owns_room?(params[:id])	
-		#		render :action=>'show_admin'
-
-		#	else
-		#		render :action=>'show_subscriber'
-		#	end
-		#else 
-		#	flash[:error] = "You are not registered for this room"
-		#	redirect_to rooms_path
-			
-
-		#if userIsRegistered(current_user, params[:id])
-		#	@room = Room.find(params[:id])
-		#else 
-		#	flash[:error] = "You must be registered for this room to view it"
-		#	redirect_to rooms_path
-		#end
+		#@room = current_user.rooms.find(params[:id])
+		@room = Room.find(params[:id])
+		authorize! :read, @room
 	end
 
 	def create
 		@room = Room.new(params[:room])
 		@room.owner_id = current_user.id
-		
+			
 		if @room.save
 			@registration = Registration.new
 			@registration.user_id = current_user.id
@@ -62,31 +43,21 @@ class RoomsController < ApplicationController
 	end
 	
 	def update
-		if User.owns_room?(params[:id])
 			@room = Room.new(params[:id])
+			authorize! :update, @room
 			if @room.update_attributes(params[:room])
-				flash[:success] = "Room Successfully Updated"
-				redirect_to show_room_path(@room)
+			 
+				#flash[:success] = "Room Successfully Updated"
+				#redirect_to show_room_path(@room)
 			else
-				flash[:error].now = "Registration Failed"
-				render :action=>"edit"
+				#flash[:error].now = "Registration Failed"
+				#render :action=>"edit"
   	  end
-		else
-			flash[:error] = "User not authorized to update room"
-			redirect_to room_path
-		end
 	end
 
-	def edit
+	def destroy
 		@room = Room.find(params[:id])
-	end
-	
-	def show_admin
-		@room = current_user.rooms.find_by_id(params[:id])	
-	end
-
-	def show_subscriber
-		@room = current_user.rooms.find_by_id(params[:id])	
+		authorize! :destroy, @room
 	end
 end
 #    	def update
