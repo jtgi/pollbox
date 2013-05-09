@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 	end
 
   def owns_room?(room_id)
-    !self.rooms.find_by_id(room_id).nil?
+    !self.registrations.find_by_id(room_id).owner_level == 3
   end
 	
 	def owns_question?(question_id)

@@ -21,14 +21,13 @@ class RoomsController < ApplicationController
 
 	def create
 		@room = Room.new(params[:room])
-		@room.owner_id = current_user.id
 			
 		if @room.save
 			@registration = Registration.new
 			@registration.user_id = current_user.id
 			@registration.room_id = @room.id
 			#user_level = 0 (registrant)
-			@registration.user_level = 1;
+			@registration.user_level = 3;
 
 			if @registration.save
 
