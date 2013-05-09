@@ -5,10 +5,7 @@ class RegistrationsController < ApplicationController
 		@registration = Registration.new(params[:registration])
 		room_id = params[:registration][:room_id]
 		if @registration.save 
-			flash[:success] = "Registered Successfully"
-			redirect_to {:controller=>"rooms", :action=>"show", :id=>room_id}
 		else
-			flash[:error] = "Registration Failed"
 		end
 	end
 

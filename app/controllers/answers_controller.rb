@@ -54,5 +54,6 @@ class AnswersController < ApplicationController
 	private 
 	def authenticate_room_registration
 		if params[:room_id]	
+		end
 	end
 end

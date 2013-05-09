@@ -13,15 +13,15 @@ class Room < ActiveRecord::Base
 	#before_save :encrypt_password
 
   validates :name, :presence=>true, :uniqueness=>true
-  validates :owner_id, :presence=>true
+  validates_presence_of :owner_id
   #users association
-  has_many :registrations
+  has_many :registrations, :dependent=>:destroy
   has_many :users, :through=>:registrations
 
   #questions association
-  has_many :questions
+  has_many :questions, :dependent=>:destroy
 
-	has_many :polls
+	has_many :polls, :dependent=>:destroy
 
   #sunspot searching
 #  searchable do 

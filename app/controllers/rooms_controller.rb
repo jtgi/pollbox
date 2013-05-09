@@ -1,7 +1,7 @@
 class RoomsController < ApplicationController
 	include RoomsHelper
 
-	before_filter :authenticate_user!
+	#before_filter :authenticate_user!
 	respond_to :html, :json
 
 
@@ -31,11 +31,7 @@ class RoomsController < ApplicationController
 			@registration.user_level = 1;
 
 			if @registration.save
-				respond_to do |format|
-					format.json { render :json=>@user }
-				end
-				#flash[:success] = "Room Successfully Created"
-				#redirect_to room_path(@room)
+
 			end
 			#flash[:error].now = "Room was not able to be created"
 			#render :action=>"new"

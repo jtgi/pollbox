@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
   
   #has many relationship
-  has_many :registrations
+  has_many :registrations, :dependent=>:destroy
   has_many :rooms, :through => :registrations
   # attr_accessible :title, :body
 

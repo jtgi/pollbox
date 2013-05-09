@@ -1,5 +1,5 @@
 class PollsController < ApplicationController
-	
+	before_filter :authenticate_user!	
 	before_filter :get_parent
 
 	def create
