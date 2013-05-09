@@ -11,9 +11,8 @@ class Room < ActiveRecord::Base
 	#end
 
 	#before_save :encrypt_password
-
+	
   validates :name, :presence=>true, :uniqueness=>true
-  validates_presence_of :owner_id
   #users association
   has_many :registrations, :dependent=>:destroy
   has_many :users, :through=>:registrations
@@ -22,6 +21,10 @@ class Room < ActiveRecord::Base
   has_many :questions, :dependent=>:destroy
 
 	has_many :polls, :dependent=>:destroy
+
+	def get_owner
+		self.registrations.where(:room_id=>id, :user_level=>3)
+	end
 
   #sunspot searching
 #  searchable do 
