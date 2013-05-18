@@ -23,7 +23,7 @@ class Room < ActiveRecord::Base
 	has_many :polls, :dependent=>:destroy
 
 	def get_owner
-		self.registrations.where(:room_id=>id, :user_level=>3)
+		self.registrations.where(:room_id=>self.id, :user_level=>3).first.user
 	end
 
   #sunspot searching

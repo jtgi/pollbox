@@ -5,14 +5,12 @@ FactoryGirl.define do
 		sequence(:email) { |n| "foobar#{n}@example.com" }
 		password "foobar"
 		password_confirmation "foobar"
-
 		factory :admin do
 			admin true
 		end
 	end
 
 	factory :room do
-		user
 		sequence(:name) { |n| "room#{n}" }
 		description "Description of room"
 		maximum_registrants 200		

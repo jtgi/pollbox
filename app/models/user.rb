@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 	end
 
   def owns_room?(room_id)
-    !self.registrations.find_by_id(room_id).owner_level == 3
+    !self.registrations.find_by_id(room_id).user_level == 3
   end
 	
 	def owns_question?(question_id)
@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 	end
 	
   def rooms_created
-    self.rooms.where("user_level = ?", 1)
+    self.rooms.where("user_level = ?", 3)
   end
 
   def rooms_registered

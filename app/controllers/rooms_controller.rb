@@ -1,7 +1,6 @@
 class RoomsController < ApplicationController
 	include RoomsHelper
-
-	#before_filter :authenticate_user!
+	before_filter :authenticate_user!
 	respond_to :html, :json
 
 
@@ -20,15 +19,11 @@ class RoomsController < ApplicationController
 	end
 
 	def create
-		@room = Room.new(params[:room])
-			
+		@user = current_user
+		@room = @user.rooms.build(:params[:room])
 		if @room.save
-			@registration = Registration.new
-			@registration.user_id = current_user.id
-			@registration.room_id = @room.id
-			#user_level = 0 (registrant)
-			@registration.user_level = 3;
-
+			@registration = Registration.where("room_id=? AND user_id = ?", @room.id, current_user.id).first
+			@registration.user_level = 3
 			if @registration.save
 
 			end
@@ -38,7 +33,7 @@ class RoomsController < ApplicationController
 	end
 	
 	def update
-			@room = Room.new(params[:id])
+			@room = Room.find(params[:id])
 			authorize! :update, @room
 			if @room.update_attributes(params[:room])
 			 
@@ -53,6 +48,7 @@ class RoomsController < ApplicationController
 	def destroy
 		@room = Room.find(params[:id])
 		authorize! :destroy, @room
+		@room.destroy
 	end
 end
 #    	def update

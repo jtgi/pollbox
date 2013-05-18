@@ -2,6 +2,7 @@ Roomfeed::Application.routes.draw do
   get "search/index"
 
   devise_for :users
+  root :to => "home#index"
 
   resources :users, :shallow=>true do
     resources :rooms, :only=>[:index]
@@ -9,12 +10,12 @@ Roomfeed::Application.routes.draw do
     resources :questions, :only=>[:index]
 		resources :polls, :only=>[:index]
   end
+	#resources :registrations, :only => [:create, :destroy]
 	
 	resources :poll_option, :only=>[:create, :destroy]
 
 	resources :polls, :except=>[:index]
 
-	resources :registrations, :only => [:create, :destroy]
 
   resources :rooms, :shallow=>true do
     resources :questions, :only=>[:index, :create]
@@ -25,7 +26,6 @@ Roomfeed::Application.routes.draw do
   end
 
   resources :answers, :except=>[:index]
-  root :to => "home#index"
   
   match '/dashboard', to: 'dashboard#index'
   # The priority is based upon order of creation:

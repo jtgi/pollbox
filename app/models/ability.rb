@@ -4,10 +4,14 @@ class Ability
   def initialize(user)
 	
 	#Room permissions
+	can :create, Room
+
 	can [:destroy, :update], Room, :user_id=>user.id
-	can :show, Room do |room|
+
+	can :read, Room do |room|
 		user.is_registered_for(room.id)
 	end
+
 	#Poll permissions
 	can :read, Poll do |poll|
 		user.is_registered_for(poll.room_id) || user.owns_poll?(poll.id)
