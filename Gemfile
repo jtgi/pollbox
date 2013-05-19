@@ -6,7 +6,6 @@ gem 'rails', '3.2.12'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem 'sunspot_solr'
 gem 'sunspot_rails'
-gem 'sqlite3'
 gem 'execjs'
 gem 'therubyracer'
 gem 'devise'
@@ -19,6 +18,7 @@ gem 'oj'
 group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'sqlite3'
 end
 
 group :test do
