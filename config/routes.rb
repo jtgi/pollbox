@@ -1,4 +1,5 @@
 Roomfeed::Application.routes.draw do
+  get "backbone/app"
   get "search/index"
 
   devise_for :users
@@ -26,6 +27,10 @@ Roomfeed::Application.routes.draw do
   end
 
   resources :answers, :except=>[:index]
+<<<<<<< HEAD
+=======
+  root :to => "backbone#app"
+>>>>>>> b393392edf6108e8cc9391dd3d712c2b51fb7655
   
   match '/dashboard', to: 'dashboard#index'
   # The priority is based upon order of creation:

@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= full_title(yield(:title))%></title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<% flash.each do |name, msg| %>
+	<%= content_tag :div, msg, :id => "flash_#{name}" %>
+  <% end %>
+
+  <div id="nav"></div>
+  <div id="flash"></div>
+  <div role="main" id="main"></div>
+  <footer class="bottom-bar"></footer>
+
+  <!-- Application source. -->
+  <%= requirejs_include_tag "config" %>
+
+
+</body>
+</html>

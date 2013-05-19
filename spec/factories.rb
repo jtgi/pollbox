@@ -24,5 +24,12 @@ FactoryGirl.define do
 			end
 	end
 
+	factory :poll do
+		sequence(:title) { |n| "poll#{n}" }
+		sequence(:body) { |n| "poll body number: #{n}" }
+		user
+		room
+	end
+
 end
 
