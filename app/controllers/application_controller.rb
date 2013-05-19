@@ -8,4 +8,7 @@ class ApplicationController < ActionController::Base
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
+	def after_sign_in_path_for(resource)
+		render :json=>{:id=>resource.id, :first_name=>resource.first_name, :last_name=>resource.last_name}
+	end
 end
