@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
   
   #has many relationship
-  has_many :registrations, :dependent=>:destroy
-  has_many :rooms, :through => :registrations
+  has_many :subscriptions, :dependent=>:destroy
+  has_many :rooms, :through => :subscriptions
   # attr_accessible :title, :body
 
   has_many :questions
@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 	end
 
   def owns_room?(room_id)
-    !self.registrations.find_by_id(room_id).user_level == 3
+    !self.subscriptions.find_by_id(room_id).user_level == 3
   end
 	
 	def owns_question?(question_id)
@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
     self.rooms.where("user_level = ?", 3)
   end
 
-  def rooms_registered
+  def rooms_subscribed
     self.rooms.where("user_level = ?", 0)
   end
 
@@ -59,8 +59,8 @@ class User < ActiveRecord::Base
   def send_unlock_instructions
     devise::mailer.delay.unlock_instructions(self)
   end
-	def is_registered_for(room_id)
-		!self.registrations.where("room_id = ?", room_id).empty?
+	def is_subscribed_to(room_id)
+		!self.subscriptions.where("room_id = ?", room_id).empty?
 	end
 
 end

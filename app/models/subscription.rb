@@ -1,4 +1,4 @@
-class Registration < ActiveRecord::Base
+class Subscription < ActiveRecord::Base
   attr_accessible :created_at, :room_id, :user_id
   belongs_to :room
   belongs_to :user

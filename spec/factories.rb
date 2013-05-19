@@ -30,6 +30,14 @@ FactoryGirl.define do
 		user
 		room
 	end
-
+	factory :poll_option do
+		sequence(:title) { |n| "poll option #{n}" }
+		sequence(:body) { |n| "poll option body #{n}" }
+		poll
+	end
+	factory :vote do
+		user
+		poll_option
+	end
 end
 

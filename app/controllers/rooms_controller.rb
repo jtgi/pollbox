@@ -22,9 +22,9 @@ class RoomsController < ApplicationController
 		@user = current_user
 		@room = @user.rooms.build(:params[:room])
 		if @room.save
-			@registration = Registration.where("room_id=? AND user_id = ?", @room.id, current_user.id).first
-			@registration.user_level = 3
-			if @registration.save
+			@subscription = Subscription.where("room_id=? AND user_id = ?", @room.id, current_user.id).first
+			@subscription.user_level = 3
+			if @subscription.save
 
 			end
 			#flash[:error].now = "Room was not able to be created"

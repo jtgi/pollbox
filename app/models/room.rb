@@ -14,7 +14,7 @@ class Room < ActiveRecord::Base
 	
   validates :name, :presence=>true, :uniqueness=>true
   #users association
-  has_many :registrations, :dependent=>:destroy
+  has_many :subscriptions, :dependent=>:destroy
   has_many :users, :through=>:registrations
 
   #questions association
@@ -23,7 +23,7 @@ class Room < ActiveRecord::Base
 	has_many :polls, :dependent=>:destroy
 
 	def get_owner
-		self.registrations.where(:room_id=>self.id, :user_level=>3).first.user
+		self.subscriptions.where(:room_id=>self.id, :user_level=>3).first.user
 	end
 
   #sunspot searching

@@ -39,7 +39,6 @@ describe Poll do
 			poll = FactoryGirl.create(:poll, :user=>@user, :room=>@room)
 			@user.polls.first.should == poll
 			@room.polls.first.should == poll
-			
 		end
 
 	end
