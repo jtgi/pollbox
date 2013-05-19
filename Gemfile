@@ -14,6 +14,8 @@ gem 'thin'
 gem 'faye'
 gem 'rabl'
 gem 'oj'
+gem 'cancan'
+gem 'rspec_api_test'
 
 group :test, :development do
   gem 'rspec-rails'

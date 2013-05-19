@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130420233101) do
+ActiveRecord::Schema.define(:version => 20130508101914) do
 
   create_table "answers", :force => true do |t|
     t.string   "title"
@@ -20,6 +20,24 @@ ActiveRecord::Schema.define(:version => 20130420233101) do
     t.integer  "user_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "poll_options", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "poll_id"
+    t.string   "option"
+  end
+
+  create_table "polls", :force => true do |t|
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.integer  "user_id"
+    t.integer  "room_id"
+    t.string   "title"
+    t.string   "body"
+    t.integer  "correct_poll_option_id"
+    t.integer  "views",                  :default => 0
   end
 
   create_table "questions", :force => true do |t|
@@ -34,9 +52,9 @@ ActiveRecord::Schema.define(:version => 20130420233101) do
   create_table "registrations", :force => true do |t|
     t.integer  "room_id"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "user_level"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+    t.integer  "user_level", :default => 0
   end
 
   create_table "rooms", :force => true do |t|
@@ -44,13 +62,12 @@ ActiveRecord::Schema.define(:version => 20130420233101) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.integer  "maximum_registrants"
-    t.integer  "owner_id"
     t.string   "description"
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                                 :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
+    t.string   "email",                                 :default => "",    :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -59,16 +76,27 @@ ActiveRecord::Schema.define(:version => 20130420233101) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
     t.string   "first_name"
     t.string   "last_name"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string   "authentication_token"
+    t.boolean  "admin",                                 :default => false
   end
 
+  add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "votes", :force => true do |t|
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "user_id"
+    t.integer  "poll_option_id"
+    t.string   "vote"
+  end
 
 end

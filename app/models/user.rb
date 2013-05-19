@@ -2,13 +2,13 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
   
   #has many relationship
-  has_many :registrations
+  has_many :registrations, :dependent=>:destroy
   has_many :rooms, :through => :registrations
   # attr_accessible :title, :body
 
@@ -16,8 +16,17 @@ class User < ActiveRecord::Base
 
   has_many :answers
 
+	has_many :votes
+
+	has_many :polls
+	
+
+	def admin?
+		false
+	end
+
   def owns_room?(room_id)
-    !self.rooms.find_by_id(room_id).nil?
+    !self.registrations.find_by_id(room_id).user_level == 3
   end
 	
 	def owns_question?(question_id)
@@ -28,8 +37,12 @@ class User < ActiveRecord::Base
 		!self.answers.find_by_id(answer_id).nil?
 	end
 
+	def owns_poll?(poll_id)
+		!self.answers.find_by_id(poll_id).nil?
+	end
+	
   def rooms_created
-    self.rooms.where("user_level = ?", 1)
+    self.rooms.where("user_level = ?", 3)
   end
 
   def rooms_registered
@@ -46,5 +59,8 @@ class User < ActiveRecord::Base
   def send_unlock_instructions
     devise::mailer.delay.unlock_instructions(self)
   end
+	def is_registered_for(room_id)
+		!self.registrations.where("room_id = ?", room_id).empty?
+	end
 
 end
