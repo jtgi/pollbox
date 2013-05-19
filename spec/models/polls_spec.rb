@@ -39,8 +39,28 @@ describe Poll do
 			poll = FactoryGirl.create(:poll, :user=>@user, :room=>@room)
 			@user.polls.first.should == poll
 			@room.polls.first.should == poll
-			
 		end
 
 	end
+	
+	describe "poll option analysis" do
+
+		before(:all) do
+			@poll = FactoryGirl.create(:poll, :user=>@user, :room=>@room)
+		end
+
+		it "can retrieve all poll options of a poll" do
+			@poll_option1 = FactoryGirl.create(:poll_option, :poll=>@poll)
+			@poll_option2 = FactoryGirl.create(:poll_option, :poll=>@poll)
+			@poll.poll_options.first.should == poll_option1
+			@poll.poll_options.count.should == 2
+		end
+
+		it "can deduce the number of votes for each option" do
+			vote1 = FactoryGirl.create(:vote, :user=>@user, :poll_option=>@poll_option1)
+
+		end
+
+	end
+
 end
