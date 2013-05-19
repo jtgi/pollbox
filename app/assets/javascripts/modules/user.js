@@ -36,12 +36,33 @@ function(app, Room, userHTML, userSignup) {
     initialize: function() {
       this.rooms = new Room.Collection();
       this.rooms.url = 'users/' + this.id + '/rooms';
-      //Note: Should Bind relevant listeners here.
+      _.bindAll(this, "handleCreateUserSuccess", "handleCreateUserError");
     },
 
     toJSON: function() {
       return { user: _.clone( this.attributes ) }
-    }
+    },
+
+    createUser: function(attrs) {
+        //TODO: This will report an error until it
+        //receives JSON back from the server.
+        //see: http://tinyurl.com/ctmdblb
+        this.save(attrs, {
+          success: this.handleCreateUserSuccess,
+          error: this.handleCreateUserError
+        });
+    },
+
+    handleCreateUserSuccess: function(model, response, opts) {
+      console.log("Successfully created user");
+      app.trigger("user:new:success");
+    },
+
+    handleCreateUserError: function(model, response, opts) {
+      console.log(response.responseText);
+      var responseObj = $.parseJSON(response.responseText);
+      app.flash(responseObj);
+    },
 
   });
 
@@ -55,17 +76,22 @@ function(app, Room, userHTML, userSignup) {
     template: _.template(userHTML)
   });
 
+  /*
+   * =====================================
+   * 
+   *            SIGN UP VIEW
+   *
+   * =====================================
+   *
+   */
   User.Views.Signup = Backbone.View.extend({
     id: "sign-up-wrap",
     template: _.template(userSignup),
 
-    /*
-     * Gather references to input from form
-     */
     initialize: function () {},
 
     events:{
-      'click #sign-up': 'createUser'
+      'click #sign-up': 'tryCreateUser'
     },
 
     render: function() {
@@ -74,44 +100,20 @@ function(app, Room, userHTML, userSignup) {
       return this;
     },
 
-    createUser: function(evt) {
+    tryCreateUser: function(evt) {
       //TODO: Add prevention for double submitting form
-      
       //Prevent anchor from following href
       evt.stopImmediatePropagation();
       var attrs = this.attributes();
-
       if(this.validate(attrs)) {
-        var pass = this.hashPassword(attrs.password);
-        var user = new User.Model(attrs);
-
-        //TODO: This will report an error until it
-        //receives JSON back from the server.
-        //see: http://tinyurl.com/ctmdblb
-        user.save(attrs, {
-          success: function(data) {
-            console.log("Successfully Created User", attrs);
-            app.trigger("user:new:success", data);
-          },
-          error: function(data) {
-            //TODO: Add proper error handling
-            console.log("Error Creating User", data);
-            app.trigger("user:new:error", data);
-          }
-        });
+        this.model.createUser(attrs);
       }
-
-
     },
 
     validate: function(attrs, options) {
-      //TODO: Validate form data.
+      //TODO: Validate form data.and display errors
+      //to user
       return true;
-    },
-
-    hashPassword: function(password) {
-      //TODO: Implement hashing function
-      return password;
     },
 
     /*
@@ -119,8 +121,8 @@ function(app, Room, userHTML, userSignup) {
      */
     attributes: function() {
       return {
-          studentId: $("#sign-up-wrap").find('input[name=student_id]').val(),
-          name: $("#sign-up-wrap").find('input[name=name]').val(),
+          //studentId: $("#sign-up-wrap").find('input[name=student_id]').val(),
+          //name: $("#sign-up-wrap").find('input[name=name]').val(),
           email: $("#sign-up-wrap").find('input[name=email]').val(),
           password: $("#sign-up-wrap").find('input[name=password]').val(),
           password_confirmation: $("#sign-up-wrap").find('input[name=password_confirmation]').val(),

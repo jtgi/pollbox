@@ -1,5 +1,6 @@
 define([
-       "backbone"
+       "backbone",
+       "jquery-cookie"
 ], function(Backbone) {
 
   // Provide a global location to place configuration settings and module

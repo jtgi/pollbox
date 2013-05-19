@@ -1,23 +1,26 @@
 require([
-  // Application.
   "app",
   "modules/session",
-
-  // Main Router.
   "router"
 ],
 
 function(app, Session, Router) {
 
-  // Define your master router on the application namespace and trigger all
-  // navigation from this instance.
   app.session = new Session.Model();
   app.router = new Router();
 
   /* Initialize App Events */
-  app.flash = function(message) {
-    if(message.hasOwnProperty('error')) {
-      $("#flash").html("<div class='error'>"+message.error+"</div>");
+
+  /*
+   * Expects data in form of:
+   * { "errors": { "email": ["msg1", "msg2"] ... } }
+   */
+  app.flash = function(data) {
+    if(data.hasOwnProperty('errors')) {
+      $("#flash").html("<div class='error'><ul id='errorList'></ul></div>");
+      _.each(data.errors, function(val, key) {
+        $("#errorList").append("<li>"+ key + " " + "<ul>"+ _.reduce(val, function(memo, msg) { memo + "<li>"+msg+"</li>" }) +"</ul></li>");
+      });
     }
   }
 

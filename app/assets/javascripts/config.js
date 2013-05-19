@@ -17,7 +17,8 @@ require.config({
     "underscore": 'underscore/underscore',
     "text": 'text/text',
     "backbone": "backbone/backbone",
-    "jquery": "jquery/jquery"
+    "jquery": "jquery/jquery",
+    "jquery-cookie": "jquery-cookie-amd/jquery.cookie"
   },
 
   map: {
@@ -34,8 +35,10 @@ require.config({
     },
     "underscore": {
       "exports": "_"
+    },
+    "jquery": {
+      "exports": "$"
     }
-
   }
 
 });

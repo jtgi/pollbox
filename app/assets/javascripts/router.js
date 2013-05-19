@@ -33,6 +33,7 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
       var footer = new Base.Views.Footer();
       $("#nav").append(nav.render().el);
       $("footer").append(footer.render().el);
+
      },
 
     home: function() {
@@ -49,18 +50,19 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
       //Ideally: somewhere in router we specify which
       //routes are protected.
       //function() mustBeLoggedIn('dashboard', 'room', ...)
-      if(!app.session.loggedIn()) {
+      if(app.session.loggedIn()) {
+        var dashboard = new Dashboard.Model();
+        var dashboardView = new Dashboard.Views.Base({model:dashboard});
+        $("#main").html(dashboardView.render().el);
+
+        //Fetch current user from session
+        var user = app.session.getUser();
+        console.log("returned user");
+      } else {
+        //TODO: Should remember previous url upon failed attempt
+        //at accessing a page.
         app.router.navigate("login", {trigger:true});
       }
-
-      var dashboard = new Dashboard.Model();
-      var dashboardView = new Dashboard.Views.Base({model:dashboard});
-      $("#main").html(dashboardView.render().el);
-
-      //Fetch current user from session
-      var user = app.session.getUser();
-      console.log("returned user");
-
     },
 
     /**
@@ -75,18 +77,18 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
     },
 
     signup: function() {
-      var userSignup = new User.Views.Signup();
+      var user = new User.Model();
+      var userSignup = new User.Views.Signup({model:user});
       $("#main").html(userSignup.render().el);
     },
 
-     /**
-      * TODO: Render login form if not already logged in.
-      * on submit, if successful, create a session and redirect
-      * to dashboard.
-      */
     login: function() {
-      var login = new Session.Views.Login({model: app.session});
-      $("#main").html(login.render().el);
+      if(app.session.loggedIn()) {
+        app.router.navigate("dashboard", {trigger:true});
+      } else {
+        var login = new Session.Views.Login({model: app.session});
+        $("#main").html(login.render().el);
+      }
     },
 
     /**

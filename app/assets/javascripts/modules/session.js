@@ -14,28 +14,26 @@ function(app, User, loginHTML) {
 
   Session.Model = Backbone.Model.extend({
     //Used to give a default invalid session.
-    url: "/session",
+    url: "/users/sign_in",
     defaults: {
       email: "",
       password: "",
-      userId: "",
-      sessionKey: ""
     },
 
     initialize: function() {
       //Use bindAll to maintain context of 'this'
       //specifically in ajax success/error response
       //Reference: http://tinyurl.com/3vxywxa
-      _.bindAll(this, "handleSuccess", "handleError");
+      _.bindAll(this, "handleLoginSuccess", "handleLoginError");
       this.load();
     },
 
-    load: function() {
-      this.set({
-        //userId: $.cookie('userId'),
-        //sessionKey: $.cookie('sessionKey')
-      });
+
+    toJSON: function() {
+      return { user: _.clone( this.attributes ) }
     },
+
+    load: function() {},
 
   /*
    * TODO: 
@@ -51,29 +49,42 @@ function(app, User, loginHTML) {
       }, { silent: true });
 
       this.save({}, {
-        success: this.handleSuccess,
-        error: this.handleError
+        success: this.handleLoginSuccess,
+        error: this.handleLoginError
       });
     },
 
-    handleSuccess: function(model, response, opts) {
+    handleLoginSuccess: function(model, response, opts) {
       console.log("Successfully logged in", response);
-      this.load();
       app.trigger("session:login");
       app.router.navigate("dashboard", {trigger: true})
     },
 
-    handleError: function(model, response, opts) {
+    handleLoginError: function(model, response, opts) {
       console.log("Error during login", model, response, opts);
       app.flash({ error: response.responseText });
     },
 
     logout: function() {
-      this.clearCookie();
-      this.clear();
-      app.trigger("session:logout");
-      app.router.navigate("", {trigger:true});
+      //this.clearCookie();
+      this.destroy({
+        url:'users/sign_out', 
+        success: handleLogoutSuccess,
+        error: handleLogoutError
+      });
     },
+
+    handleLoginSuccess: function(model, response, opts) {
+      console.log("Successfully logged out in", response);
+      app.trigger("session:logout");
+      app.router.navigate("", {trigger: true})
+    },
+
+    handleLoginError: function(model, response, opts) {
+      console.log("Error during logout", model, response, opts);
+      app.flash({ error: response.responseText });
+    },
+
 
     clearCookie: function() {
       $.cookie("sessionKey", "");
@@ -124,7 +135,7 @@ function(app, User, loginHTML) {
     template:_.template(loginHTML),
     
     events: {
-      'click #login': 'attemptLogin'
+      'click #login': 'tryLogin'
     },
 
     validate: function(fields) {
@@ -138,7 +149,7 @@ function(app, User, loginHTML) {
       }
     },
 
-    attemptLogin: function(evt) {
+    tryLogin: function(evt) {
       evt.stopImmediatePropagation();
       var fields = this.fields();
       if(this.validate(fields)) {
