@@ -2,6 +2,24 @@ Roomfeed::Application.routes.draw do
   get "backbone/app"
   get "search/index"
 
+	namespace api, defaults: {format: 'json'} do
+		namespace v1 do
+			resources :poll_option, :only=>[:create, :destroy]
+
+			resources :polls, :except=>[:index]
+
+  		resources :rooms, :shallow=>true do
+    		resources :questions, :only=>[:index, :create]
+				resources :polls, :only=>[:index, :create]
+  		end
+
+  		resources :questions, :except=>[:index], :shallow=>true do
+  		  resources :answers, :only=>[:index, :create]
+  		end
+
+		end
+	end
+
   devise_for :users
 
   root :to => "backbone#app"
