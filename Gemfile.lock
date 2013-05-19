@@ -114,6 +114,7 @@ GEM
     nokogiri (1.5.9)
     oj (2.0.12)
     orm_adapter (0.0.7)
+    pg (0.15.0)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
     pry (0.9.12.1)
@@ -235,6 +236,7 @@ DEPENDENCIES
   guard-rspec
   jquery-rails
   oj
+  pg
   rabl
   rails (= 3.2.12)
   requirejs-rails
