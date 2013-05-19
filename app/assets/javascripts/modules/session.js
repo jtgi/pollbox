@@ -24,16 +24,17 @@ function(app, User, loginHTML) {
       //Use bindAll to maintain context of 'this'
       //specifically in ajax success/error response
       //Reference: http://tinyurl.com/3vxywxa
-      _.bindAll(this, "handleLoginSuccess", "handleLoginError");
-      this.load();
+      _.bindAll(this, 
+                "handleLoginSuccess", 
+                "handleLoginError",
+                "handleLogoutSuccess",
+                "handleLogoutError");
     },
 
 
     toJSON: function() {
       return { user: _.clone( this.attributes ) }
     },
-
-    load: function() {},
 
   /*
    * TODO: 
@@ -47,8 +48,9 @@ function(app, User, loginHTML) {
         email: email,
         password: password,
       }, { silent: true });
+      console.log("Attempting to login", this);
 
-      this.save({}, {
+      this.save({
         success: this.handleLoginSuccess,
         error: this.handleLoginError
       });
@@ -67,20 +69,21 @@ function(app, User, loginHTML) {
 
     logout: function() {
       //this.clearCookie();
+      console.log(this);
       this.destroy({
         url:'users/sign_out', 
-        success: handleLogoutSuccess,
-        error: handleLogoutError
+        success: this.handleLogoutSuccess,
+        error: this.handleLogoutError
       });
     },
 
-    handleLoginSuccess: function(model, response, opts) {
-      console.log("Successfully logged out in", response);
+    handleLogoutSuccess: function(model, response, opts) {
+      console.log("Successfully logged out", response);
       app.trigger("session:logout");
       app.router.navigate("", {trigger: true})
     },
 
-    handleLoginError: function(model, response, opts) {
+    handleLogoutError: function(model, response, opts) {
       console.log("Error during logout", model, response, opts);
       app.flash({ error: response.responseText });
     },
@@ -120,7 +123,7 @@ function(app, User, loginHTML) {
      */
     loggedIn: function() {
       //Return false for empty string
-      return Boolean(this.get("sessionKey"));
+      return Boolean($.cookie("signed_in"));
     },
 
     isEmail: function(email) {

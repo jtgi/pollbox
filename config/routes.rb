@@ -5,14 +5,13 @@ Roomfeed::Application.routes.draw do
   devise_for :users
 
   root :to => "backbone#app"
-  root :to => "home#index"
 
-  resources :users, :shallow=>true do
-    resources :rooms, :only=>[:index]
-    resources :answers, :only=>[:index]
-    resources :questions, :only=>[:index]
-		resources :polls, :only=>[:index]
-  end
+ # resources :users, :shallow=>true do
+ #   resources :rooms, :only=>[:index]
+ #   resources :answers, :only=>[:index]
+ #   resources :questions, :only=>[:index]
+ # 	resources :polls, :only=>[:index]
+ # end
 	#resources :registrations, :only => [:create, :destroy]
 	
 	resources :poll_option, :only=>[:create, :destroy]
@@ -30,7 +29,6 @@ Roomfeed::Application.routes.draw do
 
   resources :answers, :except=>[:index]
 
-  
   match '/dashboard', to: 'dashboard#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.

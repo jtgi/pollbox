@@ -37,7 +37,9 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
      },
 
     home: function() {
-        $("#main").html(_.template(HomeHTML));
+        var template = _.template(HomeHTML);
+        console.log(template);
+        $("#main").html(template(app));
     },
 
     /**
