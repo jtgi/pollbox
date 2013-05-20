@@ -1,4 +1,4 @@
-class PollsController < ApplicationController
+class Api::PollsController < ApiController
 	before_filter :authenticate_user!	
 	before_filter :get_parent
 

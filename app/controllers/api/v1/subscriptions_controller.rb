@@ -1,4 +1,4 @@
-class RegistrationsController < ApplicationController
+class Api::RegistrationsController < ApiController
 	def create
 		@room = Room.find(params[:registration][:room_id])
 		

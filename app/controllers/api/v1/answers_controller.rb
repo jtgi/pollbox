@@ -1,4 +1,4 @@
-class AnswersController < ApplicationController
+class Api::AnswersController < ApiController
 	before_filter :authenticate_user!
 	before_filter :authenticate_room_registration
 	before_filter :get_parent, :only=>[:index] 
