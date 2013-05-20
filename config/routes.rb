@@ -6,6 +6,7 @@ Roomfeed::Application.routes.draw do
 
 	namespace :api, defaults: {format: 'json'} do
 		namespace :v1 do
+			get "/user" => "user#show"
 			resources :poll_option, :only=>[:create, :destroy]
 
 			resources :polls, :except=>[:index]

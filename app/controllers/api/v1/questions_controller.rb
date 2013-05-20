@@ -1,4 +1,4 @@
-class Api::QuestionsController < ApiController
+class Api::V1::QuestionsController < ApiController
 	before_filter :get_parent, :only=>[ :index, :new ]
 	before_filter :authenticate_user!
 

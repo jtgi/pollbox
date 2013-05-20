@@ -1,4 +1,4 @@
-class Api::PollOptionsController < ApiController
+class Api::V1::PollOptionsController < ApiController
 	def create
 	end
 
