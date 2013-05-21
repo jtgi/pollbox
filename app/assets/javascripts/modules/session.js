@@ -29,12 +29,15 @@ function(app, User, loginHTML) {
                 "handleLoginError",
                 "handleLogoutSuccess",
                 "handleLogoutError");
+      this.load();
     },
 
 
     toJSON: function() {
       return { user: _.clone( this.attributes ) }
     },
+
+    load: function() {},
 
   /*
    * TODO: 
@@ -48,6 +51,7 @@ function(app, User, loginHTML) {
         email: email,
         password: password,
       }, { silent: true });
+
       console.log("Attempting to login", this);
 
       this.save({
@@ -69,9 +73,8 @@ function(app, User, loginHTML) {
 
     logout: function() {
       //this.clearCookie();
-      console.log(this);
       this.destroy({
-        url:'users/sign_out', 
+        url:'/users/sign_out', 
         success: this.handleLogoutSuccess,
         error: this.handleLogoutError
       });
