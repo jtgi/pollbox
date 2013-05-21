@@ -1,16 +1,23 @@
-class Api::V1::RegistrationsController < ApiController
+class Api::V1::SubscriptionController < Api::V1::ApiController
+	before_filter :authenticate_user!
 	def create
-		@room = Room.find(params[:registration][:room_id])
+		@room = Room.find(params[:subscription][:room_id])
 		
-		@subscription = Subscription.new(params[:registration])
-		room_id = params[:registration][:room_id]
+		@subscription = Subscription.new(params[:subscription])
+		room_id = params[:room_id] || params[:subscription][:room_id]
+		user_id = current_user.id
+		@subscription.room_id = room_id
+		@subscription.user_id = user_id
+
 		if @subscription.save 
 		else
 		end
 	end
 
 	def destroy
-		Subscription.where("user_id = ? AND room_id = ?", params[:registration][:user_id], params[:registration][:room_id]).destroy
+		room_id = params[:room_id] || params[:subscription][:room_id]
+		user_id = current_user.id
+		Subscription.where("user_id = ? AND room_id = ?", user_id, room_id).destroy
 	end
 
 end

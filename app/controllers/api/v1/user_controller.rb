@@ -1,4 +1,4 @@
-class Api::V1::UserController < ApiController
+class Api::V1::UserController < Api::V1::ApiController
 	before_filter :authenticate_user!
 
 	def show
