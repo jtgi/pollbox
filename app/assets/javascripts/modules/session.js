@@ -54,7 +54,7 @@ function(app, User, loginHTML) {
 
       console.log("Attempting to login", this);
 
-      this.save({
+      this.save({}, {
         success: this.handleLoginSuccess,
         error: this.handleLoginError
       });
