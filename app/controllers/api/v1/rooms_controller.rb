@@ -1,4 +1,4 @@
-class Api::V1::RoomsController < ApplicationController
+class Api::V1::RoomsController < Api::V1::ApplicationController
 	include RoomsHelper
 	before_filter :authenticate_user!
 	respond_to :html, :json

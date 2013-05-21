@@ -49,6 +49,11 @@ class Ability
 
 	can [:update, :destroy], Question, :user_id=>user.id
 
-	
+	#Subscription permissions
+
+	can [:read, :update, :destroy], Subscription do |subscription|
+		if user.id == subscription.user_id || user.owns_room?(subscription.room)
+	end
+
   end
 end
