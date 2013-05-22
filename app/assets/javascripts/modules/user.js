@@ -55,12 +55,13 @@ function(app, Room, userHTML, userSignup) {
 
     handleCreateUserSuccess: function(model, response, opts) {
       console.log("Successfully created user");
-      app.trigger("user:new:success");
+      app.trigger("session:login");
+      app.router.navigate("dashboard", {trigger:true});
     },
 
     handleCreateUserError: function(model, response, opts) {
       console.log(response.responseText);
-      var responseObj = $.parseJSON(response.responseText);
+      var responseObj = $.parseJSON(response.responseText) 
       app.flash(responseObj);
     },
 

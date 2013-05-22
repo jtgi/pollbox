@@ -33,13 +33,12 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
       var footer = new Base.Views.Footer();
       $("#nav").append(nav.render().el);
       $("footer").append(footer.render().el);
-
      },
 
     home: function() {
-        var template = _.template(HomeHTML);
-        console.log(template);
-        $("#main").html(template(app));
+      var template = _.template(HomeHTML);
+      console.log(template);
+      $("#main").html(template(app));
     },
 
     /**

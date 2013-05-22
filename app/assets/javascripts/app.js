@@ -1,7 +1,8 @@
 define([
        "backbone",
+       "modules/utils/paths",
        "jquery-cookie"
-], function(Backbone) {
+], function(Backbone, Paths) {
 
   // Provide a global location to place configuration settings and module
   // creation.
@@ -47,6 +48,8 @@ define([
     module: function(additionalProps) {
       return _.extend({ Views: {} }, additionalProps);
     },
+    
+    'Paths': Paths,
 
     // Helper for using layouts.
     useLayout: function(name, options) {

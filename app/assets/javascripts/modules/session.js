@@ -39,44 +39,40 @@ function(app, User, loginHTML) {
 
     load: function() {},
 
-  /*
-   * TODO: 
-   * this.save() should return http 400 and user details.
-   * Server-side: If credentials valid, should fill out 
-   * set a unique sessionKey, remove password and 
-   * then send back the result.
-   */
     login: function(email, password) {
-      this.set({
-        email: email,
-        password: password,
-      }, { silent: true });
+      console.log("Attempting to login...", this);
 
-      console.log("Attempting to login", this);
-
-      this.save({}, {
+      $.ajax({
+        url: app.Paths.SignIn,
         success: this.handleLoginSuccess,
-        error: this.handleLoginError
+        error: this.handleLoginError,
+        data: { user: { email: email, password: password } },
+        dataType: "json",
+        type: "POST"
       });
+
     },
 
-    handleLoginSuccess: function(model, response, opts) {
+    handleLoginSuccess: function(response, status, xhr) {
       console.log("Successfully logged in", response);
       app.trigger("session:login");
-      app.router.navigate("dashboard", {trigger: true})
+      app.router.navigate("dashboard", {trigger: true});
     },
 
-    handleLoginError: function(model, response, opts) {
-      console.log("Error during login", model, response, opts);
-      app.flash({ error: response.responseText });
+    handleLoginError: function(response, status, xhr) {
+      console.log("Error during login", response, status, xhr);
+      var responseObj = $.parseJSON(response.responseText);
+      app.flash(responseObj);
     },
 
     logout: function() {
       //this.clearCookie();
-      this.destroy({
-        url:'/users/sign_out', 
+      console.log("Attempting to logout...");
+      $.ajax({
+        url: app.Paths.SignOut, 
         success: this.handleLogoutSuccess,
-        error: this.handleLogoutError
+        error: this.handleLogoutError,
+        type: "DELETE"
       });
     },
 
