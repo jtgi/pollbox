@@ -6,13 +6,29 @@ define([
 
 /*
  * Keep application wide pathing here to seamlessly change
- * on API changes and other pathing issues.
+ * on API changes and more.
  */
 function() {
-  
+
   var Paths = {
-    SignIn: "/users/sign_in",
-    SignOut: "/users/sign_out"
+    apiRoot: "/api/v1",
+    signIn: "/users/sign_in",
+    signOut: "/users/sign_out",
+    rooms: "/rooms",
+    polls: "/polls"
+  };
+
+  Paths.get = function(str, includeRoot) {
+      includeRoot = typeof includeRoot == 'undefined' ? true : false;
+      try {
+          var url;
+          if(includeRoot) {
+              url = this.apiRoot;
+          }
+          return url += this[str];
+      } catch(e) {
+          console.log("Path doesn't exist: " + e.message);
+      }
   };
 
   return Paths;

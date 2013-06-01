@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130520211820) do
+ActiveRecord::Schema.define(:version => 20130519050933) do
 
   create_table "answers", :force => true do |t|
     t.string   "title"
@@ -60,10 +60,9 @@ ActiveRecord::Schema.define(:version => 20130520211820) do
   create_table "subscriptions", :force => true do |t|
     t.integer  "room_id"
     t.integer  "user_id"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.integer  "user_level", :default => 0
-    t.boolean  "blocked",    :default => false
   end
 
   create_table "users", :force => true do |t|
