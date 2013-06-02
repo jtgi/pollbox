@@ -81,10 +81,6 @@ function(app, RoomHTML, Poll) {
     },
 
     createPoll: function(data) {
-      //TODO: Should pass in Poll attr. via socket.io evt.
-      //to initialize Poll Model.
-      console.log("Creating Poll");
-
       this.poll = new Poll.Model({
         pollId:2, 
         roomId:777, 

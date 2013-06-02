@@ -13,18 +13,9 @@ function(app, User, loginHTML) {
   var Session = app.module();
 
   Session.Model = Backbone.Model.extend({
-    //Used to give a default invalid session.
-    url: "/users/sign_in",
-    defaults: {
-      email: "",
-      password: "",
-    },
 
     initialize: function() {
-      //Use bindAll to maintain context of 'this'
-      //specifically in ajax success/error response
-      //Reference: http://tinyurl.com/3vxywxa
-      _.bindAll(this, 
+      _.bindAll(this,
                 "handleLoginSuccess", 
                 "handleLoginError",
                 "handleLogoutSuccess",
@@ -43,7 +34,7 @@ function(app, User, loginHTML) {
       console.log("Attempting to login...", this);
 
       $.ajax({
-        url: app.Paths.SignIn,
+        url: app.Paths.get("signIn", false),
         success: this.handleLoginSuccess,
         error: this.handleLoginError,
         data: { user: { email: email, password: password } },
@@ -66,10 +57,9 @@ function(app, User, loginHTML) {
     },
 
     logout: function() {
-      //this.clearCookie();
       console.log("Attempting to logout...");
       $.ajax({
-        url: app.Paths.SignOut, 
+        url: app.Paths.get("signOut", false),
         success: this.handleLogoutSuccess,
         error: this.handleLogoutError,
         type: "DELETE"

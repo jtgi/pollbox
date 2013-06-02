@@ -8,7 +8,7 @@ define([
   // creation.
   var app = {
     // The root path to run the application.
-    root: "/",
+    root: "/"
   };
 
 
