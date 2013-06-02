@@ -6,7 +6,8 @@ Roomfeed::Application.routes.draw do
 
 	namespace :api, defaults: {format: 'json'} do
 		namespace :v1 do
-			resources :registrations, :only => [:create, :destroy]
+
+
 			get "/user" => "user#show"
 			resources :poll_option, :only=>[:create, :destroy]
 
@@ -15,7 +16,10 @@ Roomfeed::Application.routes.draw do
   		resources :rooms, :shallow=>true do
     		resources :questions, :only=>[:index, :create]
 				resources :polls, :only=>[:index, :create]
+				resources :subscriptions, :only => [:create]
   		end
+
+			resources :subscriptions, :only=>[:destroy, :update]
 
   		resources :questions, :except=>[:index], :shallow=>true do
   		  resources :answers, :only=>[:index, :create]

@@ -1,6 +1,7 @@
 class RoomsController < ApplicationController
 	include RoomsHelper
 	before_filter :authenticate_user!
+	before_filter :find_room, :except=>[:index, :create]
 	respond_to :html, :json
 
 
@@ -8,13 +9,9 @@ class RoomsController < ApplicationController
 		@rooms = current_user.rooms
 	end
 
-	def new 
-		@room = Room.new
-	end
-
 	def show
 		#@room = current_user.rooms.find(params[:id])
-		@room = Room.find(params[:id])
+		#@room = Room.find(params[:id])
 		authorize! :read, @room
 	end
 
@@ -33,7 +30,7 @@ class RoomsController < ApplicationController
 	end
 	
 	def update
-			@room = Room.find(params[:id])
+			#@room = Room.find(params[:id])
 			authorize! :update, @room
 			if @room.update_attributes(params[:room])
 			 
@@ -46,10 +43,26 @@ class RoomsController < ApplicationController
 	end
 
 	def destroy
-		@room = Room.find(params[:id])
+		#@room = Room.find(params[:id])
 		authorize! :destroy, @room
 		@room.destroy
 	end
+
+	private
+	def check_for_pass_code
+		if @room.has_pass_code
+			pass_code_submitted = params[:room][:pass_code] || params[:pass_code]
+			if pass_code_submitted != @room.pass_code
+				#throw exception
+			end
+		end
+	end
+
+	private
+	def find_room
+		@room = current_user.rooms.find(params[:id])
+	end
+
 end
 #    	def update
 #		#check to see if already registered

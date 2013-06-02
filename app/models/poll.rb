@@ -18,4 +18,14 @@ class Poll < ActiveRecord::Base
 			poll_option_count_map[poll_option] = poll_option.vote_count
 		end
 	end
+
+	def delete_previous_vote(user_id)
+		self.poll_options.each do |poll_option|
+			poll_option.votes.each do |vote|
+				if vote.user_id == user_id
+					vote.destroy
+				end
+			end
+		end
+	end
 end

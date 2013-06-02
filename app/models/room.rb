@@ -1,5 +1,5 @@
 class Room < ActiveRecord::Base
-  attr_accessible :name, :maximum_registrants, :description#, :password , :password_confirmation
+  attr_accessible :name, :maximum_registrants, :description, :passcode#, :password , :password_confirmation
 	
 	#validates :password, :confirmation=>true
 
@@ -22,6 +22,9 @@ class Room < ActiveRecord::Base
 
 	has_many :polls, :dependent=>:destroy
 
+	def has_pass_code
+		self.pass_code != nil || self.pass_code == ''
+	end
 	def get_owner
 		self.subscriptions.where(:room_id=>self.id, :user_level=>3).first.user
 	end
