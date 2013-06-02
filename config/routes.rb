@@ -4,8 +4,8 @@ Roomfeed::Application.routes.draw do
   get "backbone/app"
   get "search/index"
 
-	namespace :api, defaults: {format: 'json'} do
-		namespace :v1 do
+	scope 'api', defaults: {format: 'json'} do
+		scope 'v1' do
 			resources :registrations, :only => [:create, :destroy]
 			get "/user" => "user#show"
 			resources :poll_option, :only=>[:create, :destroy]
