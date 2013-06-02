@@ -22,8 +22,12 @@ class Room < ActiveRecord::Base
 
 	has_many :polls, :dependent=>:destroy
 
-	def get_owner
-		self.subscriptions.where(:room_id=>self.id, :user_level=>3).first.user
+	#def get_owner
+	#	self.subscriptions.where(:room_id=>self.id, :user_level=>3).first.user
+	#end
+
+	def user_is_owner(user_id)
+		!self.subscriptions.where(:room_id=>self.id, :user_id=>user_id, :user_level=>3).empty?
 	end
 
   #sunspot searching
