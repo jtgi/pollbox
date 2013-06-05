@@ -37,7 +37,16 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  #RSpecAPITest.config = {
+  #  base_url: "http://localhost"
+  #  defaults:{
+  #    content_type: :json,
+  #    accept: :json
+  #  }
+  #}
 end
+
 def login_user
 	@user = User.new(:first_name=>"chris", :last_name=>"zhu", :password=>"password", :password_confirmation=>"password", :email=>"chris@example.com")
 	#get

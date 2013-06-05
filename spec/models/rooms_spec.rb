@@ -25,13 +25,13 @@ describe "Rooms Model" do
 			@room = Room.new(:name=>"Users Room", :description=>"Room with a name")
 			@room.save
 			lambda {
-				registration = Registration.new
+				registration = Subscription.new
 				registration.user_level = 3
 				registration.user = @user
 				registration.room = @room 
 				registration.should be_valid
 				registration.save
-			}.should change(Registration, :count).by(1)
+			}.should change(Subscription, :count).by(1)
 		end
 
 		it "can find by id, name" do

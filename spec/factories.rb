@@ -15,7 +15,8 @@ FactoryGirl.define do
 		description "Description of room"
 		maximum_registrants 200		
 	end
-	factory :registration do
+
+	factory :subscription do
 		user
 		room
 		user_level 0

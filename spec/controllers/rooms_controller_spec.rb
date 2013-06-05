@@ -24,7 +24,7 @@ describe RoomsController do
 			it "displays room attributes and owned property is true" do
 				 user = FactoryGirl.create(:user)
 				 room = FactoryGirl.create(:room)
-				 FactoryGirl.create(:registration, user: user, room: room, user_level: 3)
+				 FactoryGirl.create(:subscription, user: user, room: room, user_level: 3)
           
 				 Room.find_by_id(room.id).name.should == room.name
 				 room.users.first.should == user
