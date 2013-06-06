@@ -7,7 +7,7 @@ describe PollOption do
 		@poll = FactoryGirl.create(:poll, :user=>@user, :room=>@room)
 	end
 	it "has a valid factory" do
-		Factory.build(:poll_option).should be_valid
+		FactoryGirl.build(:poll_option).should be_valid
 	end
 
 	it "is invalid without an associated poll" do

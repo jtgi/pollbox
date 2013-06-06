@@ -35,6 +35,7 @@ FactoryGirl.define do
 		sequence(:option) { |n| "poll option #{n}" }
 		poll
 	end
+
 	factory :vote do
 		user
 		poll_option

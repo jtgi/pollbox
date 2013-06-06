@@ -5,6 +5,7 @@ class Poll < ActiveRecord::Base
 	has_many :votes, :through=>:poll_options
 	belongs_to :user
 	belongs_to :room
+
 	validates_presence_of :user_id, :room_id
 	
 	def correct_poll_option
@@ -19,13 +20,22 @@ class Poll < ActiveRecord::Base
 		end
 	end
 
-	def delete_previous_vote(user_id)
+	def clear_user_votes(user_id)
 		self.poll_options.each do |poll_option|
-			poll_option.votes.each do |vote|
-				if vote.user_id == user_id
-					vote.destroy
-				end
+			poll_option.votes.where("user_id=?", user_id).each do |vote|
+        vote.destroy
 			end
 		end
 	end
+
+  def has_user_vote?(user_id)
+    self.poll_options.each do |poll_option|
+      poll_option.votes.each do |vote|
+        if vote.user_id == user_id
+          return true
+        end
+      end
+    end
+    return false
+  end
 end

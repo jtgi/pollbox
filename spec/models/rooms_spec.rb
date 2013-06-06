@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe "Rooms Model" do
+describe Room do
 	before(:all) do
 		@user = User.create(:email=>"test_chris@hotmail.com", :password=>"070227", :password_confirmation=>"070227")
 		@user.save
