@@ -1,5 +1,4 @@
 
-// Session module
 define([
   //no deps
 ],
@@ -11,24 +10,34 @@ define([
 function() {
 
   var Paths = {
-    apiRoot: "/api/v1",
+    apiRoot: "",
     signIn: "/users/sign_in",
     signOut: "/users/sign_out",
     rooms: "/rooms",
-    polls: "/polls"
+    polls: "/polls",
+    usersRooms: '/users/:id/rooms'
   };
 
-  Paths.get = function(str, includeRoot) {
-      includeRoot = typeof includeRoot == 'undefined' ? true : false;
-      try {
-          var url;
-          if(includeRoot) {
-              url = this.apiRoot;
-          }
-          return url += this[str];
-      } catch(e) {
-          console.log("Path doesn't exist: " + e.message);
+  Paths.get = function(key, params) {
+    try {
+      var url = this.apiRoot + this[key];
+      if(params) {
+        url = insertParamsIntoUrl(url, params);
       }
+      return url;
+    } catch(e) {
+      console.log("Path doesn't exist: " + e.message);
+    }
+  };
+
+  Paths.insertParamsIntoUrl = function(url, params) {
+    _.each(params, function(val, key) {
+      var target = ":" + key;
+      if(url.match(target)) {
+        url.replace(target, val);
+      }
+      return url;
+    });
   };
 
   return Paths;

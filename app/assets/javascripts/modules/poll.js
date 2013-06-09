@@ -27,7 +27,25 @@ function(app, PollHTML) {
       }
     },
 
-    initialize: function() {},
+    initialize: function() {
+      this.status = this.States.CLOSED;
+    },
+
+    States: {
+      OPEN: 'active',
+      CLOSED: 'closed',
+      DISABLED: 'disabled'
+    },
+
+    CreateNewPoll: function(data) {
+      var poll = new Poll.Model(data);
+      return new Poll.View({model:poll});
+    },
+
+    getStatus: function() {
+      return this.state;
+    },
+
     vote: function(pollOption) {
       console.log("Building vote JSON for: "+pollOption);
       var voteJSON = {
@@ -70,14 +88,6 @@ function(app, PollHTML) {
       return this;
     },
 
-    /**
-    * Toggles the appearance of all poll options
-    * when one is selected.
-    *
-    * @method togglePollOptions
-    * @param {String} chosen id of clicked poll opt
-    */
-
     togglePollOptions: function(chosen) {
       $(".poll-controller .poll-option").each(function(){
         if($(this).attr("id")===chosen) {
@@ -89,14 +99,6 @@ function(app, PollHTML) {
         }
       });
     },
-
-    /**
-     * Updates poll UI, delegates submittal of
-     * vote to model.
-     *
-     * @method vote
-     * @param {Object} evt poll option clicked
-     */
 
     vote: function(evt) {
       console.log(evt.currentTarget.id + " clicked");

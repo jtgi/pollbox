@@ -14,20 +14,59 @@ function(app, RoomHTML, Poll) {
 
   // Default Model.
   Room.Model = Backbone.Model.extend({
-
-    /**
-     * Establish socket.io connection
-     * TODO: Add error handling to the connection
-     * for socket events. Consider better placement
-     * for socket binding.
-     */
-    initRoom: function(data) {
-      console.log("Initializing Room..");
-      this.trigger("room:connected", data);
+    url: app.Paths.get("rooms"),
+    initialize: function(roomId) {
+      this.initializeEvents();
+      _.bindAll(this, "handleRoomConnectionError","handleRoomConnectionSuccess");
+      this.set("id", roomId);
+      this.connectToRoom();
     },
 
-    connect: function(data) {
-      this.trigger("room:connecting", data);
+    initializeEvents: function() {
+      app.on(app.Events.Room.initializePoll, this.initializePoll);
+    },
+
+    initializePoll: function(data) {
+      var poll = Poll.createNewPoll(data);
+      this.setAsActivePoll(poll);
+    },
+
+    setAsActivePoll: function(poll) {
+      if(this.isPollCurrentlyDisplayed()) {
+        archivePoll();
+      }
+      this.set('activePoll', poll);
+    },
+
+    isPollCurrentlyDisplayed: function() {
+      //TODO: Add check for for presence in UI
+      return this.activePoll;
+    },
+
+    archivePoll: function() {
+      //TODO: Implement me.
+      //Remove poll from being displayed
+      //Archive somewhere
+    },
+
+    connectToRoom: function() {
+      this.trigger(app.Events.Room.connecting);
+      this.handleRoomConnectionSuccess(); //TODO: remove this once auth resolved
+      this.set('title', "Room Debug Title");
+      //this.fetch({
+      //  success: handleRoomConnectionSuccess,
+      //  error: handleRoomConnectionError
+      //});
+    },
+
+    handleRoomConnectionSuccess: function(data) {
+      this.trigger(app.Events.Room.connected, data);
+    },
+
+    handleRoomConnectionError: function(response, status, xhr) {
+      console.log("Error fetching rooms");
+      var responseObj = $.parseJSON(response.responseText);
+      app.Flash(responseObj);
     }
 
   });
@@ -44,13 +83,13 @@ function(app, RoomHTML, Poll) {
     tagName: "div",
     className: "room-container",
     initialize: function(data) {
-      this.model.on("room:createPoll", this.createPoll(data));
-      this.model.on("room:connecting", this.connecting(data));
-      this.model.on("room:connected", this.initRoom(data));
+      this.model.on(app.Events.Room.connecting, this.connecting(data));
+      this.model.on(app.Events.Room.connected, this.initializeRoom(data));
     },
 
     events:{
-      'click .init-poll': 'initPoll'
+      'change:activePoll': 'renderPoll'
+      
     },
 
     render:function() {
@@ -59,38 +98,21 @@ function(app, RoomHTML, Poll) {
       return this;
     },
 
-    /**
-     * Sends a message over the socket to 
-     * initiate polling.
-     * TODO: Agree on the JSON needed here.
-     */
-    initPoll: function(event) {
-      this.createPoll();
-    },
-
-    initRoom: function(data) {
+    initializeRoom: function(data) {
       console.log("Initialize Room");
       $("#main").html(this.render().el);
       $(".connecting").html("Connected!").addClass("success").delay(500).fadeOut(500);
     },
 
     connecting: function(data) {
-      //TODO: Generalize this alert dialog
       console.log("Connecting...");
       $("#nav").append("<div data-alert class='connecting alert-box'>Connecting to room...<a href='#' class='close'>&times;</a></div>");
     },
 
-    createPoll: function(data) {
-      this.poll = new Poll.Model({
-        pollId:2, 
-        roomId:777, 
-        title:"Variables in Java are 100% static?"
-      });
-
-      this.pollView = new Poll.View({model:this.poll});
-      $(".poll-hook").html(this.pollView.render().el);
-
+    renderPoll: function(room, poll, opts) {
+      $(".poll-hook").html(poll.render().el);
     },
+
     closeRoom: function() {},
     updatePoll: function() {},
     closePoll: function() {},

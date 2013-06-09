@@ -9,37 +9,10 @@ function(app, Session, Router) {
   app.session = new Session.Model();
   app.router = new Router();
 
-  /* Initialize App Events */
-
-  /*
-   * Expects data in form of:
-   * { "errors": { "email": ["msg1", "msg2"] ... } }
-   */
-  app.flash = function(data) {
-    console.log("Flashing...", data);
-    if(data) {
-      if(data.hasOwnProperty('errors')) {
-        $("#flash").html("<div class='error'><ul id='errorList'></ul></div>");
-        _.each(data.errors, function(val, key) {
-          $("#errorList").append("<li>"+ key + " " + "<ul>"+ _.reduce(val, function(memo, msg) { memo + "<li>"+msg+"</li>" }) +"</ul></li>");
-        });
-      } else if(data.hasOwnProperty('error')) {
-        $("#flash").html("<div class='error'><ul id='errorList'><li>"+data.error+"</li></ul></div>");
-      }
-    }
-  }
-
-  app.on("user:new:success", function(data) {
-    app.session.login(data.attributes.email, data.attributes.password);
-  }, this);
-
   // Trigger the initial route and enable HTML5 History API support, set the
   // root folder to '/' by default.  Change in app.js.
   Backbone.history.start({ pushState: true, root: app.root });
 
-  // All navigation that is relative should be passed through the navigate
-  // method, to be processed by the router. If the link has a `data-bypass`
-  // attribute, bypass the delegation completely.
   $(document).on("click", "a[href]:not([data-bypass])", function(evt) {
     // Get the absolute anchor href.
     var href = { prop: $(this).prop("href"), attr: $(this).attr("href") };

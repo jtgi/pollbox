@@ -20,7 +20,6 @@ function(app, User, loginHTML) {
                 "handleLoginError",
                 "handleLogoutSuccess",
                 "handleLogoutError");
-      this.load();
     },
 
 
@@ -28,13 +27,11 @@ function(app, User, loginHTML) {
       return { user: _.clone( this.attributes ) }
     },
 
-    load: function() {},
-
     login: function(email, password) {
       console.log("Attempting to login...", this);
 
       $.ajax({
-        url: app.Paths.get("signIn", false),
+        url: app.Paths.get("signIn"),
         success: this.handleLoginSuccess,
         error: this.handleLoginError,
         data: { user: { email: email, password: password } },
@@ -46,7 +43,7 @@ function(app, User, loginHTML) {
 
     handleLoginSuccess: function(response, status, xhr) {
       console.log("Successfully logged in", response);
-      app.trigger("session:login");
+      app.trigger(app.Events.Session.login);
       app.router.navigate("dashboard", {trigger: true});
     },
 
