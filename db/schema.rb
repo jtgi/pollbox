@@ -61,9 +61,10 @@ ActiveRecord::Schema.define(:version => 20130606020011) do
   create_table "subscriptions", :force => true do |t|
     t.integer  "room_id"
     t.integer  "user_id"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.integer  "user_level", :default => 0
+    t.boolean  "blocked",    :default => false
   end
 
   create_table "users", :force => true do |t|

@@ -25,7 +25,24 @@ function(app, NavHTML, FooterHTML) {
       app.on("session:logout", this.render, this);
     },
 
-    events: {},
+    events: {
+      '.genPoll': 'genPoll'
+    },
+
+    genPoll: function() {
+      app.trigger(app.Events.Room.initializePoll, { 
+        pollId: 1,
+        roomId: 2,
+        title:"Demo Title",
+        active: "open",
+        options: {
+          'A': 0,
+          'B': 0,
+          'C': 0,
+          'D': 0
+        }
+      });
+    },
 
     render: function () {
       this.$el.html(this.template(app));

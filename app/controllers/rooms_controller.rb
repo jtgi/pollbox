@@ -4,7 +4,6 @@ class RoomsController < ApplicationController
 	before_filter :find_room, :except=>[:index, :create]
 	respond_to :html, :json
 
-
 	def index
 		@rooms = current_user.rooms
 	end
