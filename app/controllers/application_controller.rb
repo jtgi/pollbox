@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
   # TODO: Filter this for dev ENV only
   before_filter :set_cache_buster
 
