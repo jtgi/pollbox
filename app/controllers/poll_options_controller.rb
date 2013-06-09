@@ -10,13 +10,15 @@ class PollOptionsController < ApplicationController
 	end
 
   def vote
+    @poll_option = PollOption.find(params[:id])
     @vote = Vote.new 
     @vote.user = current_user
-    @vote.poll_option = PollOption.find(params[:id])
+    @vote.poll_option = @poll_option
     authorize! @vote
 
     if @vote.save
-      #publish to master channel of room
+      #publish updated count
+      #PrivatePub.publish_to "#{@poll_option.poll.room.name}/master", {vote:}
       #return success
     else
       #return error

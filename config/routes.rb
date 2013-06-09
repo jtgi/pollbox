@@ -8,7 +8,9 @@ Roomfeed::Application.routes.draw do
 		scope 'v1' do
 			resources :registrations, :only => [:create, :destroy]
 			get "/user" => "user#show"
+
 			resources :poll_option, :only=>[:create, :destroy]
+      match "poll_option/:id/vote" => "poll_option#vote"
 
 			resources :polls, :except=>[:index]
 
