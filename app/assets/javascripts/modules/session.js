@@ -16,7 +16,7 @@ function(app, User, loginHTML) {
 
     initialize: function() {
       _.bindAll(this,
-                "handleLoginSuccess", 
+                "handleLoginSuccess",
                 "handleLoginError",
                 "handleLogoutSuccess",
                 "handleLogoutError");
@@ -34,29 +34,29 @@ function(app, User, loginHTML) {
         url: app.Paths.get("signIn"),
         success: this.handleLoginSuccess,
         error: this.handleLoginError,
-        data: { user: { email: email, password: password } },
+        data: JSON.stringify({ user: { email: email, password: password } }),
         dataType: "json",
+        contentType: "application/json",
         type: "POST"
       });
-
     },
 
-    handleLoginSuccess: function(response, status, xhr) {
+    handleLoginSuccess: function(response, stat, xhr) {
       console.log("Successfully logged in", response);
       app.trigger(app.Events.Session.login);
       app.router.navigate("dashboard", {trigger: true});
     },
 
-    handleLoginError: function(response, status, xhr) {
-      console.log("Error during login", response, status, xhr);
+    handleLoginError: function(response, stat, xhr) {
+      console.log("Error during login");
       var responseObj = $.parseJSON(response.responseText);
-      app.flash(responseObj);
+      app.Flash(responseObj);
     },
 
     logout: function() {
       console.log("Attempting to logout...");
       $.ajax({
-        url: app.Paths.get("signOut", false),
+        url: app.Paths.get("signOut"),
         success: this.handleLogoutSuccess,
         error: this.handleLogoutError,
         type: "DELETE"

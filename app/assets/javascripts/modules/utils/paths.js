@@ -10,19 +10,28 @@ define([
 function() {
 
   var Paths = {
-    apiRoot: "",
+    apiRoot: "http://localhost:8000",
+
     signIn: "/users/sign_in",
     signOut: "/users/sign_out",
+
     rooms: "/rooms",
+    roomByRoomId: "/rooms/:id",
+    roomPollsByRoomId: '/rooms/:id/polls',
+
     polls: "/polls",
-    usersRooms: '/users/:id/rooms'
+    pollByPollId: "/polls/:id",
+
+    users: "/users",
+    userByUserId: "/users/:id",
+    userRoomsByUserId: '/users/:id/rooms'
   };
 
   Paths.get = function(key, params) {
     try {
       var url = this.apiRoot + this[key];
       if(params) {
-        url = insertParamsIntoUrl(url, params);
+        url = this.insertParamsIntoUrl(url, params);
       }
       return url;
     } catch(e) {

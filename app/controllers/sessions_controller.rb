@@ -1,6 +1,19 @@
 class SessionsController < Devise::SessionsController
-  def new
-		super
-		render :json=>{:id=>current_user.id,:id_test_data => 4, :first_name=>current_user.first_name, :last_name=>current_user.last_name}.to_json
+  class Users::SessionsController < Devise::SessionsController
+    append_view_path 'app/views/devise'
+    def create
+      respond_to do |format|
+        format.html { super }
+        format.json {
+          warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
+          current_user.ensure_authentication_token!
+          render :json => {:user => current_user.api_attributes, :auth_token => current_user.authentication_token}.to_json, :status => :ok
+        }
+      end
+    end
+
+    def destroy
+      super
+    end
   end
 end
