@@ -15,7 +15,7 @@ class Room < ActiveRecord::Base
   validates :name, :presence=>true, :uniqueness=>true
   #users association
   has_many :subscriptions, :dependent=>:destroy
-  has_many :users, :through=>:registrations
+  has_many :users, :through=>:subscriptions
 
   #questions association
   has_many :questions, :dependent=>:destroy

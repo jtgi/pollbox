@@ -15,7 +15,7 @@ gem 'faye'
 gem 'rabl'
 gem 'oj'
 gem 'cancan'
-gem 'private_pub'
+gem 'private_pub', :git=>'git://github.com/czhu12/private_pub.git'
 
 group :test, :development do
   gem 'rspec-rails'
