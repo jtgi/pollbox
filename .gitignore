@@ -16,3 +16,4 @@
 .DS_Store
 */.DS_Store
 .idea/*
+/app/assets/javascripts/modules/utils/paths.js

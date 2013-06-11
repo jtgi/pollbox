@@ -10,7 +10,7 @@ define([
 function() {
 
   var Paths = {
-    apiRoot: "http://localhost:8000",
+    apiRoot: "http://localhost:3000",
 
     signIn: "/users/sign_in",
     signOut: "/users/sign_out",
