@@ -28,4 +28,14 @@ describe Vote do
     poll_option1.votes.count.should == 0
     poll_option2.votes.count.should == 1
   end
+
+  it "can find if a user voted for a poll option" do
+    user = FactoryGirl.create(:user)
+    poll = FactoryGirl.create(:poll, :user=>user)
+    poll_option = FactoryGirl.create(:poll_option, :poll=>poll)
+    vote = FactoryGirl.create(:vote, :user=>user, :poll_option=>poll_option) 
+    user.voted_for?(poll_option).should == true
+
+    
+  end
 end

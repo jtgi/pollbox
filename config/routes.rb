@@ -6,13 +6,17 @@ Roomfeed::Application.routes.draw do
 
 	scope 'api', defaults: {format: 'json'} do
 		scope 'v1' do
+
+			get "/user" => "users#index"
+
 			resources :registrations, :only => [:create, :destroy]
-			get "/user" => "user#show"
 
 			resources :poll_option, :only=>[:create, :destroy]
-      match "poll_option/:id/vote" => "poll_option#vote"
+      match "poll_option/:id/vote" => "poll_options#vote"
 
 			resources :polls, :except=>[:index]
+
+      resources :rooms
 
   		resources :rooms, :shallow=>true do
     		resources :questions, :only=>[:index, :create]

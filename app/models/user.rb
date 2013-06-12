@@ -24,6 +24,13 @@ class User < ActiveRecord::Base
 		false
 	end
 
+  def voted_for?(poll_option_id)
+    if self.votes.find_by_poll_option_id(poll_option_id)
+      return true
+    end
+    return false
+  end
+
   def owns_room?(room_id)
     !self.subscriptions.find_by_room_id(room_id).user_level == 3
 		subscription = self.subscriptions.find_by_id(room_id)
