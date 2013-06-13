@@ -33,6 +33,7 @@ Roomfeed::Application.routes.draw do
 		end
 	end
 
+  get "/user" => "users#index"
   devise_for :users, :controllers=>{:sessions=>'sessions'}
 
   root :to => "backbone#app"
@@ -60,7 +61,8 @@ Roomfeed::Application.routes.draw do
 
   resources :answers, :except=>[:index]
 
-  match '/dashboard', to: 'dashboard#index'
+  #match '/dashboard', to: 'dashboard#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -16,6 +16,7 @@ gem 'rabl'
 gem 'oj'
 gem 'cancan'
 gem 'private_pub', :git=>'git://github.com/czhu12/private_pub.git'
+gem 'dalli'
 
 group :test, :development do
   gem 'rspec-rails'

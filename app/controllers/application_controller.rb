@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  respond_to :json
   if Rails.env.development?
     before_filter :set_cache_buster
 

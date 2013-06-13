@@ -1,5 +1,6 @@
 class PollOptionsController < ApplicationController
   before_filter :clear_user_votes, :only=>[:vote]
+
 	def create
 	end
 

@@ -51,6 +51,7 @@ GEM
     coderay (1.0.9)
     cookiejar (0.3.0)
     daemons (1.1.9)
+    dalli (2.6.4)
     database_cleaner (1.0.1)
     devise (2.2.4)
       bcrypt-ruby (~> 3.0)
@@ -232,6 +233,7 @@ DEPENDENCIES
   bootstrap-sass
   cancan
   capybara
+  dalli
   database_cleaner
   devise
   execjs
