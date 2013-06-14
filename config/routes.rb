@@ -1,8 +1,7 @@
 Roomfeed::Application.routes.draw do
-  get "sessions/new"
+  devise_for :users
 
   get "backbone/app"
-  get "search/index"
 
 	scope 'api', defaults: {format: 'json'} do
 		scope 'v1' do
@@ -33,8 +32,6 @@ Roomfeed::Application.routes.draw do
 		end
 	end
 
-  get "/user" => "users#index"
-  devise_for :users, :controllers=>{:sessions=>'sessions'}
 
   root :to => "backbone#app"
 

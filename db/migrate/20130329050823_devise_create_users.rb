@@ -1,10 +1,10 @@
 class DeviseCreateUsers < ActiveRecord::Migration
   def self.up
     create_table(:users) do |t|
-      t.database_authenticatable :null => false
-      t.recoverable
-      t.rememberable
-      t.trackable
+      #t.database_authenticatable :null => false
+      #t.recoverable
+      #t.rememberable
+      #t.trackable
 
       # t.encryptable
       # t.confirmable
@@ -12,7 +12,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # t.token_authenticatable
 
 
-      t.timestamps
+      #t.timestamps
     end
 
     add_index :users, :email,                :unique => true
