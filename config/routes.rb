@@ -1,6 +1,8 @@
 Roomfeed::Application.routes.draw do
   devise_for :users
 
+  #devise_for :users
+
   get "backbone/app"
 
 	scope 'api', defaults: {format: 'json'} do
