@@ -1,4 +1,6 @@
 Roomfeed::Application.routes.draw do
+  devise_for :users
+
   get "sessions/new"
 
   get "backbone/app"
@@ -29,7 +31,7 @@ Roomfeed::Application.routes.draw do
 		end
 	end
 
-  devise_for :users, :controllers=>{:sessions=>'sessions'}
+  #devise_for :users, :controllers=>{:sessions=>'sessions'}
 
   root :to => "backbone#app"
 

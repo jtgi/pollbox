@@ -25,7 +25,7 @@ function() {
           if(includeRoot) {
               url = this.apiRoot;
           }
-          return url += this[str];
+          return this[str];
       } catch(e) {
           console.log("Path doesn't exist: " + e.message);
       }

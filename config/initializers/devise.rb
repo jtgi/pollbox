@@ -69,7 +69,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "4eab5fc9d9ff4f0266feab1549c1def79136aa17581819acbed04a147c64564511fd6ac37aa76291bbeba4805127f0532c1edbf4ea88ed2aa3dcaa19ef951c2b"
+  # config.pepper = "b7aae6f752f6a9eab34e529f350a90781284928210f87e56b3c6d5882283edd30925e59b847d81d30199f9bebfa1faecfea2131c0d5b777b36abaf3303ed98ca"
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -94,7 +94,7 @@ Devise.setup do |config|
 
   # If true, uses the password salt as remember token. This should be turned
   # to false if you are not using database authenticatable.
-  #config.use_salt_as_remember_token = true
+  config.use_salt_as_remember_token = true
 
   # Options to be passed to the created cookie. For instance, you can set
   # :secure => true in order to force SSL only cookies.
@@ -157,7 +157,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :token_authenticatable
   # Defines name of the authentication token params key
-  config.token_authentication_key = :auth_token
+  # config.token_authentication_key = :auth_token
 
   # If true, authentication through token does not store user in session and needs
   # to be supplied on each request. Useful if you are using the token as API token.
@@ -207,11 +207,11 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
-	Warden::Manager.after_set_user do |user,auth,opts|
-	    auth.cookies[:signed_in] = 1
-	end
-	
-	Warden::Manager.before_logout do |user,auth,opts|
-			auth.cookies.delete :signed_in
-	end
+  Warden::Manager.after_set_user do |user,auth,opts|
+    auth.cookies[:signed_in] = 1
+  end
+
+    Warden::Manager.before_logout do |user,auth,opts|
+    auth.cookies.delete :signed_in
+  end
 end
