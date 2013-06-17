@@ -4,18 +4,18 @@ gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-gem 'sunspot_solr'
-gem 'sunspot_rails'
+gem 'sunspot_solr', '2.0.0'
+gem 'sunspot_rails', '2.0.0'
 gem 'execjs'
 gem 'therubyracer'
 gem 'devise', '1.4.7'
 gem 'bootstrap-sass'
 gem 'thin'
-gem 'faye'
-gem 'rabl'
-gem 'oj'
-gem 'cancan'
-gem 'private_pub'
+gem 'faye', '0.8.9'
+gem 'rabl', '0.8.5'
+gem 'oj', '2.0.14'
+gem 'cancan', '1.6.10'
+gem 'private_pub', :git=>"git://github.com/czhu12/private_pub.git"
 
 group :test, :development do
   gem 'rspec-rails'

@@ -17,8 +17,9 @@ class RoomsController < ApplicationController
 
 	def create
 		@user = current_user
-		@room = @user.rooms.build(:params[:room])
-		if @room.save
+		@room = @user.rooms.build(params[:room])
+		#if @room.save
+    if @user.save
 			@subscription = Subscription.where("room_id=? AND user_id = ?", @room.id, current_user.id).first
 			@subscription.user_level = 3
 			if @subscription.save
@@ -30,16 +31,15 @@ class RoomsController < ApplicationController
 	end
 	
 	def update
-			#@room = Room.find(params[:id])
-			authorize! :update, @room
-			if @room.update_attributes(params[:room])
-			 
-				#flash[:success] = "Room Successfully Updated"
-				#redirect_to show_room_path(@room)
-			else
-				#flash[:error].now = "Registration Failed"
-				#render :action=>"edit"
-  	  end
+		#@room = Room.find(params[:id])
+		authorize! :update, @room
+		if @room.update_attributes(params[:room])
+      #flash[:success] = "Room Successfully Updated"
+      #redirect_to show_room_path(@room)
+    else
+		  #flash[:error].now = "Registration Failed"
+			#render :action=>"edit"
+  	end
 	end
 
 	def destroy
