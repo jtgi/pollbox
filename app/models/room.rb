@@ -10,7 +10,7 @@ class Room < ActiveRecord::Base
   #questions association
   has_many :questions, :dependent=>:destroy
 
-	has_many :polls, :dependent=>:destroy
+  has_many :polls, :dependent=>:destroy
 
 	def has_pass_code
 		self.pass_code != nil || self.pass_code == ''

@@ -44,15 +44,20 @@ describe Room do
 		it "can find all rooms owned by user" do
 			@user.rooms.size.should == 1
 			@user.rooms.first.should == @room 
-			
 		end
 	end
 
 	describe "Updating a room" do 
-		
+	  it "is possible" 
 	end
 
 	describe "Deleting a room" do 
-	end
+    it "is possible"
 
+    it "destroys all subscriptions"
+
+    it "destroys all questions"
+
+    it "destroys all polls"
+	end
 end

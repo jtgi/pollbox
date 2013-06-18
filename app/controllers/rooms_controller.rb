@@ -29,16 +29,15 @@ class RoomsController < ApplicationController
 	end
 	
 	def update
-			#@room = Room.find(params[:id])
-			authorize! :update, @room
-			if @room.update_attributes(params[:room])
-			 
-				#flash[:success] = "Room Successfully Updated"
-				#redirect_to show_room_path(@room)
-			else
-				#flash[:error].now = "Registration Failed"
-				#render :action=>"edit"
-  	  end
+		#@room = Room.find(params[:id])
+		authorize! :update, @room
+		if @room.update_attributes(params[:room])
+      #flash[:success] = "Room Successfully Updated"
+      #redirect_to show_room_path(@room)
+    else
+		  #flash[:error].now = "Registration Failed"
+			#render :action=>"edit"
+  	end
 	end
 
 	def destroy

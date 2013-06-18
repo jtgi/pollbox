@@ -45,7 +45,7 @@ function() {
       var target = ":" + key;
       if(url.match(target)) {
         url.replace(target, val);
-      }
+     }
       return url;
     });
   };

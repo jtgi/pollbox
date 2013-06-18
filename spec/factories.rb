@@ -20,8 +20,8 @@ FactoryGirl.define do
 		user
 		room
 		user_level 0
-			factory :owned_registration do
-				user_level 1
+			factory :owned_subscription do
+				user_level 3
 			end
 	end
 

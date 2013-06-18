@@ -6,7 +6,10 @@ class Ability
 	#Room permissions
 	can :create, Room
 
-	can [:destroy, :update], Room, :user_id=>user.id
+	#can [:destroy, :update], Room, :user_id=>user.id
+  can [:destroy, :update], Room do |room|
+    user.owns_room?(room.id)
+  end
 
 	can :read, Room do |room|
 		user.is_subscribed_to(room.id)
