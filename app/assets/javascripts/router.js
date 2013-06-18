@@ -37,7 +37,6 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
 
     home: function() {
       var template = _.template(HomeHTML);
-      console.log(template);
       $("#main").html(template(app));
     },
 
@@ -45,35 +44,18 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
      * TODO: If user is logged in, render dashboard
      */
     dashboard: function() {
-      //TODO: This should be pulled out into some
-      //rails-like before_filter for all specified
-      //routes.
-      //Ideally: somewhere in router we specify which
-      //routes are protected.
-      //function() mustBeLoggedIn('dashboard', 'room', ...)
-      if(app.session.loggedIn()) {
+        this.authorizeUser();
+        //Fetch current user from session
+        var user = app.session.getUser();
         var dashboard = new Dashboard.Model();
         var dashboardView = new Dashboard.Views.Base({model:dashboard});
         $("#main").html(dashboardView.render().el);
-
-        //Fetch current user from session
-        var user = app.session.getUser();
-        console.log("returned user");
-      } else {
-        //TODO: Should remember previous url upon failed attempt
-        //at accessing a page.
-        app.router.navigate("login", {trigger:true});
-      }
     },
 
-    /**
-     * For Testing purposes.
-     * TODO: Should be passed roomId, make a request 
-     * for room info and render accordingly.
-     */
     room: function(roomId) {
       var room = new Room.Model();
       var roomView = new Room.View({model:room});
+      room.connect();
     },
 
     signup: function() {
@@ -83,7 +65,7 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
     },
 
     login: function() {
-      if(app.session.loggedIn()) {
+      if(this.isLoggedIn()) {
         app.router.navigate("dashboard", {trigger:true});
       } else {
         var login = new Session.Views.Login({model: app.session});
@@ -91,26 +73,30 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
       }
     },
 
-    /**
-     * Destroy session and redirect to home page.
-     * TODO: Should only redirect after successfully
-     * destroying session, maybe pass a callback?
-     */
     logout: function() {
       confirm("Are you sure you want to log out?");
       console.log("Logging out user...");
       app.session.logout();
     },
 
-    /**
-     * Creates a poll
-     * For testing purposes only.
-     */
     poll: function() {
       var poll = new Poll.Model();
       var pollView = new Poll.View({model:poll});
       $("#main").html(pollView.render().el);
+   },
+
+   authorizeUser: function() {
+     if(!app.session.loggedIn()) {
+       //TODO: Add get request to urlBar
+       app.router.navigate("login", {trigger:true});
+     }
+   },
+
+   isLoggedIn: function() {
+       return app.session.loggedIn();
    }
+
+
 
   });
 

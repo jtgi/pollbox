@@ -1,20 +1,37 @@
 define([], function() {
 
-  var Flash = function(data) {
-    console.log("Flashing...", data);
-    if(data) {
-      if(data.hasOwnProperty('errors')) {
-        $("#flash").html("<div class='error'><ul id='errorList'></ul></div>");
-        _.each(data.errors, function(val, key) {
-          $("#errorList").append("<li>"+ key + " " + "<ul>"+ _.reduce(val, function(memo, msg) { memo + "<li>"+msg+"</li>" }) +"</ul></li>");
-        });
-      } else if(data.hasOwnProperty('error')) {
-        $("#flash").html("<div class='error'><ul id='errorList'><li>"+data.error+"</li></ul></div>");
+  var Flash = {
+
+    display: function(data) {
+      if(data) {
+        console.log(data);
+        if(data.hasOwnProperty('errors')) {
+          this.writeTag("error", this.buildErrorList(errors));
+          $("#flash").html("<div data-alert class='error alert-box'><ul id='errorList'></ul></div>");
+        } else if(data.hasOwnProperty('error')) {
+          this.writeTag("error", data.error);
+        } else if(data.hasOwnProperty('success')) {
+          this.writeTag("success", data.success);
+        } else if(data.hasOwnProperty('message')) {
+          this.writeTag("message", data.message);
+        }
       }
+    },
+
+    writeTag: function(type, content) {
+      $("#flash").html("<div data-alert class='" + type + " alert-box'>" + content + "</div>").delay(2000).fadeOut();
+    },
+
+    buildErrorList: function(errors) {
+      var content = "";
+      _.each(data.errors, function(val, key) {
+        content += "<li>"+ key + " " + "<ul>"+ _.reduce(val, function(memo, msg) { memo + "<li>"+msg+"</li>" }) +"</ul></li>";
+      });
+      return content;
     }
-  }
+  };
 
   return Flash;
 
-})
+});
 

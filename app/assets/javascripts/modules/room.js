@@ -2,28 +2,39 @@
 define([
   // Application.
   "app",
+  "modules/room_connection",
   "text!templates/room.html",
   "modules/poll"
 ],
 
 // Map dependencies from above array.
-function(app, RoomHTML, Poll) {
+function(app, RoomConnection, RoomHTML, Poll) {
 
   // Create a new module.
   var Room = app.module();
 
   // Default Model.
   Room.Model = Backbone.Model.extend({
+
     url: app.Paths.get("rooms"),
+
     initialize: function(roomId) {
-      this.initializeEvents();
-      _.bindAll(this, "handleRoomConnectionError","handleRoomConnectionSuccess");
       this.set("id", roomId);
-      this.connectToRoom();
+      this.bindEvents();
+      this.conn = new RoomConnection(this);
     },
 
-    initializeEvents: function() {
-      app.on(app.Events.Room.initializePoll, this.initializePoll);
+    connect: function() {
+      this.conn.connect();
+    },
+
+    bindEvents: function() {
+      this.on(app.Events.Room.CONNECTED, this.updateRoomData, this);
+    },
+
+    updateRoomData: function(roomData) {
+      console.log("Updating Room Data...", roomData);
+      this.set(roomData);
     },
 
     initializePoll: function(data) {
@@ -47,26 +58,6 @@ function(app, RoomHTML, Poll) {
       //TODO: Implement me.
       //Remove poll from being displayed
       //Archive somewhere
-    },
-
-    connectToRoom: function() {
-      this.trigger(app.Events.Room.connecting);
-      this.handleRoomConnectionSuccess(); //TODO: remove this once auth resolved
-      this.set('title', "Room Debug Title");
-      //this.fetch({
-      //  success: handleRoomConnectionSuccess,
-      //  error: handleRoomConnectionError
-      //});
-    },
-
-    handleRoomConnectionSuccess: function(data) {
-      this.trigger(app.Events.Room.connected, data);
-    },
-
-    handleRoomConnectionError: function(response, status, xhr) {
-      console.log("Error fetching rooms");
-      var responseObj = $.parseJSON(response.responseText);
-      app.Flash(responseObj);
     }
 
   });
@@ -77,19 +68,27 @@ function(app, RoomHTML, Poll) {
     model: Room.Model
   });
 
+
+
+
+
   // Default View.
   Room.View = Backbone.View.extend({
     template: _.template(RoomHTML),
     tagName: "div",
     className: "room-container",
     initialize: function(data) {
-      this.model.on(app.Events.Room.connecting, this.connecting(data));
-      this.model.on(app.Events.Room.connected, this.initializeRoom(data));
+      this.model.on(app.Events.Room.CONNECTING, this.connecting, this);
+      this.model.on("change", this.initializeRoom, this);
     },
 
     events:{
       'change:activePoll': 'renderPoll'
-      
+    },
+
+    connecting: function() {
+      console.log("connecting fired in view");
+      app.Flash.display({message:"Connecting to room"});
     },
 
     render:function() {
@@ -99,14 +98,8 @@ function(app, RoomHTML, Poll) {
     },
 
     initializeRoom: function(data) {
-      console.log("Initialize Room");
       $("#main").html(this.render().el);
-      $(".connecting").html("Connected!").addClass("success").delay(500).fadeOut(500);
-    },
-
-    connecting: function(data) {
-      console.log("Connecting...");
-      $("#nav").append("<div data-alert class='connecting alert-box'>Connecting to room...<a href='#' class='close'>&times;</a></div>");
+      app.Flash.display({success:"Connected to room"});
     },
 
     renderPoll: function(room, poll, opts) {

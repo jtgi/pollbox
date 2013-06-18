@@ -22,6 +22,7 @@ function() {
     polls: "/polls",
     pollByPollId: "/polls/:id",
 
+    user: "/user",
     users: "/users",
     userByUserId: "/users/:id",
     userRoomsByUserId: '/users/:id/rooms'

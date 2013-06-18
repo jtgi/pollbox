@@ -8,7 +8,6 @@ define([
 // Map dependencies from above array.
 function(app, PollHTML) {
 
-  console.log("created poll");
   // Create a new module.
   var Poll = app.module();
 
