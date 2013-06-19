@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/czhu12/private_pub.git
+  revision: 59119f5082e9fa4c6cd5d7841fef20f338619eb7
+  specs:
+    private_pub (1.0.3)
+      faye
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -56,7 +63,7 @@ GEM
       em-socksify
       eventmachine (>= 1.0.0.beta.4)
       http_parser.rb (>= 0.5.3)
-    em-socksify (0.2.1)
+    em-socksify (0.3.0)
       eventmachine (>= 1.0.0.beta.4)
     erubis (2.7.0)
     eventmachine (1.0.3)
@@ -119,8 +126,6 @@ GEM
     pg (0.15.1)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
-    private_pub (1.0.3)
-      faye
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -224,27 +229,27 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass
-  cancan
+  cancan (= 1.6.10)
   capybara
   database_cleaner
   devise (= 1.4.7)
   execjs
   factory_girl_rails
   faker
-  faye
+  faye (= 0.8.9)
   guard-rspec
   jquery-rails
-  oj
+  oj (= 2.0.14)
   pg
-  private_pub
-  rabl
+  private_pub!
+  rabl (= 0.8.5)
   rails (= 3.2.12)
   requirejs-rails
   rspec-rails
   sass-rails (~> 3.2.3)
   sqlite3
-  sunspot_rails
-  sunspot_solr
+  sunspot_rails (= 2.0.0)
+  sunspot_solr (= 2.0.0)
   therubyracer
   thin
   uglifier (>= 1.0.3)
