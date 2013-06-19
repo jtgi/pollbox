@@ -21,11 +21,28 @@ function(app, NavHTML, FooterHTML) {
   Base.Views.Nav = Backbone.View.extend({
     template: _.template(NavHTML),
     initialize: function() {
-      app.on("session:login", this.render, this);
-      app.on("session:logout", this.render, this);
+      app.on(app.Events.Session.LOGIN, this.render, this);
+      app.on(app.Events.Session.LOGOUT, this.render, this);
     },
 
-    events: {},
+    events: {
+      '.genPoll': 'genPoll'
+    },
+
+    genPoll: function() {
+      app.trigger(app.Events.Room.INITIALIZE_POLL, {
+        pollId: 1,
+        roomId: 2,
+        title:"Demo Title",
+        active: "open",
+        options: {
+          'A': 0,
+          'B': 0,
+          'C': 0,
+          'D': 0
+        }
+      });
+    },
 
     render: function () {
       this.$el.html(this.template(app));

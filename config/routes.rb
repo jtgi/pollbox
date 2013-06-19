@@ -4,17 +4,20 @@ Roomfeed::Application.routes.draw do
   get "sessions/new"
 
   get "backbone/app"
-  get "search/index"
 
 	scope 'api', defaults: {format: 'json'} do
 		scope 'v1' do
+
+			get "/user" => "users#index"
+
 			resources :registrations, :only => [:create, :destroy]
-			get "/user" => "user#show"
 
 			resources :poll_option, :only=>[:create, :destroy]
-      match "poll_option/:id/vote" => "poll_option#vote"
+      match "poll_option/:id/vote" => "poll_options#vote"
 
 			resources :polls, :except=>[:index]
+
+      resources :rooms
 
   		resources :rooms, :shallow=>true do
     		resources :questions, :only=>[:index, :create]
@@ -58,7 +61,8 @@ Roomfeed::Application.routes.draw do
 
   resources :answers, :except=>[:index]
 
-  match '/dashboard', to: 'dashboard#index'
+  #match '/dashboard', to: 'dashboard#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

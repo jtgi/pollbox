@@ -5,8 +5,7 @@ describe "Logins" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
 			user = FactoryGirl.create(:user)
 			user_json = {:format=>'json', :user=>{:email=>user.email, :password=>user.password}}
-			get '/users/sign_in'
-      response.body.should include("Sign")
+      post "/users/sign_in", user_json
     end
   end
 end

@@ -1,21 +1,11 @@
 class Room < ActiveRecord::Base
   attr_accessible :name, :maximum_registrants, :description, :passcode#, :password , :password_confirmation
 	
-	#validates :password, :confirmation=>true
-
 	#before_save :encrypt_password
-	#validates_confirmation_of :password
-
-	#def self.authenticate(name, password)
-	#	room = find_by_name(name)
-	#end
-
-	#before_save :encrypt_password
-	
   validates :name, :presence=>true, :uniqueness=>true
   #users association
   has_many :subscriptions, :dependent=>:destroy
-  has_many :users, :through=>:registrations
+  has_many :users, :through=>:subscriptions
 
   #questions association
   has_many :questions, :dependent=>:destroy

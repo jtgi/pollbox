@@ -25,17 +25,9 @@ function(app, Room, userHTML, userSignup) {
       "password_confirmation": ""
     },
 
-    /*
-     * Rebuild rails has_many relationships by instantiating
-     * a collection of rooms on the user model.
-     * this gives us: user.rooms for use throughout app.
-     * Perhaps weigh the consequences of this coupling later.
-     * Note: This will cause user.sync to attempt to sync
-     * user's associated rooms.
-     */
     initialize: function() {
       this.rooms = new Room.Collection();
-      this.rooms.url = 'users/' + this.id + '/rooms';
+      this.rooms.url = app.Paths.get("usersRooms", {id: this.id});
       _.bindAll(this, "handleCreateUserSuccess", "handleCreateUserError");
     },
 
@@ -44,9 +36,6 @@ function(app, Room, userHTML, userSignup) {
     },
 
     createUser: function(attrs) {
-        //TODO: This will report an error until it
-        //receives JSON back from the server.
-        //see: http://tinyurl.com/ctmdblb
         this.save(attrs, {
           success: this.handleCreateUserSuccess,
           error: this.handleCreateUserError
@@ -55,14 +44,14 @@ function(app, Room, userHTML, userSignup) {
 
     handleCreateUserSuccess: function(model, response, opts) {
       console.log("Successfully created user");
-      app.trigger("session:login");
+      app.trigger(app.Events.Session.LOGIN);
       app.router.navigate("dashboard", {trigger:true});
     },
 
     handleCreateUserError: function(model, response, opts) {
       console.log(response.responseText);
       var responseObj = $.parseJSON(response.responseText) 
-      app.flash(responseObj);
+      app.Flash.display(responseObj);
     },
 
   });
@@ -77,15 +66,8 @@ function(app, Room, userHTML, userSignup) {
     template: _.template(userHTML)
   });
 
-  /*
-   * =====================================
-   * 
-   *            SIGN UP VIEW
-   *
-   * =====================================
-   *
-   */
-  User.Views.Signup = Backbone.View.extend({
+
+ User.Views.Signup = Backbone.View.extend({
     id: "sign-up-wrap",
     template: _.template(userSignup),
 
@@ -117,9 +99,6 @@ function(app, Room, userHTML, userSignup) {
       return true;
     },
 
-    /*
-     * Gather form input
-     */
     attributes: function() {
       return {
           //studentId: $("#sign-up-wrap").find('input[name=student_id]').val(),

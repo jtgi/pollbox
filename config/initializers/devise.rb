@@ -69,7 +69,6 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "b7aae6f752f6a9eab34e529f350a90781284928210f87e56b3c6d5882283edd30925e59b847d81d30199f9bebfa1faecfea2131c0d5b777b36abaf3303ed98ca"
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -211,7 +210,7 @@ Devise.setup do |config|
     auth.cookies[:signed_in] = 1
   end
 
-    Warden::Manager.before_logout do |user,auth,opts|
+  Warden::Manager.before_logout do |user,auth,opts|
     auth.cookies.delete :signed_in
   end
 end

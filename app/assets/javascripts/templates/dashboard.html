@@ -1,8 +1,8 @@
 <h1>Hi, Welcome to your dashboard.</h1>
 <ul>
-<li><strong>Email:</strong> <%= session.get("email") %></li>
-<li><strong>userId:</strong> <%= session.get("userId") %></li>
-<li><strong>sessionKey:</strong> <%= session.get("sessionKey") %></li>
+<li><strong>Email:</strong> <%= session.user.get("email") %></li>
+<li><strong>First Name:</strong> <%= session.user.get("fname") %></li>
+<li><strong>Last Name:</strong> <%= session.user.get("lname") %></li>
 </ul>
 <p>Test app reference</p>
 <p>There's really nothing here yet..</p>

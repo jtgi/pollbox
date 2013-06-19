@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
-  # TODO: Filter this for dev ENV only
+  respond_to :json
   before_filter :set_cache_buster
 
   def set_cache_buster

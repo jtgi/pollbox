@@ -2,8 +2,6 @@ class RoomsController < ApplicationController
 	include RoomsHelper
 	before_filter :authenticate_user!
 	before_filter :find_room, :except=>[:index, :create]
-	respond_to :html, :json
-
 
 	def index
 		@rooms = current_user.rooms
@@ -23,7 +21,7 @@ class RoomsController < ApplicationController
 			@subscription = Subscription.where("room_id=? AND user_id = ?", @room.id, current_user.id).first
 			@subscription.user_level = 3
 			if @subscription.save
-
+        respond_with(@room)
 			end
 			#flash[:error].now = "Room was not able to be created"
 			#render :action=>"new"

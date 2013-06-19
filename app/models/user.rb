@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
   # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+ # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
 
   # Setup accessible (or protected) attributes for your model
   #attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
@@ -24,14 +24,20 @@ class User < ActiveRecord::Base
 	has_many :votes
 
 	has_many :polls
-	
 
 	def admin?
 		false
 	end
 
+  def voted_for?(poll_option_id)
+    if self.votes.find_by_poll_option_id(poll_option_id)
+      return true
+    end
+    return false
+  end
+
   def owns_room?(room_id)
-    !self.subscriptions.find_by_id(room_id).user_level == 3
+    !self.subscriptions.find_by_room_id(room_id).user_level == 3
 		subscription = self.subscriptions.find_by_id(room_id)
 		if !subscription.nil?
 			return subscription.user_level == 3

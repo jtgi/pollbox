@@ -2,12 +2,13 @@
 define([
   // Application.
   "app",
+  "modules/room_connection",
   "text!templates/room.html",
   "modules/poll"
 ],
 
 // Map dependencies from above array.
-function(app, RoomHTML, Poll) {
+function(app, RoomConnection, RoomHTML, Poll) {
 
   // Create a new module.
   var Room = app.module();
@@ -15,19 +16,48 @@ function(app, RoomHTML, Poll) {
   // Default Model.
   Room.Model = Backbone.Model.extend({
 
-    /**
-     * Establish socket.io connection
-     * TODO: Add error handling to the connection
-     * for socket events. Consider better placement
-     * for socket binding.
-     */
-    initRoom: function(data) {
-      console.log("Initializing Room..");
-      this.trigger("room:connected", data);
+    url: app.Paths.get("rooms"),
+
+    initialize: function(roomId) {
+      this.set("id", roomId);
+      this.bindEvents();
+      this.conn = new RoomConnection(this);
     },
 
-    connect: function(data) {
-      this.trigger("room:connecting", data);
+    connect: function() {
+      this.conn.connect();
+    },
+
+    bindEvents: function() {
+      this.on(app.Events.Room.CONNECTED, this.updateRoomData, this);
+    },
+
+    updateRoomData: function(roomData) {
+      console.log("Updating Room Data...", roomData);
+      this.set(roomData);
+    },
+
+    initializePoll: function(data) {
+      var poll = Poll.createNewPoll(data);
+      this.setAsActivePoll(poll);
+    },
+
+    setAsActivePoll: function(poll) {
+      if(this.isPollCurrentlyDisplayed()) {
+        archivePoll();
+      }
+      this.set('activePoll', poll);
+    },
+
+    isPollCurrentlyDisplayed: function() {
+      //TODO: Add check for for presence in UI
+      return this.activePoll;
+    },
+
+    archivePoll: function() {
+      //TODO: Implement me.
+      //Remove poll from being displayed
+      //Archive somewhere
     }
 
   });
@@ -38,19 +68,27 @@ function(app, RoomHTML, Poll) {
     model: Room.Model
   });
 
+
+
+
+
   // Default View.
   Room.View = Backbone.View.extend({
     template: _.template(RoomHTML),
     tagName: "div",
     className: "room-container",
     initialize: function(data) {
-      this.model.on("room:createPoll", this.createPoll(data));
-      this.model.on("room:connecting", this.connecting(data));
-      this.model.on("room:connected", this.initRoom(data));
+      this.model.on(app.Events.Room.CONNECTING, this.connecting, this);
+      this.model.on("change", this.initializeRoom, this);
     },
 
     events:{
-      'click .init-poll': 'initPoll'
+      'change:activePoll': 'renderPoll'
+    },
+
+    connecting: function() {
+      console.log("connecting fired in view");
+      app.Flash.display({message:"Connecting to room"});
     },
 
     render:function() {
@@ -59,38 +97,15 @@ function(app, RoomHTML, Poll) {
       return this;
     },
 
-    /**
-     * Sends a message over the socket to 
-     * initiate polling.
-     * TODO: Agree on the JSON needed here.
-     */
-    initPoll: function(event) {
-      this.createPoll();
-    },
-
-    initRoom: function(data) {
-      console.log("Initialize Room");
+    initializeRoom: function(data) {
       $("#main").html(this.render().el);
-      $(".connecting").html("Connected!").addClass("success").delay(500).fadeOut(500);
+      app.Flash.display({success:"Connected to room"});
     },
 
-    connecting: function(data) {
-      //TODO: Generalize this alert dialog
-      console.log("Connecting...");
-      $("#nav").append("<div data-alert class='connecting alert-box'>Connecting to room...<a href='#' class='close'>&times;</a></div>");
+    renderPoll: function(room, poll, opts) {
+      $(".poll-hook").html(poll.render().el);
     },
 
-    createPoll: function(data) {
-      this.poll = new Poll.Model({
-        pollId:2, 
-        roomId:777, 
-        title:"Variables in Java are 100% static?"
-      });
-
-      this.pollView = new Poll.View({model:this.poll});
-      $(".poll-hook").html(this.pollView.render().el);
-
-    },
     closeRoom: function() {},
     updatePoll: function() {},
     closePoll: function() {},

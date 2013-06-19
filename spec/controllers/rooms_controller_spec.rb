@@ -5,7 +5,7 @@ describe RoomsController, :type=>:controller do
 
   render_views
  
-  let(:room) {FactoryGirl.create(:room)}
+ let(:room) {FactoryGirl.create(:room)}
   subject {room}
   let(:user) { FactoryGirl.create(:user) }
 

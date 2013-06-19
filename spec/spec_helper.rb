@@ -2,7 +2,7 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-require 'rspec/autorun'
+#require 'rspec/autorun'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -44,11 +44,6 @@ RSpec.configure do |config|
   #    accept: :json
   #  }
   #}
-end
-
-def login_user
-	@user = User.new(:first_name=>"chris", :last_name=>"zhu", :password=>"password", :password_confirmation=>"password", :email=>"chris@example.com")
-	#get
 end
 
 
