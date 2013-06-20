@@ -11,34 +11,27 @@ function(app, PollHTML) {
   // Create a new module.
   var Poll = app.module();
 
-  // Default Model.
+  Poll.createNewPoll = function(data) {
+      var poll = new Poll.Model(data);
+      return new Poll.View({model:poll});
+  };
+
+
+
   Poll.Model = Backbone.Model.extend({
-   defaults: {
-      pollId: 1,
-      roomId: 2,
-      title:"Demo Title",
-      active: "open",
-      options: {
-        'A': 0,
-        'B': 0,
-        'C': 0,
-        'D': 0
-      }
-    },
 
     initialize: function() {
-      this.status = this.States.CLOSED;
+      this.get("room").on(app.Events.Poll.DATA_RECEIVED, this.updatePoll, this);
     },
 
     States: {
-      OPEN: 'active',
+      OPEN: 'open',
       CLOSED: 'closed',
       DISABLED: 'disabled'
     },
 
-    CreateNewPoll: function(data) {
-      var poll = new Poll.Model(data);
-      return new Poll.View({model:poll});
+    updatePoll: function(pollData) {
+      this.set(pollData);
     },
 
     getStatus: function() {
@@ -104,6 +97,11 @@ function(app, PollHTML) {
       this.togglePollOptions(evt.currentTarget.id);
       var optLabel = evt.currentTarget.id;
       this.model.vote(optLabel);
+    },
+
+    archive: function() {
+        //Implement me
+        //Add to side panel list collection
     }
 
  });

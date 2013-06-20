@@ -44,8 +44,7 @@ function(app, Room, userHTML, userSignup) {
 
     handleCreateUserSuccess: function(model, response, opts) {
       console.log("Successfully created user");
-      app.trigger(app.Events.Session.LOGIN);
-      app.router.navigate("dashboard", {trigger:true});
+      app.trigger(app.Events.User.CREATED, this);
     },
 
     handleCreateUserError: function(model, response, opts) {

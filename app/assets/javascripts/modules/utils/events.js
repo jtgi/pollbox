@@ -25,8 +25,12 @@ function() {
       INITIALIZE_POLL: "room:initializePoll"
     },
 
-    Poll: {},
-    User: {},
+    Poll: {
+      DATA_RECEIVED: "poll:data_received"
+    },
+    User: {
+      CREATED: "user:created"
+    },
     Dashboard: {}
   };
 

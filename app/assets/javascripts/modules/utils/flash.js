@@ -6,7 +6,7 @@ define([], function() {
       if(data) {
         console.log(data);
         if(data.hasOwnProperty('errors')) {
-          this.writeTag("error", this.buildErrorList(errors));
+          this.writeTag("error", this.buildErrorList(data.errors));
           $("#flash").html("<div data-alert class='error alert-box'><ul id='errorList'></ul></div>");
         } else if(data.hasOwnProperty('error')) {
           this.writeTag("error", data.error);
@@ -19,12 +19,12 @@ define([], function() {
     },
 
     writeTag: function(type, content) {
-      $("#flash").html("<div data-alert class='" + type + " alert-box'>" + content + "</div>").delay(2000).fadeOut();
+      $("#flash").show().html("<div data-alert class='" + type + " alert-box'>" + content + "</div>").delay(2000).fadeOut();
     },
 
     buildErrorList: function(errors) {
       var content = "";
-      _.each(data.errors, function(val, key) {
+      _.each(errors, function(val, key) {
         content += "<li>"+ key + " " + "<ul>"+ _.reduce(val, function(memo, msg) { memo + "<li>"+msg+"</li>" }) +"</ul></li>";
       });
       return content;

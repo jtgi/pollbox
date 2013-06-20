@@ -17,6 +17,8 @@ function(app, RoomConnection, RoomHTML, Poll) {
   Room.Model = Backbone.Model.extend({
 
     url: app.Paths.get("rooms"),
+    polls: [],
+    activePoll: {},
 
     initialize: function(roomId) {
       this.set("id", roomId);
@@ -25,11 +27,12 @@ function(app, RoomConnection, RoomHTML, Poll) {
     },
 
     connect: function() {
-      this.conn.connect();
+      this.conn.simulate();
     },
 
     bindEvents: function() {
       this.on(app.Events.Room.CONNECTED, this.updateRoomData, this);
+      this.on(app.Events.Room.INITIALIZE_POLL, this.initializePoll, this)
     },
 
     updateRoomData: function(roomData) {
@@ -38,29 +41,33 @@ function(app, RoomConnection, RoomHTML, Poll) {
     },
 
     initializePoll: function(data) {
+      console.log("Initializing poll with data:", data);
+      _.extend(data, {'room':this});
       var poll = Poll.createNewPoll(data);
+      this.polls.push(poll);
       this.setAsActivePoll(poll);
     },
 
     setAsActivePoll: function(poll) {
       if(this.isPollCurrentlyDisplayed()) {
-        archivePoll();
+        this.archivePoll();
       }
       this.set('activePoll', poll);
     },
 
-    isPollCurrentlyDisplayed: function() {
-      //TODO: Add check for for presence in UI
-      return this.activePoll;
+    isPollCurrentlyDisplayed: function(poll) {
+      return this.get('activePoll') != null;
     },
 
     archivePoll: function() {
-      //TODO: Implement me.
-      //Remove poll from being displayed
-      //Archive somewhere
+      this.get("activePoll").archive();
+      this.set('activePoll', null);
     }
 
   });
+
+
+
 
   
   // Default Collection.
@@ -79,11 +86,8 @@ function(app, RoomConnection, RoomHTML, Poll) {
     className: "room-container",
     initialize: function(data) {
       this.model.on(app.Events.Room.CONNECTING, this.connecting, this);
-      this.model.on("change", this.initializeRoom, this);
-    },
-
-    events:{
-      'change:activePoll': 'renderPoll'
+      this.model.on("change:id", this.initializeRoom, this);
+      this.model.on("change:activePoll", this.renderPoll, this);
     },
 
     connecting: function() {
@@ -98,16 +102,16 @@ function(app, RoomConnection, RoomHTML, Poll) {
     },
 
     initializeRoom: function(data) {
-      $("#main").html(this.render().el);
       app.Flash.display({success:"Connected to room"});
+      $("#main").html(this.render().el);
     },
 
     renderPoll: function(room, poll, opts) {
+      app.Flash.display({success:"A poll has begun!"});
       $(".poll-hook").html(poll.render().el);
     },
 
     closeRoom: function() {},
-    updatePoll: function() {},
     closePoll: function() {},
     addUser: function() {},
     removeUser: function() {},

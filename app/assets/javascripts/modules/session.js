@@ -15,6 +15,14 @@ function(app, User, loginHTML) {
   Session.Model = Backbone.Model.extend({
 
     initialize: function() {
+      this.bindEvents();
+      app.on(app.Events.User.CREATED, function(userData) {
+        console.log(userData);
+        this.login(userData.get('email'), userData.get('password'));
+      }, this);
+    },
+
+    bindEvents: function() {
       _.bindAll(this,
                 "handleLoginSuccess",
                 "handleLoginError",
@@ -25,21 +33,26 @@ function(app, User, loginHTML) {
       );
     },
 
-
     toJSON: function() {
       return { user: _.clone( this.attributes ) }
     },
 
     login: function(email, password) {
-      console.log("Attempting to login...", this);
+      console.log("Logging in user...", email, password);
       $.ajax({
         url: app.Paths.get("signIn"),
+        beforeSend: function(request)
+        {
+          request.setRequestHeader("Content-Type: application/json");
+          request.setRequestHeader("Accept: application/json");
+        },
         success: this.handleLoginSuccess,
         error: this.handleLoginError,
-        data: JSON.stringify({ user: { email: email, password: password } }),
+        data: JSON.stringify({ "user": { "email": email, "password": password } }),
         dataType: "json",
         type: "POST"
       });
+
     },
 
     handleLoginSuccess: function(response, stat, xhr) {
@@ -50,7 +63,8 @@ function(app, User, loginHTML) {
 
     handleLoginError: function(response, stat, xhr) {
       console.log("Error during login");
-      var responseObj = $.parseJSON(response.responseText);
+      console.log(response.responseText);
+      var responseObj = JSON.parse(response.responseText);
       app.Flash.display(responseObj);
     },
 
