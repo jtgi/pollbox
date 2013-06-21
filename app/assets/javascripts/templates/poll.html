@@ -6,19 +6,25 @@
     
     <!-- POLL RESULTS: Displays bar graph, tally, etc. -->
     <div class="poll-result-display row">
-      <% _.each(options, function(val, key, list) { %>
+      <% _.each(pollOptions, function(val, key, list) { %>
         <div class="poll-option-display small-3 columns">
-          <span class="poll-count"><%= val %></span>
+          <div class="poll-count"><%= val.pollOption.voteCount %></div>
+          <a id="<%= val.pollOption.label %>" class="large radius secondary button poll-option"><%= val.pollOption.label %></a>
         </div>
       <% }); %>
     </div>
 
     <!-- POLL BUTTONS (IE. A, B, C, D) -->
-    <div class="poll-controller row">
-      <div class="small-12 columns">
-        <% _.each(options, function(val, key, list) { %>
-        <a id="<%= key %>" class="large radius secondary button poll-option"><%= key %></a>
+    <div class="<%= status %> poll-controller row">
+        <% _.each(pollOptions, function(val, key, list) { %>
+          <div class="row">
+            <div class="small-3 columns">
+              <a id="<%= val.pollOption.label %>" class="large radius secondary button poll-option"><%= val.pollOption.label %></a>
+            </div>
+            <div class="small-9 columns">
+              <p><%= val.pollOption.answer %></p>
+            </div>
+          </div>
         <% }); %>
-      </div>
     </div>
 

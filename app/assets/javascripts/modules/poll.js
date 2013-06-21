@@ -25,9 +25,9 @@ function(app, PollHTML) {
     },
 
     States: {
+      READY: 'ready',
       OPEN: 'open',
       CLOSED: 'closed',
-      DISABLED: 'disabled'
     },
 
     updatePoll: function(pollData) {

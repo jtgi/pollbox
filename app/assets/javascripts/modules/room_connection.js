@@ -17,7 +17,7 @@ function(app, RoomMediator) {
     //subscribe("some_channel", room);
     this.simulate = function() {
       var self = this;
-      setTimeout(function() { self.connect() }, 4000);
+      self.connect();
 
       setTimeout(function(){
           self.connected(
@@ -27,14 +27,19 @@ function(app, RoomMediator) {
                 description:"My room bitch niz",
                 owned:false
             });
-        }, 10000);
+        }, 4000);
 
+      var pollDataInterval;
       setTimeout(function() { 
         self.initializePoll();
-        setInterval(function() { 
+        pollDataInterval = setInterval(function() { 
           self.updatePoll(); }, 2000);
-      }, 15000);
+      }, 10000);
 
+      setTimeout(function() {
+        clearInterval(pollDataInterval);
+        self.updatePoll("closed");
+      }, 20000);
     },
 
     this.connect = function() {
@@ -56,39 +61,63 @@ function(app, RoomMediator) {
     };
 
     this.initializePoll = function() {
-        var poll = {
-            pollId: 1,
-            roomId: 2,
-            title:"What is the anti-derivative of your uncle bob?",
-            status: "open",
-            options: {
-                'A': 0,
-                'B': 0,
-                'C': 0,
-                'D': 0
-            },
-            userVoted: false
-        };
+      var date = new Date();
+      var pollData = {
+        id:12,
+        title:"Who's the auntie derivative of jemima?",
+        status: "ready",
+        pollOptions: [
+        {
+            pollOption: 
+            {
+              label: "A",
+              answer: "The is option A",
+              voteCount: date.getSeconds()
+            }
+        },
+        {
+          pollOption: 
+          {
+            label: "B",
+            answer: "This is option B",
+            voteCount: date.getMilliseconds() % 100
+          }
+        }
+        ],
+        userVoted: false
+      };
 
-        room.trigger(app.Events.Room.INITIALIZE_POLL, poll);
+      room.trigger(app.Events.Room.INITIALIZE_POLL, pollData);
 
     };
 
-    this.updatePoll = function() {
+    this.updatePoll = function(closed) {
       var date = new Date();
       var pollData = {
-        pollId: 1,
-        roomId: 2,
-        title:"What is the anti-derivative of your uncle bob?",
-        status: "open",
-        options: {
-          'A': date.getMilliseconds() % 50,
-          'B': date.getMilliseconds() % 80,
-          'C': date.getMilliseconds() % 150,
-          'D': date.getMilliseconds() % 409,
+        id:12,
+        title:"Who's the auntie derivative of jemima?",
+        status: (closed==null) ? "open" : closed,
+        pollOptions: [
+        {
+            pollOption: 
+            {
+              label: "A",
+              answer: "The is option A",
+              voteCount: date.getSeconds() % 50
+            }
         },
+        {
+          pollOption: 
+          {
+            label: "B",
+            answer: "This is option B",
+            voteCount: date.getMilliseconds() % 100
+          }
+        }
+        ],
         userVoted: false
       };
+
 
       room.trigger(app.Events.Poll.DATA_RECEIVED, pollData, this);
 
