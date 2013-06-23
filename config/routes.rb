@@ -1,5 +1,5 @@
 Roomfeed::Application.routes.draw do
-  devise_for :users
+  #devise_for :users
 
   get "sessions/new"
 
@@ -7,6 +7,7 @@ Roomfeed::Application.routes.draw do
 
 	scope 'api', defaults: {format: 'json'} do
 		scope 'v1' do
+      devise_for :users
 
 			get "/user" => "users#index"
 
