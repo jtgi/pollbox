@@ -54,7 +54,7 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
 
     room: function(roomId) {
       var room = new Room.Model();
-      var roomView = new Room.View({model:room});
+      var roomView = new Room.View({ model:room });
       room.connect();
     },
 
@@ -95,8 +95,6 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
    isLoggedIn: function() {
        return app.session.loggedIn();
    }
-
-
 
   });
 

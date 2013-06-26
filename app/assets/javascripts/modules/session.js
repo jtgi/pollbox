@@ -16,10 +16,6 @@ function(app, User, loginHTML) {
 
     initialize: function() {
       this.bindEvents();
-      app.on(app.Events.User.CREATED, function(userData) {
-        console.log(userData);
-        this.login(userData.get('email'), userData.get('password'));
-      }, this);
     },
 
     bindEvents: function() {

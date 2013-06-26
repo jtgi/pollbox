@@ -1,0 +1,106 @@
+define([
+    "app",
+    "modules/room_mediator",
+    "modules/utils/events"
+],
+
+/*
+Responsibility of the RoomConnection is to manage the connection,
+and trigger the room when network events occur.
+ */
+function(app, RoomMediator) {
+
+  var RoomConnection = function(room) {
+
+    this.room = room;
+
+
+    //Generate some test data
+    this.pollData = function(numPollOptions, status, userVoted) {
+
+      var date = new Date();
+      var pollOptionsArr = [];
+      for(int i=0; i < numPollOptions; i++) {
+        pollOptionsArr.push({
+          pollOption: {
+            label: i,
+            answer: "The is extended answer for option" + i,
+            voteCount: date.getSeconds() % 50
+          }
+        });
+      }
+
+      return {
+        id:12,
+        title:"Who's the auntie derivative of jemima?",
+        status: status,
+        pollOptions: pollOptionsArr,
+        userVoted: false
+      };
+    };
+
+    this.connect = function() {
+        console.log("Connecting to room...");
+        this.room.trigger(app.Events.Room.CONNECTING);
+    };
+
+    this.connected = function(roomData) {
+      console.log("Connection established");
+      this.room.trigger(app.Events.Room.CONNECTED, roomData, this);
+     },
+
+    this.disconnect = function() {
+        room.trigger(app.Events.Room.DISCONNECTING);
+
+        //do stuff
+
+        room.trigger(app.Events.Room.DISCONNECTED);
+    };
+
+
+    this.initializePoll = function() {
+      var date = new Date();
+      var pollData = {
+        id:12,
+        title:"Who's the auntie derivative of jemima?",
+        status: "ready",
+        totalVotes: date.getSeconds(),
+        pollOptions: [
+        {
+            pollOption: 
+            {
+              label: "A",
+              answer: "The is option A",
+              voteCount: date.getSeconds()
+            }
+        },
+        {
+          pollOption: 
+          {
+            label: "B",
+            answer: "This is option B",
+            voteCount: date.getMilliseconds() % 100
+          }
+        }
+        ],
+        userVoted: false
+      };
+
+      room.trigger(app.Events.Room.INITIALIZE_POLL, pollData);
+
+    };
+
+    this.updatePoll = function(closed) {
+      var date = new Date();
+
+      room.trigger(app.Events.Poll.DATA_RECEIVED, pollData, this);
+
+    };
+
+    this.
+
+  };
+
+  return RoomConnection;
+
+});

@@ -16,8 +16,6 @@ function(app, PollHTML) {
       return new Poll.View({model:poll});
   };
 
-
-
   Poll.Model = Backbone.Model.extend({
 
     initialize: function() {
@@ -74,8 +72,8 @@ function(app, PollHTML) {
       this.model.on('change', this.render, this);
     },
 
-    render: function () {
-      console.log("Rendering poll");
+    render: function (model, change) {
+      console.log("Rendering poll... ");
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
@@ -93,15 +91,13 @@ function(app, PollHTML) {
     },
 
     vote: function(evt) {
-      console.log(evt.currentTarget.id + " clicked");
       this.togglePollOptions(evt.currentTarget.id);
       var optLabel = evt.currentTarget.id;
       this.model.vote(optLabel);
     },
 
     archive: function() {
-        //Implement me
-        //Add to side panel list collection
+        console.log("Archiving poll");
     }
 
  });
