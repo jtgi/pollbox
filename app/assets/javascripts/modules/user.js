@@ -45,13 +45,15 @@ function(app, Room, userHTML, userSignup) {
     handleCreateUserSuccess: function(model, response, opts) {
       console.log("Successfully created user");
       app.trigger(app.Events.User.CREATED, this);
+      app.trigger(app.Events.Session.LOGIN, this);
+      app.router.navigate("dashboard", { trigger:true });
     },
 
     handleCreateUserError: function(model, response, opts) {
       console.log(response.responseText);
       var responseObj = $.parseJSON(response.responseText) 
       app.Flash.display(responseObj);
-    },
+    }
 
   });
 
@@ -83,8 +85,6 @@ function(app, Room, userHTML, userSignup) {
     },
 
     tryCreateUser: function(evt) {
-      //TODO: Add prevention for double submitting form
-      //Prevent anchor from following href
       evt.stopImmediatePropagation();
       var attrs = this.attributes();
       if(this.validate(attrs)) {

@@ -27,7 +27,7 @@ function(app, RoomConnection, RoomHTML, Poll) {
     },
 
     connect: function() {
-      this.conn.simulate();
+      this.conn.connect();
     },
 
     bindEvents: function() {
@@ -41,27 +41,23 @@ function(app, RoomConnection, RoomHTML, Poll) {
     },
 
     initializePoll: function(data) {
-      console.log("Initializing poll with data:", data);
-      _.extend(data, {'room':this});
+      _.extend(data, { 'room': this });
       var poll = Poll.createNewPoll(data);
       this.polls.push(poll);
       this.setAsActivePoll(poll);
     },
 
     setAsActivePoll: function(poll) {
+      console.log("setting active poll");
       if(this.isPollCurrentlyDisplayed()) {
-        this.archivePoll();
+        this.get("activePoll").archive();
+        this.set({'activePoll': null}, {silent:true});
       }
       this.set('activePoll', poll);
     },
 
     isPollCurrentlyDisplayed: function(poll) {
       return this.get('activePoll') != null;
-    },
-
-    archivePoll: function() {
-      this.get("activePoll").archive();
-      this.set('activePoll', null);
     }
 
   });
@@ -84,10 +80,18 @@ function(app, RoomConnection, RoomHTML, Poll) {
     template: _.template(RoomHTML),
     tagName: "div",
     className: "room-container",
+
     initialize: function(data) {
       this.model.on(app.Events.Room.CONNECTING, this.connecting, this);
       this.model.on("change:id", this.initializeRoom, this);
       this.model.on("change:activePoll", this.renderPoll, this);
+    },
+
+    events: {
+      'click #create-poll': 'createPoll',
+      'click #open-poll': 'openPoll',
+      'click #refresh-poll': 'refreshPoll',
+      'click #close-poll': 'closePoll'
     },
 
     connecting: function() {
@@ -107,15 +111,32 @@ function(app, RoomConnection, RoomHTML, Poll) {
     },
 
     renderPoll: function(room, poll, opts) {
+      console.log("Render poll in view called");
       app.Flash.display({success:"A poll has begun!"});
       $(".poll-hook").html(poll.render().el);
     },
 
-    closeRoom: function() {},
-    closePoll: function() {},
-    addUser: function() {},
-    removeUser: function() {},
-    allUsers: function() {}
+    createPoll: function(evt) {
+      console.log("calling create poll on conn from createpoll", evt);
+      evt.stopImmediatePropagation();
+      this.model.conn.createPoll();
+    },
+
+    openPoll: function(evt) {
+      evt.stopImmediatePropagation();
+      this.model.conn.openPoll();
+    },
+
+    refreshPoll: function(evt) {
+      evt.stopImmediatePropagation();
+      this.model.conn.refreshPoll();
+    },
+
+    closePoll: function(evt) {
+      evt.stopImmediatePropagation();
+      this.model.conn.closePoll();
+    }
+
    });
 
   // Return the module for AMD compliance.
