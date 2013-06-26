@@ -14,7 +14,8 @@ Roomfeed::Application.routes.draw do
 			resources :registrations, :only => [:create, :destroy]
 
 			resources :poll_option, :only=>[:create, :destroy]
-      match "poll_option/:id/vote" => "poll_options#vote"
+
+      match "poll_option/:id/vote", to: "poll_options#vote", via:[:post]
 
 			resources :polls, :except=>[:index]
 
