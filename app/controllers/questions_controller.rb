@@ -3,17 +3,11 @@ class QuestionsController < ApplicationController
 	before_filter :authenticate_user!
 
 	def create
-		if params[:room_id].nil?
-			if current_user.is_registered_for(params[:room_id])
-				@question = Question.new(params[:room])
-				@question.user_id = current_user.id
-				@question.room_id = params[:room_id]
-			else
-				#return {"error":"Must be registered for room"}
-			end
-		else
-			#return {"error":"Must have an associated room"}
-		end
+    @question = Question.new(params[:room])
+    @question.user = current_user
+    @question.room = Room.find(params[:room_id])
+    authorize! :create, @question
+    PrivatePub.publish_to "#{@question.room.name}/master", {question: @question.to_json}
 	end
 
 	def edit
@@ -21,21 +15,15 @@ class QuestionsController < ApplicationController
 	end
 
 	def update
-		if current_user.owns_question?(params[:id])
-			@question = Question.find(params[:id])
-			@question.update_attributes(params[:room])
-		else
-			#return {"error": "You do not have permission to update this question"}
-		end
+		@question = Question.find(params[:id])
+    authorize! :update, @question
+		@question.update_attributes(params[:room])
 	end
 
 	def show
 		@question = Question.find(params[:id])
-		if current_user.is_registered_for(@question.room_id)
-					
-		else
-		 #return {"error": "You do not have permission to view this question"}
-		end
+    authorize! :read, @question
+    
 	end
 
 	def index
@@ -62,4 +50,5 @@ class QuestionsController < ApplicationController
 		user = User.find_by_id(params[:user_id])
 		@parent = room || user	
 	end
+
 end

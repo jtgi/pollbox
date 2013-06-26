@@ -5,7 +5,7 @@ describe RoomsController, :type=>:controller do
 
   render_views
  
- let(:room) {FactoryGirl.create(:room)}
+  let(:room) {FactoryGirl.create(:room)}
   subject {room}
   let(:user) { FactoryGirl.create(:user) }
 
@@ -17,10 +17,10 @@ describe RoomsController, :type=>:controller do
     lambda {
       post :create, :room=>{:name=>"chris zhu"}, :format=>:json
       response.status.should eq(401)
-      }.should change(Room, :count).by(0) end
+      }.should change(Room, :count).by(0) 
+    end
   end
   context "logged in" do
-
     context "updating rooms" do
       it "can update room attributes" do
         sign_in(user)
@@ -36,6 +36,10 @@ describe RoomsController, :type=>:controller do
         sign_in(user)
         get :index, user_id:user.id, :format=>:json
         response.status.should == 200
+      end
+
+      it "requests a passcode if one exists" do
+        sign_in(user)
       end
     end
 

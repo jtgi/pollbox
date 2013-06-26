@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= full_title(yield(:title))%></title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= csrf_meta_tags %>
+  <%= javascript_include_tag "private_pub" %>
+</head>
+<body>
+	<% flash.each do |name, msg| %>
+	<%= content_tag :div, msg, :id => "flash_#{name}" %>
+  <% end %>
+
+  <div id="nav"></div>
+  <div id="flash"></div>
+  <div role="main" id="main"></div>
+  <footer class="bottom-bar"></footer>
+
+  <!-- Application source. -->
+  <%= requirejs_include_tag "config" %>
+
+
+  <% if mobile_device? %>
+    <%= link_to "Full Site", :mobile=>0 %>
+  <% else %>
+    <%= link_to "Mobile Site", :mobile=>1 %>
+  <% end %>
+</body>
+</html>
