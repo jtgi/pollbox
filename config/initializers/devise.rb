@@ -46,10 +46,10 @@ Devise.setup do |config|
   # config.params_authenticatable = true
 
   # Tell if authentication through HTTP Basic Auth is enabled. False by default.
-  config.http_authenticatable = false
+  # config.http_authenticatable = false
 
   # If http headers should be returned for AJAX requests. True by default.
-  config.http_authenticatable_on_xhr = false
+  # config.http_authenticatable_on_xhr = false
 
   # The realm used in Http Basic Authentication. "Application" by default.
   # config.http_authentication_realm = "Application"
@@ -69,7 +69,6 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = "4eab5fc9d9ff4f0266feab1549c1def79136aa17581819acbed04a147c64564511fd6ac37aa76291bbeba4805127f0532c1edbf4ea88ed2aa3dcaa19ef951c2b"
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -94,7 +93,7 @@ Devise.setup do |config|
 
   # If true, uses the password salt as remember token. This should be turned
   # to false if you are not using database authenticatable.
-  #config.use_salt_as_remember_token = true
+  config.use_salt_as_remember_token = true
 
   # Options to be passed to the created cookie. For instance, you can set
   # :secure => true in order to force SSL only cookies.
@@ -157,7 +156,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :token_authenticatable
   # Defines name of the authentication token params key
-  config.token_authentication_key = :auth_token
+  # config.token_authentication_key = :auth_token
 
   # If true, authentication through token does not store user in session and needs
   # to be supplied on each request. Useful if you are using the token as API token.
@@ -188,7 +187,7 @@ Devise.setup do |config|
   #
   # The :"*/*" and "*/*" formats below is required to match Internet
   # Explorer requests.
-  config.navigational_formats = ["*/*", :json, :html]
+  #config.navigational_formats = [:"*/*", "*/*", :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -207,11 +206,11 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
-	Warden::Manager.after_set_user do |user,auth,opts|
-	    auth.cookies[:signed_in] = 1
-	end
-	
-	Warden::Manager.before_logout do |user,auth,opts|
-			auth.cookies.delete :signed_in
-	end
+  Warden::Manager.after_set_user do |user,auth,opts|
+    auth.cookies[:signed_in] = 1
+  end
+
+  Warden::Manager.before_logout do |user,auth,opts|
+    auth.cookies.delete :signed_in
+  end
 end

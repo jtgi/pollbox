@@ -8,38 +8,28 @@ define([
 // Map dependencies from above array.
 function(app, PollHTML) {
 
-  console.log("created poll");
   // Create a new module.
   var Poll = app.module();
 
-  // Default Model.
+  Poll.createNewPoll = function(data) {
+      var poll = new Poll.Model(data);
+      return new Poll.View({model:poll});
+  };
+
   Poll.Model = Backbone.Model.extend({
-   defaults: {
-      pollId: 1,
-      roomId: 2,
-      title:"Demo Title",
-      active: "open",
-      options: {
-        'A': 0,
-        'B': 0,
-        'C': 0,
-        'D': 0
-      }
-    },
 
     initialize: function() {
-      this.status = this.States.CLOSED;
+      this.get("room").on(app.Events.Poll.DATA_RECEIVED, this.updatePoll, this);
     },
 
     States: {
-      OPEN: 'active',
+      READY: 'ready',
+      OPEN: 'open',
       CLOSED: 'closed',
-      DISABLED: 'disabled'
     },
 
-    CreateNewPoll: function(data) {
-      var poll = new Poll.Model(data);
-      return new Poll.View({model:poll});
+    updatePoll: function(pollData) {
+      this.set(pollData);
     },
 
     getStatus: function() {
@@ -82,8 +72,8 @@ function(app, PollHTML) {
       this.model.on('change', this.render, this);
     },
 
-    render: function () {
-      console.log("Rendering poll");
+    render: function (model, change) {
+      console.log("Rendering poll... ");
       this.$el.html(this.template(this.model.toJSON()));
       return this;
     },
@@ -101,10 +91,13 @@ function(app, PollHTML) {
     },
 
     vote: function(evt) {
-      console.log(evt.currentTarget.id + " clicked");
       this.togglePollOptions(evt.currentTarget.id);
       var optLabel = evt.currentTarget.id;
       this.model.vote(optLabel);
+    },
+
+    archive: function() {
+        console.log("Archiving poll");
     }
 
  });

@@ -10,9 +10,9 @@ define([
 function() {
 
   var Paths = {
-    apiRoot: "http://localhost:3000",
+    apiRoot: "/api/v1/",
 
-    signIn: "/users/sign_in",
+    signIn: "/users/sign_in.json",
     signOut: "/users/sign_out",
 
     rooms: "/rooms",
@@ -22,6 +22,7 @@ function() {
     polls: "/polls",
     pollByPollId: "/polls/:id",
 
+    user: "/user",
     users: "/users",
     userByUserId: "/users/:id",
     userRoomsByUserId: '/users/:id/rooms'
@@ -44,7 +45,7 @@ function() {
       var target = ":" + key;
       if(url.match(target)) {
         url.replace(target, val);
-      }
+     }
       return url;
     });
   };

@@ -21,6 +21,9 @@ require.config({
     "jquery-cookie": "jquery-cookie-amd/jquery.cookie"
   },
 
+  //Cache buster, remove for deployment
+  urlArgs: "bust=" + (new Date()).getTime(),
+
   map: {
     // Put additional maps here.
   },

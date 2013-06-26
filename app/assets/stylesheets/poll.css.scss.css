@@ -6,6 +6,9 @@
  *        POLL 
  *
  * ------------------------*/
+.vote-counter {
+  font-size:10em;
+}
 
 .poll-result-display {
   background-color:#f6f6f6;
@@ -23,14 +26,12 @@
   background-color:green;
 }
 
-.poll-open {
+.green {
   color:green;
-  text-transform:uppercase;
 }
 
-.poll-closed {
+.red {
   color:red;
-  text-transform:uppercase;
 }
 
 .poll-info {
@@ -46,7 +47,5 @@
   text-align:center;
 }
 
-.poll-option {
-}
 
 

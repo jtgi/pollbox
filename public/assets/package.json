@@ -1,8 +1,0 @@
-{
-  "jam": {
-    "packageDir": "vendor/assets/javascripts/",
-    "baseUrl": "../assets/",
-    "dependencies": {
-    }
-  }
-}

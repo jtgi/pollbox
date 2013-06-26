@@ -13,18 +13,24 @@ function() {
   var Events = {
 
     Session: {
-      login: "session:login",
-      logout: "session:logout"
+      LOGIN: "session:login",
+      LOGOUT: "session:logout"
     },
 
     Room: {
-      connecting: "room:connecting",
-      connected: "room:connected",
-      initializePoll: "room:initializePoll"
+      CONNECTING: "room:connecting",
+      CONNECTED: "room:connected",
+      DISCONNECTING: "room:disconnecting",
+      DISCONNECTED: "room:disconnected",
+      INITIALIZE_POLL: "room:initializePoll"
     },
 
-    Poll: {},
-    User: {},
+    Poll: {
+      DATA_RECEIVED: "poll:data_received"
+    },
+    User: {
+      CREATED: "user:created"
+    },
     Dashboard: {}
   };
 

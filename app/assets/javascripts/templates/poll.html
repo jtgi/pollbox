@@ -1,24 +1,42 @@
+<div class="row poll-<%= status %>">
     <!-- POLL META: Displays poll status, title, etc. -->
     <div class="poll-info row">
-      <h6 class="subheader">Status - <span class="<%= (active=='open') ? 'poll-open' : 'poll-closed' %>"><%= active %></span></h6>
+      <h6 class="subheader">Status - <span class="<%=(status=='open') ? 'green' : 'red' %>"><%= status %></span></h6>
       <h1><%= title %></h1>
-    </div>  
-    
-    <!-- POLL RESULTS: Displays bar graph, tally, etc. -->
-    <div class="poll-result-display row">
-      <% _.each(options, function(val, key, list) { %>
-        <div class="poll-option-display small-3 columns">
-          <span class="poll-count"><%= val %></span>
-        </div>
-      <% }); %>
     </div>
 
-    <!-- POLL BUTTONS (IE. A, B, C, D) -->
-    <div class="poll-controller row">
-      <div class="small-12 columns">
-        <% _.each(options, function(val, key, list) { %>
-        <a id="<%= key %>" class="large radius secondary button poll-option"><%= key %></a>
+    <% if(status=='open') { %>
+      <div class="row">
+        <p>Vote Count</p>
+        <div class="small-12 columns vote-counter"><%= totalVotes %></div>
+      </div>
+    <% } %>
+
+    <% if(status=='closed') { %>
+      <!-- POLL RESULTS: Displays bar graph, tally, etc. -->
+      <div class="poll-result-display row">
+        <% _.each(pollOptions, function(val, key, list) { %>
+          <div class="poll-option-display small-3 columns">
+            <div class="poll-count"><%= val.pollOption.voteCount %></div>
+            <a id="<%= val.pollOption.label %>" class="large radius secondary button poll-option"><%= val.pollOption.label %></a>
+          </div>
         <% }); %>
       </div>
-    </div>
+    <% } %>
 
+    <!-- POLL BUTTONS (IE. A, B, C, D) -->
+    <% if(status=='open') { %>
+      <div class="poll-controller row">
+          <% _.each(pollOptions, function(val, key, list) { %>
+            <div class="row">
+              <div class="small-3 columns">
+                <a id="<%= val.pollOption.label %>" class="large radius secondary button poll-option"><%= val.pollOption.label %></a>
+              </div>
+              <div class="small-9 columns">
+                <p><%= val.pollOption.answer %></p>
+              </div>
+            </div>
+          <% }); %>
+      </div>
+    <% } %>
+</div>

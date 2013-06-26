@@ -2,10 +2,11 @@
 <html>
 <head>
   <title><%= full_title(yield(:title))%></title>
-  <%= stylesheet_link_tag "application", :media => "all" %>
-  <%= stylesheet_link_tag "mobile" if mobile_device? %>
+  <%= stylesheet_link_tag "mobile/mobile" %>
   <%= csrf_meta_tags %>
+  <%= javascript_include_tag "mobile/kendo.mobile.min.js" %>
   <%= javascript_include_tag "private_pub" %>
+
 </head>
 <body>
 	<% flash.each do |name, msg| %>
@@ -21,5 +22,10 @@
   <%= requirejs_include_tag "config" %>
 
 
+  <% if mobile_device? %>
+    <%= link_to "Full Site", :mobile=>0 %>
+  <% else %>
+    <%= link_to "Mobile Site", :mobile=>1 %>
+  <% end %>
 </body>
 </html>

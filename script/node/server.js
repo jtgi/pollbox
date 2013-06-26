@@ -2,9 +2,10 @@ var express = require('express');
 
 var app = express();
 
-app.all('/*', function(req, res) {
+app.all('/*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Headers', "X-Requested-With");
+    next();
 });
 
 app.get('/users/:userId', function(req, res) {
@@ -20,7 +21,20 @@ app.get('/users/:userId', function(req, res) {
   });
 });
 
-app.get('/users', function(req, res) {
+app.get('/user', function(req, res) {
+  res.send(
+      {
+          fname:"John",
+          lname:"Giannakos",
+          email: "j@jtgi.me",
+          rooms:[
+              { room: { title: "Room 1" }},
+              { room: { title: "Room 2" }}]
+
+      });
+});
+
+ app.get('/users', function(req, res) {
   res.send([
       {
           fname:"John",
@@ -42,12 +56,12 @@ app.get('/users', function(req, res) {
 });
 
 app.post('/users/sign_in', function(req, res) {
-    res.cookie('signed_in', '1', {httpOnly: false});
+    res.cookie('signed_in', '1', {maxAge: 900000, httpOnly: false});
     res.send({email: "j@jtgi.me"});
 });
 
 app.post('/users/sign_out', function(req, res) {
-    res.cookie('sign_in', '0', {httpOnly: false});
+    res.cookie('signed_in', '0', {httpOnly: false});
 });
 
 app.get('/users/:id/rooms', function(req, res) {
