@@ -34,6 +34,9 @@ function(app, RoomMediator) {
         this.room.trigger(app.Events.Room.DISCONNECTED);
     };
 
+    this.submitVote = function() {
+
+    };
 
     this.createPoll = function() {
       console.log("createpoll in conn");
@@ -66,7 +69,7 @@ function(app, RoomMediator) {
 
     this.roomData =  function() {
       return {
-        id: 12,
+        id: 44,
         title:"CS221 Lecture #12 - Parallelism",
         description:"No desc.",
         owned:false
@@ -90,7 +93,7 @@ function(app, RoomMediator) {
       }
 
       return {
-        id:12,
+        id:66,
         title:"Who's the auntie derivative of jemima?",
         status: status,
         pollOptions: pollOptionsArr,

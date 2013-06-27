@@ -18,14 +18,14 @@ function(app, PollHTML) {
 
   Poll.Model = Backbone.Model.extend({
 
-    initialize: function() {
-      this.get("room").on(app.Events.Poll.DATA_RECEIVED, this.updatePoll, this);
-    },
-
     States: {
       READY: 'ready',
       OPEN: 'open',
       CLOSED: 'closed',
+    },
+
+    initialize: function() {
+      this.get("room").on(app.Events.Poll.DATA_RECEIVED, this.updatePoll, this);
     },
 
     updatePoll: function(pollData) {
@@ -36,18 +36,24 @@ function(app, PollHTML) {
       return this.state;
     },
 
-    vote: function(pollOption) {
-      console.log("Building vote JSON for: "+pollOption);
+    vote: function(pollOptionId) {
       var voteJSON = {
-        userId: app.session.get("userId"),
-        pollId: this.get("pollId"),
-        roomId: app.session.get("roomId"),
-        choice: pollOption
+        pollId: this.get("id"),
+        roomId: this.get("room").get("id"),
+        pollOptionId: pollOptionId,
       };
 
-      console.log("Vote POST should be done here");
-      console.log(voteJSON);
-      app.dispatchPushEvent("vote:submit", voteJSON);
+      console.log("Submitting vote: ", voteJSON);
+      app.Ajax.submitVote(voteJSON, this.voteSuccessHandler, this.voteErrorHandler);
+      app.Ajax.submitVote(voteJSON);
+    },
+
+    voteSuccessHandler: function() {
+      console.log("Vote success!");
+    },
+
+    voteErrorHandler: function() {
+      console.log("Vote error!");
     }
 
   });
@@ -91,9 +97,23 @@ function(app, PollHTML) {
     },
 
     vote: function(evt) {
-      this.togglePollOptions(evt.currentTarget.id);
-      var optLabel = evt.currentTarget.id;
-      this.model.vote(optLabel);
+      var pollOptionIdAttr = evt.currentTarget.id;
+      this.togglePollOptions(pollOptionIdAttr);
+      var pollOptionId = this.parseVoteInt(pollOptionIdAttr);
+      this.model.vote(pollOptionId);
+    },
+
+    //Expects format: <div id="id-12">
+    parseVoteInt: function(idAttribute) {
+      var id = "";
+
+      var idPos = idAttribute.indexOf("id-");
+      if(idPos == -1) {
+        throw new Error("Error: Could not parse id. Expected format id='id-<integer>' and found: " + idAttribute);
+      } else {
+        return idAttribute.substring(idPos + 3);
+      }
+
     },
 
     archive: function() {

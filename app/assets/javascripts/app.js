@@ -3,8 +3,9 @@ define([
        "modules/utils/paths",
        "modules/utils/events",
        "modules/utils/flash",
+       "modules/utils/ajax",
        "jquery-cookie"
-], function(Backbone, Paths, Events, Flash) {
+], function(Backbone, Paths, Events, Flash, Ajax) {
 
   var app = {
     // The root path to run the application.
@@ -15,6 +16,7 @@ define([
     'Paths': Paths,
     'Events': Events,
     'Flash': Flash,
+    'Ajax': Ajax,
 
     // Create a custom object with a nested Views object.
     module: function(additionalProps) {

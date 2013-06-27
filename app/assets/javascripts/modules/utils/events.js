@@ -26,7 +26,8 @@ function() {
     },
 
     Poll: {
-      DATA_RECEIVED: "poll:data_received"
+      DATA_RECEIVED: "poll:data_received",
+      SUBMIT_VOTE: "poll:vote"
     },
     User: {
       CREATED: "user:created"
