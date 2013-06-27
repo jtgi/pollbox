@@ -63,16 +63,10 @@ function(app, RoomConnection, RoomHTML, Poll) {
   });
 
 
-
-
-  
   // Default Collection.
   Room.Collection = Backbone.Collection.extend({
     model: Room.Model
   });
-
-
-
 
 
   // Default View.

@@ -81,8 +81,9 @@ function(app, RoomMediator) {
       for(var i=0; i < numPollOptions; i++) {
         pollOptionsArr.push({
           pollOption: {
+            id: date.getMilliseconds() % 20,
             label: i,
-            answer: "The is extended answer for option" + i,
+            answer: "The is extended answer for option " + i,
             voteCount: date.getSeconds() % 50
           }
         });
