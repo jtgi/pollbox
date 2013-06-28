@@ -5,10 +5,10 @@ describe PollsController, :type=>:controller do
   render_views
   
   let(:room) {FactoryGirl.create(:room)}
-  let(:poll) {FactoryGirl.create(:poll) }
+  let(:poll) {FactoryGirl.create(:poll, :room=>room) }
   subject {poll}
   let(:user) { FactoryGirl.create(:user) }
-  
+
   before(:all) do
     FactoryGirl.create(:owned_subscription, :user=>user, :room=>room)
   end
@@ -36,12 +36,19 @@ describe PollsController, :type=>:controller do
     end
     
     context "reading" do
+      it "could read polls" do
+        sign_in(user)
+        user.is_subscribed_to(poll.room.id).should == true
+        get :show, id:poll.id, :format=>:json
+      end
     end
 
     context "updating" do
+      it "could update polls"
     end
 
     context "destroying" do
+      it "could destroy a poll"
     end
   end
 end

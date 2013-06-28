@@ -19,6 +19,9 @@ Roomfeed::Application.routes.draw do
 
 			resources :polls, :except=>[:index]
 
+      match "polls/:id/open", to: "polls#open", via:[:put]
+      match "polls/:id/close", to: "polls#close", via:[:put]
+
       resources :rooms
 
   		resources :rooms, :shallow=>true do

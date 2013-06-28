@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Vote do
+  before(:all) do
+
+  end
+
 	it "has a valid factory" do
 		FactoryGirl.build(:vote).should be_valid
 	end
@@ -36,6 +40,15 @@ describe Vote do
     vote = FactoryGirl.create(:vote, :user=>user, :poll_option=>poll_option) 
     user.voted_for?(poll_option).should == true
 
+    
+  end
+  
+  it "will not submit a vote unless the associated poll is open" do
+    user = FactoryGirl.create(:user)
+    poll = FactoryGirl.create(:closed_poll, :user=>user)
+    poll_option = FactoryGirl.create(:poll_option, :poll=>poll)
+    vote = FactoryGirl.build(:vote, :user=>user, :poll_option=>poll_option) 
+    vote.should_not be_valid
     
   end
 end
