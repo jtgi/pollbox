@@ -1,6 +1,5 @@
 
 define([
-  //no deps
   "modules/utils/paths"
 ],
 
@@ -11,6 +10,11 @@ define([
 function(Paths) {
 
   var Ajax = {
+
+    login: function(data, success, error) {
+      var url = Paths.get("signIn");
+      this.makePostRequest(data, success, error, url);
+    },
 
     submitVote: function(data, success, error) {
       var url = Paths.get("submitVote", { poll_option_id: data.pollOptionId });

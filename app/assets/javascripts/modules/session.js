@@ -35,20 +35,13 @@ function(app, User, loginHTML) {
 
     login: function(email, password) {
       console.log("Logging in user...", email, password);
-      $.ajax({
-        url: app.Paths.get("signIn"),
-        beforeSend: function(request)
-        {
-          request.setRequestHeader("Content-Type: application/json");
-          request.setRequestHeader("Accept: application/json");
-        },
-        success: this.handleLoginSuccess,
-        error: this.handleLoginError,
-        data: JSON.stringify({ "user": { "email": email, "password": password } }),
-        dataType: "json",
-        type: "POST"
-      });
 
+      var loginData = {
+        email: email,
+        password: password
+      };
+
+      app.Ajax.login(loginData, this.handleLoginSuccess, this.handleLoginError);
     },
 
     handleLoginSuccess: function(response, stat, xhr) {

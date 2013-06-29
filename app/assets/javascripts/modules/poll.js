@@ -45,7 +45,6 @@ function(app, PollHTML) {
 
       console.log("Submitting vote: ", voteJSON);
       app.Ajax.submitVote(voteJSON, this.voteSuccessHandler, this.voteErrorHandler);
-      app.Ajax.submitVote(voteJSON);
     },
 
     voteSuccessHandler: function() {
@@ -86,7 +85,7 @@ function(app, PollHTML) {
 
     togglePollOptions: function(chosen) {
       $(".poll-controller .poll-option").each(function(){
-        if($(this).attr("id")===chosen) {
+        if($(this).attr("id") === chosen) {
           $(this).addClass("success");
           $(this).removeClass("secondary");
         } else {
@@ -98,6 +97,7 @@ function(app, PollHTML) {
 
     vote: function(evt) {
       var pollOptionIdAttr = evt.currentTarget.id;
+      console.log("Console id", pollOptionIdAttr);
       this.togglePollOptions(pollOptionIdAttr);
       var pollOptionId = this.parseVoteInt(pollOptionIdAttr);
       this.model.vote(pollOptionId);
