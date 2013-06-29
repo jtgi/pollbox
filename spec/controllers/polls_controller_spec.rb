@@ -50,5 +50,11 @@ describe PollsController, :type=>:controller do
     context "destroying" do
       it "could destroy a poll"
     end
+
+    context "using realtime features" do
+      it "has working routes" do
+        
+      end
+    end
   end
 end

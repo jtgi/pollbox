@@ -34,11 +34,9 @@ class AnswersController < ApplicationController
 	
 	private 
 	def get_parent
-
 		@question = Question.find_by_id(params[:room_id])
 		@user = User.find_by_id(params[:user_id])
-		@parent = @room || @user
-		
+		@parent = @question || @user
 	end
 
 end

@@ -58,7 +58,6 @@ describe Poll do
 
 		it "can deduce the number of votes for each option" do
 			vote1 = FactoryGirl.create(:vote, :user=>@user, :poll_option=>@poll_option1)
-
 		end
 
 	end
