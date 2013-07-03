@@ -8,7 +8,7 @@ Roomfeed::Application.routes.draw do
 		scope 'v1' do
       devise_for :users
 
-			get "/user" => "users#index"
+			get "/user" => "users#user"
 
 			resources :registrations, :only => [:create, :destroy]
 

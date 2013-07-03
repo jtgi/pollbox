@@ -37,14 +37,18 @@ class PollsController < ApplicationController
 
   def open
     authorize! :update, @poll
-    @poll.update_attributes( :open=>true )
-	  PrivatePub.publish_to "#{ @poll.room.name }", { poll: @poll.to_json}
+    @poll.open=true
+    @poll.save
+    #@poll.update_attributes(:open=>true)
+	  PrivatePub.publish_to "#{ @poll.room.name }/master", { poll: @poll.to_json}
   end
 
   def close
     authorize! :update, @poll
-    @poll.update_attributes( :open=>false )
-	  PrivatePub.publish_to "#{ @poll.room.name }", { poll: @poll.to_json}
+    @poll.open = false
+    @poll.save
+    #@poll.update_attributes(:open=>false)
+	  PrivatePub.publish_to "#{ @poll.room.name }/master", { poll: @poll.to_json}
   end
 
 	private

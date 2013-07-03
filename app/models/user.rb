@@ -37,8 +37,8 @@ class User < ActiveRecord::Base
   end
 
   def owns_room?(room_id)
-    !self.subscriptions.find_by_room_id(room_id).user_level == 3
-		subscription = self.subscriptions.find_by_id(room_id)
+    #!self.subscriptions.find_by_room_id(room_id).user_level == 3
+		subscription = self.subscriptions.find_by_room_id(room_id)
 		if !subscription.nil?
 			return subscription.user_level == 3
 		end

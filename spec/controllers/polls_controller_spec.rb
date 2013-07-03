@@ -43,6 +43,22 @@ describe PollsController, :type=>:controller do
       end
     end
 
+    context "open" do
+      it "changes to open flag to true" do
+        sign_in(user)
+        put :open, id:poll.id, :format=>:json
+        Poll.find(poll.id).open.should == true
+      end
+    end
+
+    context "close" do
+      it "changes the open flag to false" do
+        sign_in(user)
+        put :close, id:poll.id, :format=>:json
+        Poll.find(poll.id).open.should == false
+      end
+    end
+
     context "updating" do
       it "could update polls"
     end
