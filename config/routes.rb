@@ -8,6 +8,8 @@ Roomfeed::Application.routes.draw do
 		scope 'v1' do
       devise_for :users
 
+      match "search/:query", to: "search#search", :as=>'search'
+
 			get "/user" => "users#user"
 
 			resources :registrations, :only => [:create, :destroy]
