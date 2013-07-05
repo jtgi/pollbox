@@ -4,4 +4,7 @@ namespace :rf do
     `rails s && rackup private_pub.ru -s thin -E production`
     puts $stdout
   end
+  task :faye do
+    `rackup private_pub.ru -s thin -E production`
+  end
 end

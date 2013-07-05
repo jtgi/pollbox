@@ -25,7 +25,7 @@ function(app, PollHTML) {
     },
 
     initialize: function() {
-      this.get("room").on(app.Events.Poll.DATA_RECEIVED, this.updatePoll, this);
+      //empty
     },
 
     updatePoll: function(pollData) {

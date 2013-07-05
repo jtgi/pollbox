@@ -4,7 +4,8 @@ define([
        "modules/utils/events",
        "modules/utils/flash",
        "modules/utils/ajax",
-       "jquery-cookie"
+       "jquery-cookie",
+       "underscore"
 ], function(Backbone, Paths, Events, Flash, Ajax) {
 
   var app = {

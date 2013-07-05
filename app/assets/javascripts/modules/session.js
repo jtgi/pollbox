@@ -78,56 +78,37 @@ function(app, User, loginHTML) {
       app.Flash.display({ error: response.responseText });
     },
 
-
     clearCookie: function() {
       $.cookie("sessionKey", "");
       $.cookie("userId", "");
     },
-    /*
-     * TODO: Backbone is supposed to call user/:id
-     * when a model is instantiated with an id param.
-     * For whatever reason, this is not the case.
-     *
-     * @return User.Model populated with logged in user's
-     * data.
-     */
-    getUser: function() {
-        if(this.user) {
-            return this.user;
-        } else {
-          $.ajax({
-              url: app.Paths.get("user"),
-              success: this.handleGetUserSuccess,
-              error: this.handleGetUserError,
-              dataType: "json",
-              type: "GET"
-          });
-        }
+
+    getUser: function(success, error) {
+      if(this.get("user")) {
+        return this.get("user");
+      } else {
+        app.Ajax.getUser(this.handleGetUserSuccess, this.handleGetUserError);
+      }
     },
 
     handleGetUserSuccess: function(data) {
-        console.log("Successfully retrieved user", data);
-        this.user = new User.Model(data);
+      console.log("Successfully retrieved user", data);
+      this.set("user", new User.Model(data));
     },
 
     handleGetUserError: function() {
-        console.log("Error retrieving user");
+      console.log("Error retrieving user");
     },
 
-
-    /*
-     * Helper function to run validations app-wide.
-     * Compares.
-     */
     loggedIn: function() {
       //Return false for empty string
       return Boolean($.cookie("signed_in"));
     },
 
     authorizeUser: function() {
-        if(!this.loggedIn()) {
-           app.router.navigate("login", {trigger: true});
-        }
+      if(!this.loggedIn()) {
+        app.router.navigate("login", {trigger: true});
+      }
     },
 
     isEmail: function(email) {

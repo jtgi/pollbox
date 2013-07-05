@@ -32,7 +32,7 @@ function(app, RoomConnection, RoomHTML, Poll) {
 
     bindEvents: function() {
       this.on(app.Events.Room.CONNECTED, this.updateRoomData, this);
-      this.on(app.Events.Room.INITIALIZE_POLL, this.initializePoll, this)
+      this.on(app.Events.Poll.DATA_RECEIVED, this.initializePoll, this)
     },
 
     updateRoomData: function(roomData) {
@@ -41,10 +41,20 @@ function(app, RoomConnection, RoomHTML, Poll) {
     },
 
     initializePoll: function(data) {
-      _.extend(data, { 'room': this });
-      var poll = Poll.createNewPoll(data);
-      this.polls.push(poll);
-      this.setAsActivePoll(poll);
+      if(this.isNewPoll(data.id)) {
+        _.extend(data, { 'room': this });
+        var poll = Poll.createNewPoll(data);
+        this.polls.push(poll);
+        this.setAsActivePoll(poll);
+      }
+      this.get("activePoll").set(data);
+    },
+
+    isNewPoll: function(pollId) {
+      var match =  _.find(this.get("polls"), function(poll) {
+        return pollId === poll.get("id");
+      });
+      return (match) ? true : false;
     },
 
     setAsActivePoll: function(poll) {

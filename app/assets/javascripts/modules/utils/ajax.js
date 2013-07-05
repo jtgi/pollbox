@@ -16,18 +16,34 @@ function(Paths) {
       this.makePostRequest(data, success, error, url);
     },
 
+    getUser: function(success, error) {
+      var url = Paths.get("user");
+      this.makeGetRequest(success, error, url, false);
+    },
+
+    getRoomData: function(params, success, error) {
+      var url = Paths.get("roomByRoomId", { id: params.id });
+      this.makeGetRequest(success, error, url);
+    },
+
     submitVote: function(data, success, error) {
       var url = Paths.get("submitVote", { poll_option_id: data.pollOptionId });
       this.makePostRequest(data, success, error, url);
+    },
+
+    makeGetRequest: function(success, error, url, async) {
+      this.makeRequest(null, success, error, url, "GET", async);
     },
 
     makePostRequest: function(data, success, error, url) {
       this.makeRequest(data, success, error, url, "POST");
     },
 
-    makeRequest: function(data, success, error, url, type) {
+    makeRequest: function(data, success, error, url, type, async) {
+      data = (data) ? JSON.stringify(data) : null,
       success = success || this.handleSuccess;
       error = error || this.handleError;
+      async = (typeof async === 'undefined') ? true : async;
 
       $.ajax({
         url: url,
@@ -38,7 +54,8 @@ function(Paths) {
         },
         success: success,
         error: error,
-        data: JSON.stringify(data),
+        async: async,
+        data: data,
         dataType: "json",
         type: type
       });

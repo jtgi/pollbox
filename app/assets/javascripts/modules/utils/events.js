@@ -22,13 +22,15 @@ function() {
       CONNECTED: "room:connected",
       DISCONNECTING: "room:disconnecting",
       DISCONNECTED: "room:disconnected",
-      INITIALIZE_POLL: "room:initializePoll"
+      INITIALIZE_POLL: "room:initializePoll",
+      DATA_RECEIVED: "room:dataReceived"
     },
 
     Poll: {
-      DATA_RECEIVED: "poll:data_received",
+      DATA_RECEIVED: "poll:dataReceived",
       SUBMIT_VOTE: "poll:vote"
     },
+
     User: {
       CREATED: "user:created"
     },

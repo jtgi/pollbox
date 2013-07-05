@@ -20,7 +20,7 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
       "login": "login",
       "logout": "logout",
       "signup": "signup",
-      "room": "room",
+      "room/:id": "room",
       "dashboard": "dashboard"
     },
 
@@ -45,15 +45,14 @@ function(app, Poll, Base, User, Room, Session, Dashboard, HomeHTML) {
      */
     dashboard: function() {
         this.authorizeUser();
-        //Fetch current user from session
-        var user = app.session.getUser();
+        app.session.getUser();
         var dashboard = new Dashboard.Model();
         var dashboardView = new Dashboard.Views.Base({model:dashboard});
         $("#main").html(dashboardView.render().el);
     },
 
     room: function(roomId) {
-      var room = new Room.Model();
+      var room = new Room.Model(roomId);
       var roomView = new Room.View({ model:room });
       room.connect();
     },

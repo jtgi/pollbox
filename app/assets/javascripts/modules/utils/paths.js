@@ -12,7 +12,7 @@ function() {
   var Paths = {
     apiRoot: "/api/v1",
 
-    signIn: "/users/sign_in.json",
+    signIn: "/users/sign_in",
     signOut: "/users/sign_out",
 
     rooms: "/rooms",
