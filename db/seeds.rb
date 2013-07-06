@@ -8,11 +8,74 @@
 
 
 #create 3 users
+userIDs = []
+roomIDs = []
 
-#User.create(:first_name=>"Chris", :last_name=>"Zhu", :email=>"chris@example.com", :password=>"chrispass", :password_confirmation=>"chrispass")
-#User.create(:first_name=>"John", :last_name=>"Giannakos", :email=>"john@example.com", :password=>"johnpass", :password_confirmation=>"johnpass")
-#User.create(:first_name=>"Test", :last_name=>"Test", :email=>"test@example.com", :password=>"testpass", :password_confirmation=>"testpass")
-#
+def rand_prob(prob)
+  random_num = rand(100)
+  return random_num < prob
+end
+
+#create Users
+for i in 0..5
+  user = User.create(:first_name=>"first #{i}", :last_name=>"last #{i}", :email=>"user#{i}@example.com", :password=>"password")
+  userIDs.push(user.id)
+end
+#create rooms with one owner, for other users, 70% probability they sub to that room
+userIDs.each do |id|
+  user = User.find(id)
+  room = user.rooms.create(:name=>"User #{id}'s Room")
+  sub = room.subscriptions.first
+  sub.user_level = 3
+  sub.save
+
+  roomIDs.push(room.id)
+  
+  userIDs.each do |sub_id|
+    next if sub_id == id
+    if rand_prob(70)
+      sub_user = User.find(sub_id)
+      sub = Subscription.new
+      sub.user_id = sub_user.id
+      sub.room_id = room.id
+      sub.save
+    end
+  end
+end
+
+#creating questions: users of each room has 70% prob of asking a question
+roomIDs.each do |room_id|
+  room = Room.find(room_id)
+  room_users = room.users
+  room_users.each do |user|
+    next if user.owns_room?(room)
+    if rand_prob(70)
+      question = Question.new(:title=>"Question from user #{user.id}", :body=>"My Body")
+      question.user = user
+      question.room = room
+      question.save
+    end
+  end
+end
+
+#for each question of each room, create answers
+roomIDs.each do |room_id|
+  room = Room.find(room_id)
+  questions = room.questions
+  users = room.users
+  questions.each do |question|
+    users.each do |user|
+      next if question.user == user
+      if rand_prob(70)
+        answer = Answer.new(:title=>"Answer from user #{user.id}", :body=>"This is the answer to your question")
+        answer.user = user
+        answer.question = question
+        answer.save
+      end
+    end
+  end
+end
+
 ##create 2 rooms
 #@room1 = Room.new(:name=>"Chris' Room", :description=>"Description of my room", :maximum_registrants=>200)
 #@room1.save
