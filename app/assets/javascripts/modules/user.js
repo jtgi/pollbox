@@ -1,6 +1,4 @@
-// User module
 define([
-  // Application.
   "app",
   "modules/room",
   "text!templates/user.html",
@@ -15,7 +13,7 @@ function(app, Room, userHTML, userSignup) {
 
   // Default Model.
   User.Model = Backbone.Model.extend({
-    url: '/users',
+    url: app.Paths.get("users"),
     idAttribute: "userId",
     defaults: {
       "first_name": "",
@@ -71,8 +69,6 @@ function(app, Room, userHTML, userSignup) {
  User.Views.Signup = Backbone.View.extend({
     id: "sign-up-wrap",
     template: _.template(userSignup),
-
-    initialize: function () {},
 
     events:{
       'click #sign-up': 'tryCreateUser'

@@ -1,12 +1,9 @@
 object @room
 attributes :id, :name, :description
 
-if current_user.owns_room?(@room.id)
-	node(:edit_url){ |room| edit_room_path(room) }
-end
+node(:owned) { |room| current_user.owns_room?(@room.id) }
 
-node(:vote_subscription){ |room| subscribe_to "/vote/#{room.name}"}
-node(:question_subscription){ |room| subscribe_to "/question/#{room.name}"}
+node(:vote_subscription){ |room| subscribe_to "/#{room.name}/master"}
 
 child (:questions) do
 	attributes :user_id, :title, :body

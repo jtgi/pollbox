@@ -27,7 +27,7 @@ class PollOptionsController < ApplicationController
 
     if @vote.save
       #publish updated count
-      PrivatePub.publish_to "#{@poll_option.poll.room.name}/master", { vote: @vote.to_json}
+      PrivatePub.publish_to "#{@poll_option.poll.room.name}/master", { vote: @poll_option.to_json}
       #return success
     else
       #return error

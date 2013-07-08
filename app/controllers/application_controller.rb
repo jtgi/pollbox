@@ -15,4 +15,19 @@ class ApplicationController < ActionController::Base
   end
   helper_method :mobile_device?
 
+  def current_user 
+    super || guest_user
+  end
+
+  private 
+  def guest_user
+    User.find(sessions[:guest_user_id].nil? ? session[:guest_user_id] = create_guest_user.id : session[:guest_user_id])
+  end
+  
+  def create_guest_user
+    user = User.new(:first_name=>"guest", :email=>"guest_#{Time.new.to_i}#{rand(99)}@guest.com")
+    user.is_guest = true
+    user.save(:validate=>false)
+  end
+
 end

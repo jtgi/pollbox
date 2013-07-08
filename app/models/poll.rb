@@ -7,7 +7,10 @@ class Poll < ActiveRecord::Base
 	belongs_to :room
 
 	validates_presence_of :user_id, :room_id
-	
+  
+  def is_open?
+    self.open 
+  end
 	def correct_poll_option
 		self.poll_options.where(:id=>correct_poll_option_id)
 	end

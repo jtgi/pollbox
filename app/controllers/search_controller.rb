@@ -5,7 +5,12 @@ class SearchController < ApplicationController
   		@search = Sunspot.search [Room, Question] do 
   			keywords params[:search]
   			paginate(:per_page=>20)
-		end
+		  end
 		@results = @search.results
-	end
+	  end
+
+    def search
+      query = params[:query]
+      respond_with(query)
+    end
 end

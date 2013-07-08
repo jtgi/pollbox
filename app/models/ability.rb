@@ -20,11 +20,11 @@ class Ability
 		user.is_subscribed_to(poll.room_id) || user.owns_poll?(poll.id)
 	end
 
-	can :create, Poll do |poll|
+	can [:update, :destroy, :create], Poll do |poll|
 		user.owns_room?(poll.room_id)
 	end
 
-	can [:update, :destroy], Poll, :user_id=>user.id
+	#can [:update, :destroy], Poll, :user_id=>user.id
 	
 	can :show, Poll do |poll|
 		user.is_subscribed_for(poll.room_id)

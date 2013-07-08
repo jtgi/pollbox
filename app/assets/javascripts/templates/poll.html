@@ -18,7 +18,7 @@
         <% _.each(pollOptions, function(val, key, list) { %>
           <div class="poll-option-display small-3 columns">
             <div class="poll-count"><%= val.pollOption.voteCount %></div>
-            <a id="<%= val.pollOption.label %>" class="large radius secondary button poll-option"><%= val.pollOption.label %></a>
+            <a id="id-<%= val.pollOption.id %>" class="large radius secondary button poll-option"><%= val.pollOption.label %></a>
           </div>
         <% }); %>
       </div>
@@ -30,7 +30,7 @@
           <% _.each(pollOptions, function(val, key, list) { %>
             <div class="row">
               <div class="small-3 columns">
-                <a id="<%= val.pollOption.label %>" class="large radius secondary button poll-option"><%= val.pollOption.label %></a>
+                <a id="id-<%= val.pollOption.id %>" class="large radius secondary button poll-option"><%= val.pollOption.label %></a>
               </div>
               <div class="small-9 columns">
                 <p><%= val.pollOption.answer %></p>

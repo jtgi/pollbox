@@ -3,6 +3,6 @@ class Answer < ActiveRecord::Base
  
   belongs_to :user
   belongs_to :question
-	validates_presence_of :user_id, :title, :room_id
+	validates_presence_of :user_id, :title, :question_id
   has_one :room, :through=>:question
 end

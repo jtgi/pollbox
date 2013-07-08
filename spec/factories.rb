@@ -20,9 +20,9 @@ FactoryGirl.define do
 		user
 		room
 		user_level 0
-			factory :owned_subscription do
-				user_level 3
-			end
+		factory :owned_subscription do
+			user_level 3
+		end
 	end
 
 	factory :poll do
@@ -30,6 +30,12 @@ FactoryGirl.define do
 		sequence(:body) { |n| "poll body number: #{n}" }
 		user
 		room
+    open true
+    factory :closed_poll do
+      open false
+    end
+
+
 	end
 	factory :poll_option do
 		sequence(:option) { |n| "poll option #{n}" }

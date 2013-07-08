@@ -23,6 +23,10 @@ class Room < ActiveRecord::Base
 		!self.subscriptions.where(:room_id=>self.id, :user_id=>user_id, :user_level=>3).empty?
 	end
 
+  def owner
+    self.subscriptions.where("user_level=3").first.user
+  end
+
   #sunspot searching
 #  searchable do 
 #  	text :name, :default_boost => 2

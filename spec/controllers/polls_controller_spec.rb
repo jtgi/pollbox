@@ -5,10 +5,10 @@ describe PollsController, :type=>:controller do
   render_views
   
   let(:room) {FactoryGirl.create(:room)}
-  let(:poll) {FactoryGirl.create(:poll) }
+  let(:poll) {FactoryGirl.create(:poll, :room=>room) }
   subject {poll}
   let(:user) { FactoryGirl.create(:user) }
-  
+
   before(:all) do
     FactoryGirl.create(:owned_subscription, :user=>user, :room=>room)
   end
@@ -36,12 +36,41 @@ describe PollsController, :type=>:controller do
     end
     
     context "reading" do
+      it "could read polls" do
+        sign_in(user)
+        user.is_subscribed_to(poll.room.id).should == true
+        get :show, id:poll.id, :format=>:json
+      end
+    end
+
+    context "open" do
+      it "changes to open flag to true" do
+        sign_in(user)
+        put :open, id:poll.id, :format=>:json
+        Poll.find(poll.id).open.should == true
+      end
+    end
+
+    context "close" do
+      it "changes the open flag to false" do
+        sign_in(user)
+        put :close, id:poll.id, :format=>:json
+        Poll.find(poll.id).open.should == false
+      end
     end
 
     context "updating" do
+      it "could update polls"
     end
 
     context "destroying" do
+      it "could destroy a poll"
+    end
+
+    context "using realtime features" do
+      it "has working routes" do
+        
+      end
     end
   end
 end

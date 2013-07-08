@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  def index
+  def user
     respond_with(current_user) 
   end
+
+  
 end

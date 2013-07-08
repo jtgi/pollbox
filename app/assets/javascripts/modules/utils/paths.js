@@ -10,9 +10,9 @@ define([
 function() {
 
   var Paths = {
-    apiRoot: "/api/v1/",
+    apiRoot: "/api/v1",
 
-    signIn: "/users/sign_in.json",
+    signIn: "/users/sign_in",
     signOut: "/users/sign_out",
 
     rooms: "/rooms",
@@ -21,6 +21,7 @@ function() {
 
     polls: "/polls",
     pollByPollId: "/polls/:id",
+    submitVote: "/poll_option/:poll_option_id/vote",
 
     user: "/user",
     users: "/users",
@@ -41,13 +42,15 @@ function() {
   };
 
   Paths.insertParamsIntoUrl = function(url, params) {
-    _.each(params, function(val, key) {
-      var target = ":" + key;
-      if(url.match(target)) {
-        url.replace(target, val);
-     }
-      return url;
-    });
+    for(var key in params) {
+      if(params.hasOwnProperty(key)) {
+        var target = ":" + key;
+        if(url.match(target)) {
+          url = url.replace(target, params[key]);
+        }
+      }
+    }
+    return url;
   };
 
   return Paths;

@@ -11,15 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624204027) do
+ActiveRecord::Schema.define(:version => 20130706090341) do
 
   create_table "answers", :force => true do |t|
     t.string   "title"
     t.string   "body"
     t.integer  "question_id"
     t.integer  "user_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.boolean  "admin",       :default => false
   end
 
   create_table "poll_options", :force => true do |t|
@@ -31,23 +32,25 @@ ActiveRecord::Schema.define(:version => 20130624204027) do
   end
 
   create_table "polls", :force => true do |t|
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.integer  "user_id"
     t.integer  "room_id"
     t.string   "title"
     t.string   "body"
     t.integer  "correct_poll_option_id"
     t.integer  "views",                  :default => 0
+    t.boolean  "open",                   :default => false
   end
 
   create_table "questions", :force => true do |t|
     t.string   "title"
     t.string   "body"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.integer  "user_id"
     t.integer  "room_id"
+    t.boolean  "admin",      :default => false
   end
 
   create_table "rooms", :force => true do |t|
@@ -89,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20130624204027) do
     t.datetime "confirmation_sent_at"
     t.string   "authentication_token"
     t.boolean  "admin",                                 :default => false
+    t.boolean  "is_guest",                              :default => false
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
