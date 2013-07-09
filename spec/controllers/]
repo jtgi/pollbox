@@ -41,14 +41,13 @@ describe RoomsController, :type=>:controller do
       it "requests a passcode" do
         sign_in(user)
 				room = FactoryGirl.create(:protected_room, :name=>"Protected Room", :pass_code=>"password")
-				FactoryGirl.create(:subscription, :user=>user, :room=>room)
 				#request.cookies["pass_code"] = "password"
 				expect { get :show, id:room.id, :format=>:json }.to raise_error
       end
 			
 			it "allows access with a valid passcode" do
 				sign_in(user)
-				room.pass_code = "passcode"
+				room = FactoryGirl.create(:protected_room, :name=>"projtected room", :pass_code=>"passcode")
 				request.cookies["pass_code"] = "passcode"
 				get :show, id:room.id, :format=>:json
 				response.status.should == 200

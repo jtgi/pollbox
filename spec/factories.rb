@@ -14,6 +14,9 @@ FactoryGirl.define do
 		sequence(:name) { |n| "room#{n}" }
 		description "Description of room"
 		maximum_registrants 200		
+		factory :protected_room do
+			pass_code "password"
+		end
 	end
 
 	factory :subscription do

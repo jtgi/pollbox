@@ -2,6 +2,7 @@ class RoomsController < ApplicationController
 	include RoomsHelper
 	before_filter :authenticate_user!
 	before_filter :find_room, :except=>[:index, :create]
+	before_filter :check_for_pass_code, :only=>[:show]
 
 	def index
 		@rooms = current_user.rooms
@@ -16,9 +17,9 @@ class RoomsController < ApplicationController
 	def create
 		@user = current_user
 		@room = @user.rooms.build(params[:room])
-		#if @room.save
     if @user.save
-			@subscription = Subscription.where("room_id=? AND user_id = ?", @room.id, current_user.id).first
+			@subscription = @room.subscriptions.first
+			#@subscription = Subscription.where("room_id=? AND user_id = ?", @room.id, current_user.id).first
 			@subscription.user_level = 3
 			if @subscription.save
         respond_with(@room)
@@ -49,9 +50,9 @@ class RoomsController < ApplicationController
 	private
 	def check_for_pass_code
 		if @room.has_pass_code
-			pass_code_submitted = params[:room][:pass_code] || params[:pass_code]
+			pass_code_submitted = cookies[:pass_code]
 			if pass_code_submitted != @room.pass_code
-				#throw exception
+				raise Exception::InvalidPassCodeException.new
 			end
 		end
 	end
@@ -62,28 +63,3 @@ class RoomsController < ApplicationController
 	end
 
 end
-#    	def update
-#		#check to see if already registered
-#		@check = Registration.where("user_id = ? AND room_id = ?", current_user.id, params[:id])
-#		
-#		if @check.nil?
-#			@registration = Registration.new
-#			@registration.user_id = current_user.id
-#			@registration.room_id = params[:id]
-#			#user_level = 1 (registrant)
-#			@registration.user_level = 0;
-#
-#			if @registration.save
-#				flash[:success] = "Registrated Successfully"
-#				redirect_to rooms_path
-#			else
-#                flash[:error].now = "Registration Failed"
-#                render :action=>"edit"
-#			end
-#		else
-#			flash[:error] = "U"
-#			redirect_to rooms_path
-#		end
-#	end
-#
-
