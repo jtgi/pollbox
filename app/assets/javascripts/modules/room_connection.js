@@ -1,6 +1,5 @@
 define([
     "app",
-    "modules/room_mediator",
     "private_pub",
 ],
 
@@ -8,7 +7,7 @@ define([
 Responsibility of the RoomConnection is to manage the connection,
 and trigger the room when network events occur.
  */
-function(app, RoomMediator, PrivatePub) {
+function(app, PrivatePub) {
 
   var RoomConnection = function(roomRef) {
 
@@ -29,7 +28,13 @@ function(app, RoomMediator, PrivatePub) {
       //the room? On connect complete, or immediately following?
       //how do I request data through the channel?
       PrivatePub.sign(JSON.parse(roomData.vote_subscription));
-      PrivatePub.subscribe(this.getChannelName(roomData.name), this.parseData);
+      var self = this;
+      setTimeout(function() {
+        console.log("subscribing...", self.getChannelName(roomData.name));
+        PrivatePub.subscribe(self.getChannelName(roomData.name), function(data, channel) {
+          console.log("Callback reached", data.message);
+        });
+      }, 5000);
       this.room.trigger(app.Events.Room.CONNECTED, roomData, this);
     };
 
@@ -38,6 +43,7 @@ function(app, RoomMediator, PrivatePub) {
     };
 
     this.parseData = function(data) {
+      console.log("Message received, parsing data");
       if(data.room) {
         console.log("Room data detected", data.room);
         this.roomDataReceived(data.room);
