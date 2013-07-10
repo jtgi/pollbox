@@ -1,0 +1,30 @@
+
+Shallow resting is used so for #index and #create, the route must be nested
+	GET /users/1/rooms.json
+	POST /rooms/1/questions.json
+
+For #update, #show, and #destroy the route should not be nested:
+	PUT /rooms/1.json 
+	GET /rooms/1.json
+	DELETE /rooms/1.json
+
+Request for all polls in a room => Array of Polls
+/rooms/1/polls.json
+[{"room":{"id":1,"name":"Chris' Room","description":"Description of my room","show_path":"/rooms/1","owned":true}}]
+
+Request for a single poll 
+/polls/1.json
+{"poll":{"id":1,"title":"What is a lock?","body":"Body for lock question","poll_options":[{"poll_option":{"option":"Lock option 1","votes":0}},{"poll_option":{"option":"Lock option 2","votes":0}},{"poll_option":{"option":"Lock option 3","votes":0}}]}}
+
+Request for all rooms user is subscribed to and created => Identified by boolean flag "owned"
+/users/:user_id/rooms.json
+[{"room":{"id":1,"name":"Chris' Room","description":"Description of my room","show_path":"/rooms/1","owned":true}}]
+
+Request for all questions in a room
+/rooms/1/questions.json
+[{"question":{"id":1,"title":"My First question","body":"What is a biology?","user_id":2}}]
+
+Request for a single question
+/questions/1.json
+{"question":{"id":1,"title":"My First question","body":"What is a biology?","user_id":2,"answers":[{"answer":{"user_id":1,"title":"Answer to your first question","body":"Thats not a word","view_answer":"/answers/1"}}]}}
+registration levels: 3 - original owner, 2 - ?, 1 - ?, 0 - registered user

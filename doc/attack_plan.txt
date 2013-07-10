@@ -1,0 +1,34 @@
+# Polls - User View
+
+Poll components
+- build a poll model that represents data
+  - poll_id
+  - poll_options [label, question, numVotes]
+  - user_voted: bool
+  - rooms/room_id/polls
+
+- show the ui.
+- feed it some dummy JSON requests periodically, watch it update.
+- close the pol
+
+- User waiting.
+  - Waiting message.
+- Poll opens
+  - User is notified of new poll.
+  - poll options appear
+  - A timer begins counting up, or down.
+- User votes.
+  - UI displays selected option
+  - Total submitted vote count can be seen
+  - User can change their vote at any time.
+- Poll closes.
+  - UI is disabled but still visible.
+  - Vote count frozen until closed.
+  - Prof has option to choose an answer or display the poll
+- Prof displays poll
+  - Graph shows up showing the distribution of answers.
+- Prof selects answer
+  - Correct answer displayed on client side.
+  - Poll is archived
+- Repeat (?)
+

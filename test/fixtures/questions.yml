@@ -1,0 +1,12 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: Whats a biology? 
+  body: This term keeps coming up in class and I'm not really sure what it means
+  user_id: 3
+  room_id: 1
+two:
+  title: Whats a chemistry?
+  body: I dont know what a biology is either
+  user_id: 3
+  room_id: 2

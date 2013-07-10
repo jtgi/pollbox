@@ -1,0 +1,51 @@
+
+
+
+/* --------------------------
+ *
+ *        POLL 
+ *
+ * ------------------------*/
+.vote-counter {
+  font-size:10em;
+}
+
+.poll-result-display {
+  background-color:#f6f6f6;
+  padding:50px;
+  border:1px solid #bdbdbd;
+  text-align:center;
+}
+
+.poll-count {
+  font-size:3em;
+  font-weight:bold;
+}
+
+.poll-chosen {
+  background-color:green;
+}
+
+.green {
+  color:green;
+}
+
+.red {
+  color:red;
+}
+
+.poll-info {
+  text-align:center;
+}
+
+.poll-controller {
+  margin-top:50px;
+  text-align:center;
+}
+
+.poll-results {
+  text-align:center;
+}
+
+
+

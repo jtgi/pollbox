@@ -1,0 +1,7 @@
+<h1>Hi, Welcome to your dashboard.</h1>
+<ul>
+  <% _.each(session.get("user").attributes, function(val, key) { %>
+    <li><strong><%= key %></strong> <%= val %></li>
+  <% }) %>
+</ul>
+

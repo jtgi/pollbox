@@ -1,0 +1,11 @@
+<div class="row">
+	<div class="span6"><%= link_to "Homepage!", root_path %></div>
+	<div class="span6">
+		<%= form_tag search_index_path, :method=> :get do %>
+			<p>
+				<%= text_field_tag :search, params[:search] %>
+				<%= submit_tag "Search", :name=>nil %>
+			</p>
+		<% end %>
+	</div>
+</div>
