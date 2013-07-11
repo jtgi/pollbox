@@ -11,9 +11,11 @@ class Ability
     user.owns_room?(room.id)
   end
 
-	can :read, Room do |room|
-		user.is_subscribed_to(room.id)
-	end
+	#can :read, Room do |room|
+	#	#user.is_subscribed_to(room.id)
+	#	#the function is subscribed to no longer makes any sense
+	#	
+	#end
 
 	#Poll permissions
 	can :read, Poll do |poll|

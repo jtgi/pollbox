@@ -25,6 +25,10 @@ class User < ActiveRecord::Base
 
 	has_many :polls
 
+	def guest?
+		self.is_guest
+	end
+
 	def admin?
 		false
 	end

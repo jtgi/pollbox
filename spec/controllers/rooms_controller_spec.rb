@@ -13,12 +13,18 @@ describe RoomsController, :type=>:controller do
     FactoryGirl.create(:owned_subscription, :user=>user, :room=>room)
   end
   context "not logged in" do
-    it "does allow get" do
-    lambda {
-      post :create, :room=>{:name=>"chris zhu"}, :format=>:json
-      response.status.should eq(401)
-      }.should change(Room, :count).by(0) 
-    end
+		it "should create a new user" do
+			lambda {	
+				get :show, id:room.id, :format=>:json
+			}.should change(User, :count).by(1)
+		end
+
+    #it "should create a new user" do
+    #lambda {
+    #  post :create, :room=>{:name=>"chris zhu"}, :format=>:json
+    #  response.status.should eq(401)
+    #  }.should change(Room, :count).by(0) 
+    #end
   end
   context "logged in" do
     context "updating rooms" do
@@ -70,6 +76,7 @@ describe RoomsController, :type=>:controller do
     
     context "destroying rooms" do
       it "is able to destroy rooms" do
+				sign_in(user)
         destroy_me = FactoryGirl.create(:room)
         FactoryGirl.create(:subscription, :user=>user, :room=>destroy_me)
         lambda {

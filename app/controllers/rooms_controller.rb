@@ -11,7 +11,7 @@ class RoomsController < ApplicationController
 	def show
 		#@room = current_user.rooms.find(params[:id])
 		#@room = Room.find(params[:id])
-		authorize! :read, @room
+		#authorize! :read, @room
 	end
 
 	def create
@@ -59,6 +59,7 @@ class RoomsController < ApplicationController
 
 	private
 	def find_room
+		#@room = current_user.rooms.find(params[:id])
 		@room = current_user.rooms.find(params[:id])
 	end
 
