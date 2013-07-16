@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
 	before_filter :get_parent, :only=>[ :index, :new ]
-	before_filter :authenticate_user!
+	#before_filter :authenticate_user!
 
 	def create
     @question = Question.new(params[:room])

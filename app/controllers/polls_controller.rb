@@ -1,5 +1,5 @@
 class PollsController < ApplicationController
-	before_filter :authenticate_user!	
+	#before_filter :authenticate_user!	
 	before_filter :get_parent, :only=>[:index]
   before_filter :find_poll, :only=>[:show, :update, :destroy, :open, :close]
 

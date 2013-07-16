@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
 
-	before_filter :authenticate_user!
+	#before_filter :authenticate_user!
 
 	def create
 		@room = Room.find(params[:subscription][:room_id])
