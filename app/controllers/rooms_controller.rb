@@ -1,6 +1,6 @@
 class RoomsController < ApplicationController
 	include RoomsHelper
-	before_filter :authenticate_user!
+	#before_filter :authenticate_user!
 	before_filter :find_room, :except=>[:index, :create]
 	before_filter :check_for_pass_code, :only=>[:show]
 
