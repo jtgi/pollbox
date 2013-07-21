@@ -11,6 +11,7 @@ function(Paths) {
 
   var Ajax = {
 
+    //Class calls
     login: function(data, success, error) {
       var url = Paths.get("signIn");
       this.makePostRequest(data, success, error, url);
@@ -19,6 +20,11 @@ function(Paths) {
     getUser: function(success, error) {
       var url = Paths.get("user");
       this.makeGetRequest(success, error, url, false);
+    },
+
+    createRoom: function(data, success, error) {
+      var url = Paths.get("rooms");
+      this.makePostRequest(data, success, error, url);
     },
 
     getRoomData: function(params, success, error) {
@@ -31,6 +37,7 @@ function(Paths) {
       this.makePostRequest(data, success, error, url);
     },
 
+    // Util Calls
     makeGetRequest: function(success, error, url, async) {
       this.makeRequest(null, success, error, url, "GET", async);
     },

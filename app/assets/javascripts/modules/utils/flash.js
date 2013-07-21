@@ -3,6 +3,10 @@ define([], function() {
   var Flash = {
 
     display: function(data) {
+      if(_.isString(data)) {
+        this.display({ message: data});
+      }
+
       if(data) {
         console.log(data);
         if(data.hasOwnProperty('errors')) {

@@ -99,7 +99,6 @@ function(app, RoomConnection, RoomHTML, Poll) {
     },
 
     connecting: function() {
-      console.log("connecting fired in view");
       app.Flash.display({message:"Connecting to room"});
     },
 
@@ -121,7 +120,6 @@ function(app, RoomConnection, RoomHTML, Poll) {
     },
 
     createPoll: function(evt) {
-      console.log("calling create poll on conn from createpoll", evt);
       evt.stopImmediatePropagation();
       this.model.conn.createPoll();
     },

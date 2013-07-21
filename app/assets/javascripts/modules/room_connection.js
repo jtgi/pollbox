@@ -29,12 +29,9 @@ function(app, PrivatePub) {
       //how do I request data through the channel?
       PrivatePub.sign(JSON.parse(roomData.vote_subscription));
       var self = this;
-      setTimeout(function() {
-        console.log("subscribing...", self.getChannelName(roomData.name));
-        PrivatePub.subscribe(self.getChannelName(roomData.name), function(data, channel) {
-          console.log("Callback reached", data.message);
-        });
-      }, 5000);
+      PrivatePub.subscribe(getChannelName(roomData.name), function(data, channel) {
+        console.log("Message received: " + data.message);
+      });
       this.room.trigger(app.Events.Room.CONNECTED, roomData, this);
     };
 

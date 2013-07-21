@@ -16,14 +16,11 @@ class RoomsController < ApplicationController
 
 	def create
 		@user = current_user
-		@room = @user.rooms.build(params[:room])
+		@room = @user.rooms.create(params[:room])
     if @user.save
 			@subscription = @room.subscriptions.first
 			#@subscription = Subscription.where("room_id=? AND user_id = ?", @room.id, current_user.id).first
 			@subscription.user_level = 3
-			if @subscription.save
-        respond_with(@room)
-			end
 			#flash[:error].now = "Room was not able to be created"
 			#render :action=>"new"
 		end

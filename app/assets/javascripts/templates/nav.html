@@ -1,40 +1,19 @@
 <nav class="top-bar">
-      <ul class="title-area">
-        <!-- Title Area -->
-        <li class="name">
-          <h1><a href="#">Feedback</a></h1>
-        </li>
-        <li class="toggle-topbar"><a href="#"></a></li>
-      </ul>
+  <ul class="title-area">
+    <!-- Title Area -->
+    <li class="name">
+    <h1><a href="#">Feedback</a></h1>
+    </li>
+    <li class="toggle-topbar"><a href="#"></a></li>
+  </ul>
 
-      <section class="top-bar-section">
-        <!-- Left Nav Section -->
+  <section class="top-bar-section">
+    <!-- Left Nav Section -->
 
-        <% if(!session.loggedIn()) { %>
-        <ul class="left">
-          <li class="divider"></li>
-          <li><a href="#login">Login</a></li>
-          <li><a href="#signup">Sign Up</a></li>
-          <li><a href="/room/4">Room</a></li>
-        </ul>
-        <% } %>
+    <ul class="left">
+      <li class="divider"></li>
+      <li><a href="/room/4">Room</a></li>
+    </ul>
 
-        <% if(session.loggedIn()) { %>
-          <ul class="left">
-            <li class="divider"></li>
-            <li><a href="/">Home</a></li>
-            <li><a href="#dashboard">Dashboard</a></li>
-            <li><a href="/room/2">Room</a></li>
-          </ul>
-   
-          <ul class="right">
-            <li class="has-dropdown"><a href="#">Debug</a>
-              <ul class="dropdown">
-                <li><a class="genPoll" href="#">Generate Poll</a></li>
-              </ul>
-            </li>
-            <li><a id="logout" href="#logout">Logout</a></li>
-          </ul>
-        <% } %>
-        </section>
+  </section>
 </nav>
