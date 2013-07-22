@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
-	before_filter :get_parent, :only=>[ :index, :new ]
+	before_filter :get_parent, :only=>[ :index ]
+  before_filter :get_question, :only=>[ :update, :destroy, :show ]
 	#before_filter :authenticate_user!
 
 	def create
@@ -10,18 +11,12 @@ class QuestionsController < ApplicationController
     PrivatePub.publish_to "#{@question.room.name}/master", {question: @question.to_json}
 	end
 
-	def edit
-		@question = Question.find(params[:id]) 
-	end
-
 	def update
-		@question = Question.find(params[:id])
     authorize! :update, @question
 		@question.update_attributes(params[:room])
 	end
 
 	def show
-		@question = Question.find(params[:id])
     authorize! :read, @question
     
 	end
@@ -43,6 +38,10 @@ class QuestionsController < ApplicationController
 			end
 		end
 	end
+
+  def destroy
+    @question.destroy
+  end
 	
 	private 
 	def get_parent
@@ -50,5 +49,9 @@ class QuestionsController < ApplicationController
 		user = User.find_by_id(params[:user_id])
 		@parent = room || user	
 	end
+
+  def get_question
+    @question = Question.find(params[:id])
+  end
 
 end

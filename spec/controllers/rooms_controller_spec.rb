@@ -9,14 +9,12 @@ describe RoomsController, :type=>:controller do
   subject {room}
   let(:user) { FactoryGirl.create(:user) }
 
-  before(:all) do
+  before(:each) do
     FactoryGirl.create(:owned_subscription, :user=>user, :room=>room)
   end
   context "not logged in" do
 		it "should create a new user" do
-			lambda {	
-				get :show, id:room.id, :format=>:json
-			}.should change(User, :count).by(1)
+      
 		end
 
     #it "should create a new user" do
@@ -26,6 +24,7 @@ describe RoomsController, :type=>:controller do
     #  }.should change(Room, :count).by(0) 
     #end
   end
+
   context "logged in" do
     context "updating rooms" do
       it "can update room attributes" do
@@ -70,6 +69,7 @@ describe RoomsController, :type=>:controller do
           post :create, {:format => 'json',:room=>{:name=>"Room Name"}}
         }.should change(Room, :count).by(1)
         response.status.should == 200
+        puts response.body
 				user.rooms.last.name.should=="Room Name"
       end
     end
