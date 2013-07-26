@@ -11,6 +11,7 @@ Roomfeed::Application.routes.draw do
       match "search/:query", to: "search#search", :as=>'search'
 
 			get "/user" => "users#user"
+      match "/guest_user", to: "users#guest_user", via:[:post]
 
 			resources :registrations, :only => [:create, :destroy]
 

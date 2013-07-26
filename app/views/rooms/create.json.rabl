@@ -1,6 +1,10 @@
 object @room
 attributes :id, :name, :description
 
+if current_user.owns_room?(@room.id)
+  node(:passcode) { |room| room.passcode }
+end
+
 if @room.errors.count > 0
   node(:errors) { |room| room.errors.to_json }
 

@@ -17,6 +17,7 @@ class RoomsController < ApplicationController
 	def create
 		@user = current_user
 		@room = @user.rooms.build(params[:room])
+    authorize! :create
     if @room.save
       subscription = Subscription.new
       subscription.user = @user

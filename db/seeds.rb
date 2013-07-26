@@ -17,7 +17,7 @@ def rand_prob(prob)
 end
 
 #create Users
-for i in 0..5
+for i in 0..10
   user = User.create(:first_name=>"first #{i}", :last_name=>"last #{i}", :email=>"user#{i}@example.com", :password=>"password")
   userIDs.push(user.id)
 end

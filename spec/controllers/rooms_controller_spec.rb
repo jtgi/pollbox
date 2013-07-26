@@ -16,7 +16,6 @@ describe RoomsController, :type=>:controller do
 		it "should create a new user" do
       
 		end
-
     #it "should create a new user" do
     #lambda {
     #  post :create, :room=>{:name=>"chris zhu"}, :format=>:json

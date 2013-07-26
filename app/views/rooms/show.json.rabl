@@ -1,6 +1,10 @@
 object @room
 attributes :id, :name, :description
 
+if current_user.owns_room?(@room.id)
+  node(:passcode) { |room| room.passcode }
+end
+
 node(:owned) { |room| current_user.owns_room?(@room.id) }
 
 node(:vote_subscription){ |room| subscribe_to "/#{room.name}/master"}
