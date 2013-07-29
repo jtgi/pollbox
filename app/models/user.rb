@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
 
 	has_many :polls
 
+  has_many :comments
+
 	def guest?
 		self.is_guest
 	end

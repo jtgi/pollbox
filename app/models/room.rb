@@ -6,6 +6,7 @@ class Room < ActiveRecord::Base
   #users association
   has_many :subscriptions, :dependent=>:destroy
   has_many :users, :through=>:subscriptions
+  has_many :comments
 
   #questions association
   has_many :questions, :dependent=>:destroy

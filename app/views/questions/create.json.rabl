@@ -1,4 +1,8 @@
 object @question
-attributes :id, :title, :body, :user_id
+attributes :id, :title, :body
+
+
+if @question.errors.count > 0
+  node(:errors) { |question| question.errors.to_json }
 
 

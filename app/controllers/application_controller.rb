@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
     head :unauthorized
   end
 
+  rescue_from Exception::InvalidPassCodeException do |exception|
+    head :unauthorized
+  end
+
   def set_cache_buster
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
     response.headers["Pragma"] = "no-cache"
@@ -20,22 +24,13 @@ class ApplicationController < ActionController::Base
 
   helper_method :mobile_device?
   
-  def validate_current_user
-    head :unauthorized unless current_user
-  end
-  
   def current_user 
     super || guest_user
   end
 
   private 
   def guest_user
-    #User.find(session[:guest_user_id].nil? ? session[:guest_user_id] = create_guest_user.id : session[:guest_user_id])
-    if session[:guest_user_id].nil?
-      return nil
-    else
-      return User.find_by_id(session[:guest_user_id])
-    end
+    User.find(session[:guest_user_id].nil? ? session[:guest_user_id] = create_guest_user.id : session[:guest_user_id])
   end
   
   def create_guest_user
@@ -44,6 +39,4 @@ class ApplicationController < ActionController::Base
     user.save(:validate=>false)
 		user
   end
-
-
 end

@@ -9,25 +9,19 @@ class RoomsController < ApplicationController
 	end
 
 	def show
-		#@room = current_user.rooms.find(params[:id])
-		#@room = Room.find(params[:id])
-		#authorize! :read, @room
+		authorize! :read, @room
 	end
 
 	def create
-		@user = current_user
-		@room = @user.rooms.build(params[:room])
+		@room = current_user.rooms.build(params[:room])
     authorize! :create
     if @room.save
-      subscription = Subscription.new
-      subscription.user = @user
-      subscription.room = @room
-      subscription.user_level = 3
-      if subscription.save
+      @subscription = Subscription.new
+      @subscription.user = @user
+      @subscription.room = @room
+      @subscription.user_level = 3
+      @subscription.save
         
-      else
-        #handle subscription failure
-      end
 		end
 	end
 	
@@ -35,6 +29,7 @@ class RoomsController < ApplicationController
 		#@room = Room.find(params[:id])
 		authorize! :update, @room
 		if @room.update_attributes(params[:room])
+      respond_with(@room)
       #flash[:success] = "Room Successfully Updated"
       #redirect_to show_room_path(@room)
     else

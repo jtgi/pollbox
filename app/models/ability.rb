@@ -19,7 +19,7 @@ class Ability
 
 	#Poll permissions
 	can :read, Poll do |poll|
-		user.is_subscribed_to(poll.room_id) || user.owns_poll?(poll.id)
+		user.is_subscribed_to(poll.room_id)
 	end
 
 	can [:update, :destroy, :create], Poll do |poll|

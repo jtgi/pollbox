@@ -22,6 +22,7 @@ class QuestionsController < ApplicationController
 	end
 
 	def index
+    authorize! :read, @room
 		if @parent.class == Room
 			if current_user.is_registered_for(params[:room_id])
 				@questions = @parent.questions
@@ -40,6 +41,7 @@ class QuestionsController < ApplicationController
 	end
 
   def destroy
+    authorize! :destroy, @question
     @question.destroy
   end
 	

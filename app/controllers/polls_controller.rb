@@ -8,9 +8,14 @@ class PollsController < ApplicationController
 		@poll.user = current_user
 		@poll.room = Room.find(params[:room_id])
 		authorize! :create, @poll
+
       
 		if @poll.save
-      #return poll
+      #figure out how to add the poll options
+      @pollOptions = ActiveSupport::JSON.decode(params[:poll_options])
+      @pollOptions.each do |poll_option|
+        poll_option.save
+      end
 		else
 			#return @poll.errors	
 		end
@@ -40,7 +45,7 @@ class PollsController < ApplicationController
     @poll.open=true
     @poll.save
     #@poll.update_attributes(:open=>true)
-	  PrivatePub.publish_to "#{ @poll.room.name }/master", { poll: @poll.to_json}
+	  PrivatePub.publish_to "#{ @poll.room.name }/master", { poll: @poll.to_json }
   end
 
   def close
@@ -48,7 +53,7 @@ class PollsController < ApplicationController
     @poll.open = false
     @poll.save
     #@poll.update_attributes(:open=>false)
-	  PrivatePub.publish_to "#{ @poll.room.name }/master", { poll: @poll.to_json}
+	  PrivatePub.publish_to "#{ @poll.room.name }/master", { poll: @poll.to_json }
   end
 
 	private
